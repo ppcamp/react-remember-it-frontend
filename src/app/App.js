@@ -12,7 +12,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
  * Does rounting for multipage application
  * @returns A router to every route element
  */
-export default function App() {
+export const App = () => {
   return (
     <Router>
       <Switch>
@@ -26,4 +26,6 @@ export default function App() {
       </Switch>
     </Router>
   );
-}
+};
+
+export default App;
