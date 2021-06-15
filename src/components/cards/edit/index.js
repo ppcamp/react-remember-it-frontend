@@ -9,20 +9,21 @@ import {
   Box,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-
 // Icons
-import FormatBoldIcon from "@material-ui/icons/FormatBold";
-import FormatItalicIcon from "@material-ui/icons/FormatItalic";
-import FormatSizeIcon from "@material-ui/icons/FormatSize";
-import FormatListBulletedIcon from "@material-ui/icons/FormatListBulleted";
-import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
-import InsertLinkIcon from "@material-ui/icons/InsertLink";
-import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
-import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
-import TranslateIcon from "@material-ui/icons/Translate";
-import UndoIcon from "@material-ui/icons/Undo";
-import RedoIcon from "@material-ui/icons/Redo";
-import HorizontalSplitIcon from "@material-ui/icons/HorizontalSplit";
+import {
+  FormatBold,
+  FormatItalic,
+  FormatSize,
+  FormatListBulleted,
+  FormatListNumbered,
+  InsertLink,
+  FormatQuote,
+  InsertPhoto,
+  Translate,
+  Undo,
+  Redo,
+  HorizontalSplit,
+} from "@material-ui/icons";
 
 // Markdown
 import ReactMarkdown from "react-markdown";
@@ -208,7 +209,7 @@ const Menu = (props) => {
           component='span'
           onClick={() => props.undo()}
         >
-          <UndoIcon />
+          <Undo />
         </IconButton>
         <IconButton
           disabled={!props.history.redo.length}
@@ -216,7 +217,7 @@ const Menu = (props) => {
           component='span'
           onClick={() => props.redo()}
         >
-          <RedoIcon />
+          <Redo />
         </IconButton>
         |
       </Box>
@@ -232,21 +233,21 @@ const Menu = (props) => {
           component='span'
           onClick={addTitle}
         >
-          <FormatSizeIcon fontSize='small' />
+          <FormatSize fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='create a bold element'
           component='span'
           onClick={addBold}
         >
-          <FormatBoldIcon fontSize='small' />
+          <FormatBold fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='create a italic field'
           component='span'
           onClick={addItalic}
         >
-          <FormatItalicIcon fontSize='small' />
+          <FormatItalic fontSize='small' />
         </IconButton>
         |
         <IconButton
@@ -254,14 +255,14 @@ const Menu = (props) => {
           component='span'
           onClick={addBulletList}
         >
-          <FormatListBulletedIcon fontSize='small' />
+          <FormatListBulleted fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='create a numbered list'
           component='span'
           onClick={addNumeratedList}
         >
-          <FormatListNumberedIcon fontSize='small' />
+          <FormatListNumbered fontSize='small' />
         </IconButton>
         |
         <IconButton
@@ -269,28 +270,28 @@ const Menu = (props) => {
           component='span'
           onClick={addHyperlink}
         >
-          <InsertLinkIcon fontSize='small' />
+          <InsertLink fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='upload picture'
           component='span'
           onClick={addImage}
         >
-          <InsertPhotoIcon fontSize='small' />
+          <InsertPhoto fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='create a quotation'
           component='span'
           onClick={addCitation}
         >
-          <FormatQuoteIcon fontSize='small' />
+          <FormatQuote fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='create a single line'
           component='span'
           onClick={addLine}
         >
-          <HorizontalSplitIcon fontSize='small' />
+          <HorizontalSplit fontSize='small' />
         </IconButton>
         |
         <IconButton
@@ -298,7 +299,7 @@ const Menu = (props) => {
           component='span'
           onClick={addJapanese}
         >
-          <TranslateIcon fontSize='small' />
+          <Translate fontSize='small' />
         </IconButton>
       </nav>
     </Paper>

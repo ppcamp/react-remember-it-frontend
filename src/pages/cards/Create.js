@@ -1,7 +1,7 @@
 import React from "react";
 import { CardEdit } from "components/cards/edit/index";
-import { Button, Container, Grid, makeStyles } from "@material-ui/core";
-import { NavigateNext } from "@material-ui/icons";
+import { Box, Button, Container, Grid, makeStyles } from "@material-ui/core";
+import { NavigateNext, NavigateBefore } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -22,17 +22,32 @@ export const CardCreate = (props) => {
   return (
     <Container>
       <CardEdit name='Frente' />
-      <Button
-        aria-label='upload picture'
-        component='span'
-        variant='contained'
-        color='secondary'
-        onClick={() => console.log("test")}
-        className={classes.button}
-        startIcon={<NavigateNext />}
-      >
-        Avançar
-      </Button>
+      <Box p={2} textAlign='center'>
+        <Button
+          aria-label='upload picture'
+          component='span'
+          variant='contained'
+          color='secondary'
+          onClick={() => console.log("test")}
+          className={classes.button}
+          startIcon={<NavigateBefore />}
+          disabled
+        >
+          Voltar
+        </Button>
+
+        <Button
+          aria-label='upload picture'
+          component='span'
+          variant='contained'
+          color='secondary'
+          onClick={() => console.log("test")}
+          className={classes.button}
+          startIcon={<NavigateNext />}
+        >
+          Avançar
+        </Button>
+      </Box>
     </Container>
   );
 };
