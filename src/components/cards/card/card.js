@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 // Material components
 import {
   Grid,
@@ -6,8 +6,10 @@ import {
   Container,
   Typography,
   IconButton,
+  Box,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+
 // Icons
 import FormatBoldIcon from "@material-ui/icons/FormatBold";
 import FormatItalicIcon from "@material-ui/icons/FormatItalic";
@@ -18,6 +20,9 @@ import InsertLinkIcon from "@material-ui/icons/InsertLink";
 import FormatQuoteIcon from "@material-ui/icons/FormatQuote";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import TranslateIcon from "@material-ui/icons/Translate";
+import UndoIcon from "@material-ui/icons/Undo";
+import RedoIcon from "@material-ui/icons/Redo";
+import HorizontalSplitIcon from "@material-ui/icons/HorizontalSplit";
 
 // Markdown
 import ReactMarkdown from "react-markdown";
@@ -47,9 +52,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     height: 400,
   },
-  views: {
-    margin: theme.spacing(3),
-  },
   textarea: {
     border: 0,
     minWidth: "100%",
@@ -65,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 /**
  * Menu
  *
- * TODO: missing image upload
+ * TODO: missing image upload function to server
  */
 const Menu = (props) => {
   /**
@@ -167,6 +169,30 @@ const Menu = (props) => {
   };
 
   /**
+   * Adds an image inplace
+   */
+  const addImage = () => {
+    const before = props.value.slice(0, props.cursor.start);
+    const text = props.value.slice(props.cursor.start, props.cursor.end);
+    const after = props.value.slice(props.cursor.end);
+    let result = before + text;
+    result += `![descrição da imagem](link)`;
+    result += after;
+    props.update(result);
+  };
+
+  /**
+   * Adds a single line inplace
+   */
+  const addLine = () => {
+    const before = props.value.slice(0, props.cursor.start);
+    const text = props.value.slice(props.cursor.start, props.cursor.end);
+    const after = props.value.slice(props.cursor.end);
+    let result = before + text + "****\n" + after;
+    props.update(result);
+  };
+
+  /**
    * Adds a citation in the selected text or create a the keyword inplace
    */
   const addCitation = () => {
@@ -197,29 +223,56 @@ const Menu = (props) => {
   /**********************
    * Renders the element
    *********************/
+
+  let redoUndoSec = null;
+  if (props.redo !== undefined && props.undo !== undefined) {
+    redoUndoSec = (
+      <Box display='inline'>
+        <IconButton
+          disabled={!props.history.undo.length}
+          aria-label='undo'
+          component='span'
+          onClick={() => props.undo()}
+        >
+          <UndoIcon />
+        </IconButton>
+        <IconButton
+          disabled={!props.history.redo.length}
+          aria-label='redo'
+          component='span'
+          onClick={() => props.redo()}
+        >
+          <RedoIcon />
+        </IconButton>
+        |
+      </Box>
+    );
+  }
+
   return (
     <Paper className={props.style}>
       <nav>
+        {redoUndoSec}
         <IconButton
           aria-label='add a title format'
           component='span'
           onClick={addTitle}
         >
-          <FormatSizeIcon />
+          <FormatSizeIcon fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='create a bold element'
           component='span'
           onClick={addBold}
         >
-          <FormatBoldIcon />
+          <FormatBoldIcon fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='create a italic field'
           component='span'
           onClick={addItalic}
         >
-          <FormatItalicIcon />
+          <FormatItalicIcon fontSize='small' />
         </IconButton>
         |
         <IconButton
@@ -227,14 +280,14 @@ const Menu = (props) => {
           component='span'
           onClick={addBulletList}
         >
-          <FormatListBulletedIcon />
+          <FormatListBulletedIcon fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='create a numbered list'
           component='span'
           onClick={addNumeratedList}
         >
-          <FormatListNumberedIcon />
+          <FormatListNumberedIcon fontSize='small' />
         </IconButton>
         |
         <IconButton
@@ -242,21 +295,28 @@ const Menu = (props) => {
           component='span'
           onClick={addHyperlink}
         >
-          <InsertLinkIcon />
+          <InsertLinkIcon fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='upload picture'
           component='span'
-          onClick={addHyperlink}
+          onClick={addImage}
         >
-          <InsertPhotoIcon />
+          <InsertPhotoIcon fontSize='small' />
         </IconButton>
         <IconButton
           aria-label='create a quotation'
           component='span'
           onClick={addCitation}
         >
-          <FormatQuoteIcon />
+          <FormatQuoteIcon fontSize='small' />
+        </IconButton>
+        <IconButton
+          aria-label='create a single line'
+          component='span'
+          onClick={addLine}
+        >
+          <HorizontalSplitIcon fontSize='small' />
         </IconButton>
         |
         <IconButton
@@ -264,7 +324,7 @@ const Menu = (props) => {
           component='span'
           onClick={addJapanese}
         >
-          <TranslateIcon />
+          <TranslateIcon fontSize='small' />
         </IconButton>
       </nav>
     </Paper>
@@ -272,20 +332,41 @@ const Menu = (props) => {
 };
 
 /**
- * Card view
+ *
+ * Card creation/edit view
+ *
+ * TODO: handle elements trespassing the view panel
  */
 export const Card = (props) => {
   const classes = useStyles();
-  const [markdown, setMarkdown] = useState(
-    `The lift coefficient ($C_L$) is a dimensionless coefficient.
-    <p lang="ja"><ruby><rb>水</rb><rt>みず</rt><rb>芝</rb><rt>し</rt><rb>居</rb><rt>ばい</rt></ruby></p>`
-  );
 
+  const [markdown, setMarkdown] = useState("");
+  const [history, setHistory] = useState({ undo: "", redo: "" });
   const [cursorPosition, setCursorPosition] = useState({ start: 0, end: 0 });
-  // const [selectFlag, setSelectFlag] = useState(0);
 
-  const onChangeMarkdown = (e) => {
-    setMarkdown(e.target.value);
+  const handleMarkdownUpdate = (val) => {
+    // every time that changes the markdown, will update history
+    const hist = { ...history };
+    hist.undo = markdown;
+    hist.redo = "";
+    setHistory(hist);
+    setMarkdown(val);
+  };
+  const handleUndo = () => {
+    const hist = { ...history };
+    const undo = hist.undo;
+    hist.redo = markdown;
+    hist.undo = "";
+    setHistory(hist);
+    setMarkdown(undo);
+  };
+  const handleRedo = () => {
+    const hist = { ...history };
+    const redo = hist.redo;
+    hist.undo = markdown;
+    hist.redo = "";
+    setHistory(hist);
+    setMarkdown(redo);
   };
   const handleCursorPosition = (e) => {
     setCursorPosition({
@@ -294,13 +375,9 @@ export const Card = (props) => {
     });
   };
 
-  // set watchers
-  useEffect(() => {
-    // console.log(markdown);
-  }, [markdown]);
-  useEffect(() => {
-    // console.log("Cursor: ", cursorPosition);
-  }, [cursorPosition]);
+  const onChangeMarkdown = (e) => {
+    handleMarkdownUpdate(e.target.value);
+  };
 
   return (
     <Container>
@@ -319,13 +396,16 @@ export const Card = (props) => {
           </Typography>
         </Grid>
 
-        {/* Subcaptions */}
+        {/* Captions and Menu */}
         <Grid item xs={6} className={classes.noPadding}>
           <Menu
             style={classes.paper}
             value={markdown}
-            update={setMarkdown}
+            update={handleMarkdownUpdate}
             cursor={cursorPosition}
+            history={history}
+            undo={handleUndo}
+            redo={handleRedo}
           />
         </Grid>
         <Grid item xs={6} className={classes.noPadding}>
@@ -342,7 +422,7 @@ export const Card = (props) => {
         {/* Elements */}
         <Grid item xs={6}>
           <Paper className={`${classes.paper} ${classes.container}`}>
-            <div className={classes.views}>
+            <Box m={3}>
               <textarea
                 className={classes.textarea}
                 value={markdown}
@@ -350,19 +430,94 @@ export const Card = (props) => {
                 rows={20}
                 onKeyDown={handleCursorPosition}
                 onClick={handleCursorPosition}
+                placeholder='Insira o texto aqui...'
+                maxLength='500'
               />
-            </div>
+            </Box>
           </Paper>
         </Grid>
         <Grid item xs={6}>
           <Paper className={`${classes.paper} ${classes.container}`}>
-            <div className={classes.views}>
+            <Box
+              m={3}
+              id='right_view'
+              alignItems='center'
+              p={1}
+              css={{ height: "inherit" }}
+            >
               <ReactMarkdown
                 children={markdown}
                 remarkPlugins={[remarkMath, gfm]}
                 rehypePlugins={[rehypeRaw, rehypeKatex]}
+                transformImageUri={(uri) =>
+                  uri.startsWith("http")
+                    ? uri
+                    : `${process.env.REACT_APP_IMAGE_BASE_URL}/${uri}`
+                }
+                components={{
+                  p: ({ node, ...props }) => (
+                    <Typography
+                      display='block'
+                      align='justify'
+                      noWrap
+                      paragraph
+                      component={"span"}
+                      {...props}
+                    />
+                  ),
+                  img: ({ node, ...props }) => (
+                    <span>
+                      <a href={props.src}>
+                        <img
+                          className='markdown-image'
+                          alt='some mdimage'
+                          {...props}
+                        />
+                      </a>
+                      <Typography paragraph align='center' variant='overline'>
+                        {props.alt}
+                      </Typography>
+                    </span>
+                  ),
+                  h1: ({ node, ...props }) => (
+                    <Typography
+                      paragraph
+                      align='center'
+                      variant='h4'
+                      {...props}
+                    />
+                  ),
+                  h2: ({ node, ...props }) => (
+                    <Typography
+                      paragraph
+                      align='center'
+                      variant='h5'
+                      {...props}
+                    />
+                  ),
+                  h3: ({ node, ...props }) => (
+                    <Typography
+                      paragraph
+                      align='center'
+                      variant='h6'
+                      {...props}
+                    />
+                  ),
+                  h4: ({ node, ...props }) => (
+                    <Typography paragraph variant='subtitle2' {...props} />
+                  ),
+                  h5: ({ node, ...props }) => (
+                    <Typography paragraph variant='subtitle2' {...props} />
+                  ),
+                  h6: ({ node, ...props }) => (
+                    <Typography paragraph variant='subtitle2' {...props} />
+                  ),
+                  hr: ({ node, ...props }) => (
+                    <hr className='markdown-hr' {...props} />
+                  ),
+                }}
               />
-            </div>
+            </Box>
           </Paper>
         </Grid>
       </Grid>

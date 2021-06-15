@@ -7,3 +7,20 @@ rt {
   font-family: var(--japanse-font-furigana);
   font-size: 1.5rem;
 }
+
+.markdown-image {
+  display: block;
+  /* clear: both; */
+  width: 10rem;
+  height: auto;
+  padding: 1rem;
+  margin: auto;
+  border: 1px #ebebeb solid;
+}
+
+.markdown-hr {
+  margin: 1em 2em 1em 2em;
+  background-color: #9c9c9c;
+  height: 1px;
+  border: none;
+}

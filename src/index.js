@@ -5,10 +5,9 @@ import "index.css";
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  // For some reason, popover was giving findDOMNode is deprecated.
-  // <React.StrictMode>
-  <App />,
-  // </React.StrictMode>,
+  <React.StrictMode>
+    <App />,
+  </React.StrictMode>,
   document.getElementById("root")
 );
 
