@@ -1,0 +1,9 @@
+ruby {
+  font-size: 2.5rem;
+  font-family: var(--japanse-font);
+  ruby-position: over;
+}
+rt {
+  font-family: var(--japanse-font-furigana);
+  font-size: 1.5rem;
+}
