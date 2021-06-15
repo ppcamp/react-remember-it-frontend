@@ -1,10 +1,11 @@
-import { Page404 } from "components/404/index";
-import { CardCreate } from "components/cards/card/create";
-import { CardEdit } from "components/cards/card/edit";
+import { Page404 } from "pages/NotFound";
+import { CardCreate } from "pages/cards/Create";
+import { CardEdit } from "pages/cards/Edit";
+
 import { Dashboard } from "components/cards/dashboard/index";
 import { Deck } from "components/cards/deck/index";
 import { DefaultPage } from "components/default/index";
-import { Login } from "components/login/index";
+import { Login } from "pages/Login";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 

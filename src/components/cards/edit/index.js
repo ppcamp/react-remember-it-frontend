@@ -36,33 +36,7 @@ import rehypeKatex from "rehype-katex";
 import "./katex/katex.css";
 
 // japanese formatting
-import "./card.css";
-
-/**
- * Styles to this page
- */
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 4,
-  },
-  paper: {
-    color: theme.palette.text.secondary,
-    padding: theme.spacing(1),
-  },
-  container: {
-    height: 400,
-  },
-  textarea: {
-    border: 0,
-    minWidth: "100%",
-    minHeight: "100%",
-    outline: "none",
-    resize: "none",
-  },
-  noPadding: {
-    padding: 0,
-  },
-}));
+import "./index.css";
 
 /**
  * Menu
@@ -332,12 +306,38 @@ const Menu = (props) => {
 };
 
 /**
+ * Styles to this page
+ */
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 4,
+  },
+  paper: {
+    color: theme.palette.text.secondary,
+    padding: theme.spacing(1),
+  },
+  container: {
+    height: 400,
+  },
+  textarea: {
+    border: 0,
+    minWidth: "100%",
+    minHeight: "100%",
+    outline: "none",
+    resize: "none",
+  },
+  noPadding: {
+    padding: 0,
+  },
+}));
+
+/**
  *
  * Card creation/edit view
  *
  * TODO: handle elements trespassing the view panel
  */
-export const Card = (props) => {
+export const CardEdit = (props) => {
   const classes = useStyles();
 
   const [markdown, setMarkdown] = useState("");
@@ -387,12 +387,12 @@ export const Card = (props) => {
         direction='row'
         justify='space-between'
         alignItems='center'
-        style={{ minHeight: "100vh" }}
+        css={{ minHeight: "100vh" }}
       >
         {/* Title */}
         <Grid item xs={12}>
           <Typography align='center' variant='h4'>
-            Frente
+            {props.name}
           </Typography>
         </Grid>
 
