@@ -118,11 +118,14 @@ export const Card = (props) => {
     setMarkdown(e.target.value);
   };
 
+  const handleKeyDown = (e) => {
+    console.log("Caret at: ", e.target.selectionStart);
+  };
+
   // set watchers
   useEffect(() => {
     console.log(markdown);
   }, [markdown]);
-
   return (
     <Container>
       <Grid
@@ -164,6 +167,8 @@ export const Card = (props) => {
                 value={markdown}
                 onChange={onChangeMarkdown}
                 rows={20}
+                onKeyDown={handleKeyDown}
+                onClick={handleKeyDown}
               />
             </div>
           </Paper>
