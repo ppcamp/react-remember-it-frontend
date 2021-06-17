@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { CardEdit } from "components/cards/edit/index";
+import { CardEdit } from "components/cards/edit";
 import { Box, Button, Container, makeStyles } from "@material-ui/core";
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
-import green from "@material-ui/core/colors/green";
-import { red } from "@material-ui/core/colors";
+import { red, green } from "@material-ui/core/colors";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({

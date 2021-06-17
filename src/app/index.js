@@ -1,5 +1,5 @@
 import React from "react";
-import { Routing } from "routes/index";
+import { Routing } from "routes";
 import { AuthContextProvider } from "./staticContexts/auth-context";
 import { ThemeContextProvider } from "./staticContexts/theme-context";
 

@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { App } from "app/App";
+// Load default Aplication css
 import "index.css";
-import { store } from "store/index";
+// Load the routes + static contexts
+import { App } from "app";
+// Load the dynamic store
+import { store } from "store";
 import { Provider } from "react-redux";
 // import reportWebVitals from './reportWebVitals';
 
