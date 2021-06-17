@@ -1,7 +1,7 @@
 import React from "react";
 import { Routing } from "routes";
-import { AuthContextProvider } from "./staticContexts/auth-context";
-import { ThemeContextProvider } from "./staticContexts/theme-context";
+import { AuthContextProvider } from "./static-contexts/auth-context";
+import { ThemeContextProvider } from "./static-contexts/theme-context";
 
 export const App = () => {
   return (
