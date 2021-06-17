@@ -2,9 +2,9 @@ import { Page404 } from "pages/NotFound";
 import { CardCreate } from "pages/cards/Create";
 import { CardEdit } from "pages/cards/Edit";
 
-import { Dashboard } from "components/cards/dashboard/index";
-import { Deck } from "components/cards/deck/index";
-import { DefaultPage } from "components/default/index";
+import { Dashboard } from "components/dashboard/index";
+import { Deck } from "components/deck/index";
+import { DefaultPage } from "pages/Default";
 import { Login } from "pages/Login";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";

@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { DefaultPage } from "./index";
+import { DefaultPage } from "pages/Default";
 
 test("should render the main page", () => {
   render(<DefaultPage />);
