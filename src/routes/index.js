@@ -24,7 +24,7 @@ const routes = [
  * Does routing for multipage application
  * @returns A router to every route element
  */
-const Routing = () => {
+export const Routing = () => {
   return (
     <Router>
       <Switch>
