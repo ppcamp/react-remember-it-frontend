@@ -14,7 +14,7 @@ export const DefaultPage = (props) => {
   const theme = useTheme();
 
   return (
-    <main
+    <div
       style={{ background: theme.palette.type === "dark" ? "red" : "black" }}
     >
       <h1>{test}</h1>
@@ -26,6 +26,6 @@ export const DefaultPage = (props) => {
       </p>
       <p>Será colocado imagens do site com exemplos e algumas animações.</p>
       <button onClick={themeCtx.toggleTheme}>toggleTheme</button>
-    </main>
+    </div>
   );
 };

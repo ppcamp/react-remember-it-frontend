@@ -1,19 +1,14 @@
 import React, { createContext, useState } from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 
-// import styling
-// import style from "./theme.module.css";
-
 const Theme = {
   DARK: false,
   LIGHT: true,
 };
-
 const initialState = {
   theme: Theme.LIGHT,
   toggleTheme: () => {},
 };
-
 const ThemeContext = createContext(initialState);
 
 export const ThemeContextProvider = (props) => {
@@ -23,10 +18,14 @@ export const ThemeContextProvider = (props) => {
       : Theme.DARK;
 
   const [theme, setTheme] = useState(themePreference);
-  const muitheme = React.useMemo(
-    () => createMuiTheme({ palette: { type: theme ? "light" : "dark" } }),
-    [theme]
-  );
+  const muitheme = React.useMemo(() => {
+    const t = createMuiTheme({
+      palette: {
+        type: theme ? "light" : "dark",
+      },
+    });
+    return t;
+  }, [theme]);
 
   const themeToggleHandler = () => {
     setTheme(!theme);
@@ -36,7 +35,16 @@ export const ThemeContextProvider = (props) => {
     <ThemeContext.Provider
       value={{ ...initialState, toggleTheme: themeToggleHandler }}
     >
-      <ThemeProvider theme={muitheme}>{props.children}</ThemeProvider>
+      <ThemeProvider theme={muitheme}>
+        <main
+          style={{
+            backgroundColor: muitheme.palette.background.default,
+            color: muitheme.palette.text.primary,
+          }}
+        >
+          {props.children}
+        </main>
+      </ThemeProvider>
     </ThemeContext.Provider>
   );
 };
