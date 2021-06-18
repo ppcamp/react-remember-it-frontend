@@ -204,7 +204,7 @@ const Menu = (props) => {
   }
 
   return (
-    <Paper className={props.style}>
+    <Paper elevation={6} className={props.style}>
       <nav>
         {redoUndoSec}
         <IconButton

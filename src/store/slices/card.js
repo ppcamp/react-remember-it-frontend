@@ -1,15 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  test: "ALGUM VALOR PARA A VARIÁVEL",
+  frontView: "",
+  backView: "",
 };
 
 const cardSlice = createSlice({
   name: "card",
   initialState,
   reducers: {
-    updateFront(state, action) {},
-    updateBack(state, action) {},
+    updateFront(state, action) {
+      console.log("Updated front");
+      state.frontView = action.front;
+    },
+    updateBack(state, action) {
+      console.log("Updated Back");
+      state.BackView = action.backView;
+    },
   },
 });
 

@@ -6,6 +6,7 @@ The folders inside `src` directory are:
 
 - `./app/`: has the _Routing_ and [_StaticContexts_](#static-contexts)
 - `./app/staticContexts/`: folder where are stored the staticContexts
+- `./api`: has the objects to handle with requests
 - `./components/`: contains all components that can be "splitted" and used in another element
 - `./pages/`: will have all the components that has some url/link associated with it
 - `./store/`: contains the main, and yet, dynamic, redux store

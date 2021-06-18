@@ -1,11 +1,6 @@
 /* Including roboto font for japanese characters */
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap");
 
-:root {
-  --light: #f5f5f5;
-  --dark: rgb(39, 39, 39);
-}
-
 /* Default configs for japanese characters */
 ruby {
   font-size: 2.5rem;

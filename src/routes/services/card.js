@@ -1,5 +1,5 @@
-import { CardCreate } from "pages/cards/Create";
-import { CardEdit } from "pages/cards/Edit";
+import { CardCreate } from "pages/card";
+import { CardEdit } from "pages/card/edit";
 
 const routes = [
   {

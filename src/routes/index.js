@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // default pages
-import { DefaultPage } from "pages/Default";
+import { DefaultPage } from "pages";
 import { Page404 } from "pages/NotFound";
 // import routes
 import { loginRoutes } from "./services/login";
