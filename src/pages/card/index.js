@@ -16,7 +16,7 @@ import {
 } from "@material-ui/core";
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { ImageAPI } from "api/image.service";
+import { ImageAPI } from "api";
 
 const styling = makeStyles((theme) => ({
   save: {
