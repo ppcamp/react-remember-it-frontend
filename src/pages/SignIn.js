@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Typography,
@@ -14,13 +14,16 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { LockOutlined } from "@material-ui/icons";
+import { useDispatch, useSelector } from "react-redux";
+import { emailActions } from "store/slices/email";
+import { useHistory } from "react-router-dom";
 
 const Copyright = () => {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
       {"Copyright © "}
-      <Link color='inherit' href='https://material-ui.com/'>
-        Your Website
+      <Link color='inherit' href={process.env.REACT_APP_SITE_LINK}>
+        {process.env.REACT_APP_SITE_NAME}
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -29,10 +32,6 @@ const Copyright = () => {
 };
 
 const styling = makeStyles((theme) => ({
-  sideimage: {
-    backgroundImage: "linear-gradient(to top right, #6700ed, #412f58)",
-  },
-
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -52,7 +51,32 @@ const styling = makeStyles((theme) => ({
   },
 }));
 
-export const Login = () => {
+export const SignIn = () => {
+  // States
+  const [remember, setRemember] = useState(false);
+  const [password, setPassword] = useState("");
+
+  // Redux states
+  const dispatch = useDispatch();
+  const email = useSelector((state) => state.email.email);
+
+  // History
+  const history = useHistory();
+
+  // Actions
+  const onToggleRemember = () => {
+    setRemember(!remember);
+  };
+  const onEmailChange = (e) => {
+    dispatch(emailActions.updateEmail(e.target.value));
+  };
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const onForgetPassword = () => history.push("/login/recover-password");
+
+  // Style
   const classes = styling();
 
   return (
@@ -63,7 +87,7 @@ export const Login = () => {
           <LockOutlined />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign in
+          Login
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -76,6 +100,8 @@ export const Login = () => {
             name='email'
             autoComplete='email'
             autoFocus
+            onChange={onEmailChange}
+            value={email}
           />
           <TextField
             variant='outlined'
@@ -87,10 +113,14 @@ export const Login = () => {
             type='password'
             id='password'
             autoComplete='current-password'
+            onChange={onPasswordChange}
+            value={password}
           />
           <FormControlLabel
             control={<Checkbox value='remember' color='primary' />}
             label='Remember me'
+            onClick={onToggleRemember}
+            value={remember}
           />
           <Button
             type='submit'
@@ -99,17 +129,21 @@ export const Login = () => {
             color='primary'
             className={classes.submit}
           >
-            Sign In
+            Login
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href='#' variant='body2'>
-                Forgot password?
+              <Link
+                // href='/login/recover-password'
+                variant='body2'
+                onClick={onForgetPassword}
+              >
+                Esqueceu a senha?
               </Link>
             </Grid>
             <Grid item>
-              <Link href='#' variant='body2'>
-                {"Don't have an account? Sign Up"}
+              <Link href='/login/new' variant='body2'>
+                {"Não tem uma conta? Crie uma!"}
               </Link>
             </Grid>
           </Grid>

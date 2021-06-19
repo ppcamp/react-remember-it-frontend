@@ -18,3 +18,8 @@ rt {
 body {
   margin: 0;
 }
+
+/* Bg */
+.colorfull {
+  background-image: linear-gradient(to top right, #6700ed, #412f58);
+}

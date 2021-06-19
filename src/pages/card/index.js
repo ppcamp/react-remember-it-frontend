@@ -44,7 +44,7 @@ const styling = makeStyles((theme) => ({
 // API
 const IMAGE_PATH = ImageAPI.toString();
 
-export const CardCreate = () => {
+export const CardCreatePage = () => {
   // States
   const [page, setPage] = useState(true);
 

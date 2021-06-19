@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Typography,
@@ -19,8 +19,8 @@ const Copyright = () => {
   return (
     <Typography variant='body2' color='textSecondary' align='center'>
       {"Copyright © "}
-      <Link color='inherit' href='https://material-ui.com/'>
-        Your Website
+      <Link color='inherit' href={process.env.REACT_APP_SITE_LINK}>
+        {process.env.REACT_APP_SITE_NAME}
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -48,7 +48,22 @@ const styling = makeStyles((theme) => ({
   },
 }));
 
-export const SignIn = () => {
+export const SignUp = () => {
+  // States
+  const [remember, setRemember] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const onToggleRemember = () => {
+    setRemember(!remember);
+  };
+  const onEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
   const classes = styling();
 
   return (
@@ -59,7 +74,7 @@ export const SignIn = () => {
           <LockOutlined />
         </Avatar>
         <Typography component='h1' variant='h5'>
-          Sign in
+          Login
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
@@ -72,6 +87,8 @@ export const SignIn = () => {
             name='email'
             autoComplete='email'
             autoFocus
+            onChange={onEmailChange}
+            value={email}
           />
           <TextField
             variant='outlined'
@@ -83,10 +100,14 @@ export const SignIn = () => {
             type='password'
             id='password'
             autoComplete='current-password'
+            onChange={onPasswordChange}
+            value={password}
           />
           <FormControlLabel
             control={<Checkbox value='remember' color='primary' />}
             label='Remember me'
+            onClick={onToggleRemember}
+            value={remember}
           />
           <Button
             type='submit'
@@ -95,17 +116,21 @@ export const SignIn = () => {
             color='primary'
             className={classes.submit}
           >
-            Sign In
+            Login
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href='#' variant='body2'>
-                Forgot password?
+              <Link
+                href='/login/recover-password'
+                variant='body2'
+                email={email}
+              >
+                Esqueceu a senha?
               </Link>
             </Grid>
             <Grid item>
-              <Link href='#' variant='body2'>
-                {"Don't have an account? Sign Up"}
+              <Link href='/login/new' variant='body2' email={email}>
+                {"Não tem uma conta? Crie uma!"}
               </Link>
             </Grid>
           </Grid>

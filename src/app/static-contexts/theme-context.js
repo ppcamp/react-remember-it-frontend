@@ -1,12 +1,20 @@
 import React, { createContext, useState } from "react";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import {
+  createMuiTheme,
+  CssBaseline,
+  makeStyles,
+  ThemeProvider,
+  useTheme,
+} from "@material-ui/core";
 
+// Context
 const initialState = {
   theme: 0,
   toggleTheme: () => {},
 };
 const ThemeContext = createContext(initialState);
 
+// Styling
 const THEME_PALETTE = {
   LIGHT: {
     type: "light",
@@ -186,11 +194,36 @@ const THEME_PALETTE = {
     },
   },
 };
+const useStyles = makeStyles((theme) => ({
+  application: {
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.text.primary,
+  },
+}));
+const MainTheme = (props) => {
+  const theme = useTheme();
+  const classes = useStyles(theme);
+
+  return (
+    <div
+      // style={{
+      //   backgroundColor: muitheme.palette.background.default,
+      //   color: muitheme.palette.text.primary,
+      // }}
+      className={classes.application}
+    >
+      <CssBaseline />
+      {props.children}
+    </div>
+  );
+};
 
 export const ThemeContextProvider = (props) => {
+  // User configs
   const themePreference =
     document.querySelector("meta[name='theme-color']").content === "white";
 
+  // States
   const [theme, setTheme] = useState(themePreference);
   const muitheme = React.useMemo(() => {
     const t = createMuiTheme({
@@ -199,6 +232,7 @@ export const ThemeContextProvider = (props) => {
     return t;
   }, [theme]);
 
+  // Handlers
   const themeToggleHandler = () => {
     setTheme(!theme);
   };
@@ -208,14 +242,7 @@ export const ThemeContextProvider = (props) => {
       value={{ ...initialState, toggleTheme: themeToggleHandler }}
     >
       <ThemeProvider theme={muitheme}>
-        <main
-          style={{
-            backgroundColor: muitheme.palette.background.default,
-            color: muitheme.palette.text.primary,
-          }}
-        >
-          {props.children}
-        </main>
+        <MainTheme>{props.children}</MainTheme>
       </ThemeProvider>
     </ThemeContext.Provider>
   );

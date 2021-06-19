@@ -43,7 +43,7 @@ const styling = makeStyles((theme) => ({
 // API
 const IMAGE_PATH = ImageAPI.toString();
 
-export const CardEdit = () => {
+export const CardEditPage = () => {
   const { id } = useParams();
 
   // States

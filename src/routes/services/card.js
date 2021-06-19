@@ -1,14 +1,14 @@
-import { CardCreate } from "pages/card";
-import { CardEdit } from "pages/card/edit";
+import { CardCreatePage } from "pages/card";
+import { CardEditPage } from "pages/card/Edit";
 
 const routes = [
   {
     path: "/card",
-    component: CardCreate,
+    component: CardCreatePage,
   },
   {
     path: "/card/:id",
-    component: CardEdit,
+    component: CardEditPage,
   },
 ];
 
