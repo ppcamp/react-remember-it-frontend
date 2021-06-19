@@ -28,6 +28,7 @@ import Menu from "./menu";
 
 // japanese formatting
 import style from "./index.module.css";
+import { TextArea } from "components/common/textarea";
 
 export const CardMarkdownEdit = ({
   name,
@@ -50,10 +51,6 @@ export const CardMarkdownEdit = ({
 
   // Theming
   const theme = useTheme();
-  const textAreaStyling = {
-    backgroundColor: theme.palette.background.paper,
-    color: theme.palette.text.primary,
-  };
   const borderImage = {
     border:
       theme.palette.type === "dark" ? "1px #555 solid" : "1px #ebebeb solid",
@@ -172,14 +169,10 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
             <Grid item xs={6}>
               <Paper elevation={6} color='background.paper'>
                 <Box p={2} height={CARDS_SIZE}>
-                  <textarea
-                    className={style.textarea}
-                    style={textAreaStyling}
+                  <TextArea
                     value={markdown}
                     onChange={onChangeMarkdown}
-                    rows={20}
-                    onKeyDown={handleCursorPosition}
-                    onClick={handleCursorPosition}
+                    handleCursor={handleCursorPosition}
                     placeholder={PLACEHOLDER}
                     maxLength={MAXIMUM_INPUT}
                   />

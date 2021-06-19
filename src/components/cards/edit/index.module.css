@@ -25,11 +25,3 @@
 .noPadding {
   padding: 0px;
 }
-
-.textarea {
-  border: 0;
-  min-width: 100%;
-  min-height: 100%;
-  outline: none;
-  resize: none;
-}
