@@ -29,10 +29,6 @@ const Copyright = () => {
 };
 
 const styling = makeStyles((theme) => ({
-  sideimage: {
-    backgroundImage: "linear-gradient(to top right, #6700ed, #412f58)",
-  },
-
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -52,7 +48,7 @@ const styling = makeStyles((theme) => ({
   },
 }));
 
-export const Login = () => {
+export const SignIn = () => {
   const classes = styling();
 
   return (
