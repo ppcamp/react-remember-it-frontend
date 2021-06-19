@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./src/images/logo.png" width="200px">
+</p>
+
 # Remember it
 
 ## Project overview
