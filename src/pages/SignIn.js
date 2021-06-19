@@ -8,7 +8,6 @@ import {
   Checkbox,
   FormControlLabel,
   TextField,
-  CssBaseline,
   Button,
   Avatar,
 } from "@material-ui/core";
@@ -17,19 +16,7 @@ import { LockOutlined } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { emailActions } from "store/slices/email";
 import { useHistory } from "react-router-dom";
-
-const Copyright = () => {
-  return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {"Copyright © "}
-      <Link color='inherit' href={process.env.REACT_APP_SITE_LINK}>
-        {process.env.REACT_APP_SITE_NAME}
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-};
+import { Copyright } from "components/footer/basic";
 
 const styling = makeStyles((theme) => ({
   paper: {
@@ -81,7 +68,6 @@ export const SignIn = () => {
 
   return (
     <Container maxWidth='xs'>
-      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlined />

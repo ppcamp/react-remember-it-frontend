@@ -1,4 +1,3 @@
-import { SignUp } from "pages/SignUp";
 import { SignIn } from "pages/SignIn";
 import { PasswordReset } from "pages/PasswordReset";
 
@@ -13,7 +12,7 @@ const routes = [
   },
   {
     path: "/login/new",
-    component: SignUp,
+    component: SignIn,
   },
 ];
 
