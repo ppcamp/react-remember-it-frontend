@@ -1,7 +1,7 @@
-import React, { createContext } from "react";
+import React, { createContext, useContext } from "react";
 
 const initialValue = {
-  isLogged: false,
+  isLogged: true,
   user: "",
 };
 
@@ -14,5 +14,7 @@ export const AuthContextProvider = (props) => {
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);
 
 export default AuthContext;
