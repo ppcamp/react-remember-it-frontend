@@ -1,5 +1,5 @@
-import { SignIn } from "pages/SignIn";
-import { PasswordReset } from "pages/PasswordReset";
+import { SignIn } from "pages/login/SignIn";
+import { PasswordReset } from "pages/login/PasswordReset";
 
 const routes = [
   {
@@ -11,8 +11,8 @@ const routes = [
     component: PasswordReset,
   },
   {
-    path: "/login/new",
-    component: SignIn,
+    path: "/login/recover-password/:id",
+    component: PasswordReset,
   },
 ];
 

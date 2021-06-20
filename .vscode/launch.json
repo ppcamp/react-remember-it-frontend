@@ -24,6 +24,13 @@
       "request": "launch",
       "url": "http://localhost:3000/login",
       "webRoot": "${workspaceFolder}"
+    },
+    {
+      "name": "Debug: Recover Password",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:3000/login/recover-password/3",
+      "webRoot": "${workspaceFolder}"
     }
   ]
 }
