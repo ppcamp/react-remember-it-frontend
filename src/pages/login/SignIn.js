@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -17,6 +17,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { emailActions } from "store/slices/email";
 import { useHistory } from "react-router-dom";
 import { Copyright } from "components/footer/basic";
+import {
+  REGEX_EMAIL,
+  REGEX_HAS_DIGITS,
+  REGEX_HAS_LETTERS,
+  REGEX_HAS_SPECIAL_CHARS,
+} from "scripts/regex";
+import { insert_at } from "scripts/string";
+import { useAuth } from "app/static-contexts/auth-context";
 
 const styling = makeStyles((theme) => ({
   paper: {
@@ -39,9 +47,17 @@ const styling = makeStyles((theme) => ({
 }));
 
 export const SignIn = () => {
+  // Context
+  const auth = useAuth();
+
   // States
   const [remember, setRemember] = useState(false);
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState({
+    value: "",
+    isValid: true,
+    errorMessage: "",
+  });
+  const [emailIsValid, setEmailIsValid] = useState(true);
 
   // Redux states
   const dispatch = useDispatch();
@@ -58,10 +74,68 @@ export const SignIn = () => {
     dispatch(emailActions.updateEmail(e.target.value));
   };
   const onPasswordChange = (e) => {
-    setPassword(e.target.value);
+    setPassword({ ...password, value: e.target.value });
+  };
+  const onForgetPassword = () => history.push("/login/recover-password");
+
+  // Handlers
+  const checkEmail = useCallback(() => {
+    const valid = REGEX_EMAIL.test(email);
+    setEmailIsValid(!email.length || valid);
+  }, [email]);
+  const checkRequirements = useCallback(() => {
+    let isValid = true;
+    if (!password.value.length) {
+      setPassword((state) => ({ ...state, isValid, errorMessage: "" }));
+    }
+    // Handling errors
+    else {
+      let errors = [];
+
+      if (password.value.length < 8 || password.value.length > 16) {
+        errors.push("de [8 a 16] caracteres");
+        isValid = false;
+      }
+      if (!REGEX_HAS_LETTERS.test(password.value)) {
+        errors.push("letras (maiúsculas e minúsculas)");
+        isValid = false;
+      }
+      if (!REGEX_HAS_SPECIAL_CHARS.test(password.value)) {
+        errors.push("caracteres especiais");
+        isValid = false;
+      }
+      if (!REGEX_HAS_DIGITS.test(password.value)) {
+        errors.push("números");
+        isValid = false;
+      }
+
+      // Creating error message
+      let errorMessage = "A senha deve ter: " + errors.join(", ") + ".";
+      const pos = errorMessage.lastIndexOf(",");
+      if (pos !== -1) errorMessage = insert_at(errorMessage, pos, " e ");
+
+      setPassword((state) => ({ ...state, isValid, errorMessage }));
+    }
+  }, [password.value]);
+  const submit = () => {
+    // Token: response from api
+    const token = "test";
+
+    // Update token
+    auth.onLogin(token, remember);
   };
 
-  const onForgetPassword = () => history.push("/login/recover-password");
+  // watchers
+  useEffect(() => {
+    const debounce = setTimeout(() => checkEmail(), 500);
+
+    return () => clearTimeout(debounce);
+  }, [email, checkEmail]);
+  useEffect(() => {
+    const timer = setTimeout(() => checkRequirements(), 500);
+
+    return () => clearTimeout(timer);
+  }, [checkRequirements, password.value]);
 
   // Style
   const classes = styling();
@@ -88,6 +162,8 @@ export const SignIn = () => {
             autoFocus
             onChange={onEmailChange}
             value={email}
+            helperText={!emailIsValid && "Email inválido"}
+            error={!emailIsValid}
           />
           <TextField
             variant='outlined'
@@ -95,12 +171,13 @@ export const SignIn = () => {
             required
             fullWidth
             name='password'
-            label='Password'
+            label='Senha'
             type='password'
-            id='password'
             autoComplete='current-password'
             onChange={onPasswordChange}
-            value={password}
+            value={password.password}
+            error={!password.isValid}
+            helperText={!password.isValid && password.errorMessage}
           />
           <FormControlLabel
             control={<Checkbox value='remember' color='primary' />}
@@ -109,11 +186,12 @@ export const SignIn = () => {
             value={remember}
           />
           <Button
-            type='submit'
+            type='button'
             fullWidth
             variant='contained'
             color='primary'
             className={classes.submit}
+            onClick={submit}
           >
             Login
           </Button>
