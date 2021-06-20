@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -12,6 +12,7 @@ import { LockOpen } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { emailActions } from "store/slices/email";
 import { Copyright } from "components/footer/basic";
+import { REGEX_EMAIL } from "scripts/regex";
 
 const styling = makeStyles((theme) => ({
   paper: {
@@ -33,7 +34,10 @@ const styling = makeStyles((theme) => ({
   },
 }));
 
-export const PasswordReset = () => {
+export const PasswordRequestReset = () => {
+  // states
+  const [isValid, setIsValid] = useState(true);
+
   // Redux
   const email = useSelector((state) => state.email.email);
   const dispatch = useDispatch();
@@ -42,6 +46,22 @@ export const PasswordReset = () => {
   const onEmailChange = (e) => {
     dispatch(emailActions.updateEmail(e.target.value));
   };
+
+  // Handlers
+  const checkEmail = useCallback(() => {
+    const valid = REGEX_EMAIL.test(email);
+    setIsValid(!email.length || valid);
+  }, [email]);
+  const submit = () => {
+    console.log(email);
+  };
+
+  // Watchers
+  useEffect(() => {
+    const debounce = setTimeout(() => checkEmail(), 500);
+
+    return () => clearTimeout(debounce);
+  }, [email, checkEmail]);
 
   const classes = styling();
 
@@ -60,22 +80,25 @@ export const PasswordReset = () => {
             margin='normal'
             required
             fullWidth
-            id='email'
-            label='Email Address'
+            label='Email'
             name='email'
             autoComplete='email'
             autoFocus
             onChange={onEmailChange}
             value={email}
+            helperText={!isValid && "Email inválido"}
+            error={!isValid}
           />
           <Button
-            type='submit'
+            type='button'
             fullWidth
             variant='contained'
             color='primary'
             className={classes.submit}
+            disabled={!isValid || !email.length}
+            onClick={submit}
           >
-            Recuperar
+            Enviar email
           </Button>
         </form>
       </div>

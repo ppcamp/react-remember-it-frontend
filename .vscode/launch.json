@@ -26,6 +26,13 @@
       "webRoot": "${workspaceFolder}"
     },
     {
+      "name": "Debug: Request change password",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:3000/login/recover-password",
+      "webRoot": "${workspaceFolder}"
+    }
+    {
       "name": "Debug: Recover Password",
       "type": "pwa-chrome",
       "request": "launch",
