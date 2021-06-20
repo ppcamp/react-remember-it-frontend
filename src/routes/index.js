@@ -32,37 +32,42 @@ const protectedRoutes = [...cardRoutes];
  * @returns A router to every route element
  */
 export const Routing = () => {
-  const { isLogged } = useAuth();
+  const { token } = useAuth();
+  const isLogged = token.length > 0;
 
   return (
     <Router>
       <Switch>
         {/* Protected routes will redirect when the user isn't logged */}
-        {protectedRoutes.map(({ path, component, ...props }, index) => {
-          if (isLogged) {
+        {protectedRoutes.map(
+          ({ path, component: Component, ...props }, index) => {
             return (
               <Route
                 exact
                 path={path}
-                key={index}
+                key={`private${index}`}
                 {...props}
-                component={component}
+                render={(routeProps) => {
+                  return isLogged ? (
+                    <Component {...routeProps} />
+                  ) : (
+                    <Redirect to={{ pathname: "/" }} />
+                  );
+                }}
               />
             );
-          } else {
-            return <Redirect to={{ pathname: "/" }} />;
           }
-        })}
+        )}
 
         {/* Public routes are accessed by anyone */}
         {publicRoutes.map(({ path, component, ...props }, index) => (
           <Route
             exact
             path={path}
-            key={index}
+            key={`public${index}`}
             {...props}
             component={component}
-          ></Route>
+          />
         ))}
       </Switch>
     </Router>
