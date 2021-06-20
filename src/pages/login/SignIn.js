@@ -119,7 +119,7 @@ export const SignIn = () => {
   }, [password.value]);
   const submit = () => {
     // Token: response from api
-    const token = "test";
+    const token = process.env.REACT_APP_TEST || "";
 
     // Update token
     auth.onLogin(token, remember);

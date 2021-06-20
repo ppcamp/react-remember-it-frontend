@@ -1,3 +1,16 @@
+# Special calls
+
+```js
+const jwt = require("jsonwebtoken");
+// Generate a new token that will work for a year
+const token = jwt.sign({ data: "foobar" }, "secret", { expiresIn: "365d" });
+// Generate a new token that will work for a year
+const token = jwt.sign({ data: "foobar" }, "secret", { expiresIn: "1h" });
+
+// Get expiration time
+const { exp } = jwt.decode(t);
+```
+
 # Special Hooks
 
 ```js

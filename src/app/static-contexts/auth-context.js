@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
+import { jwt_to_date } from "scripts/datetime";
 
 // Initial state is defined here just for IDE purposes
 const initialState = {
@@ -20,7 +21,7 @@ const initialState = {
    */
   onLogout: () => {},
 };
-
+// Context that will hold the auth calls
 const AuthContext = createContext(initialState);
 
 export const AuthContextProvider = ({ children }) => {
@@ -29,9 +30,22 @@ export const AuthContextProvider = ({ children }) => {
   const local = localStorage.getItem(storageName);
   const session = sessionStorage.getItem(storageName);
 
+  let token = local || session;
+
+  if (token) {
+    const expires = jwt_to_date(token);
+    const now = new Date();
+
+    // If expired, change the token to empty, and show message
+    if (now.getTime() >= expires) {
+      token = "";
+      alert("Sessão expirada. Faça login novamente!");
+    }
+  }
+
   // State
   const [authState, setAuthState] = useState({
-    token: local || session || "",
+    token: token || "",
     onLogin: () => {},
     onLogout: () => {},
   });
