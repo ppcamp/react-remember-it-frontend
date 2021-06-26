@@ -10,9 +10,11 @@ import { Provider } from "react-redux";
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
   document.getElementsByTagName("main")[0]
 );
 

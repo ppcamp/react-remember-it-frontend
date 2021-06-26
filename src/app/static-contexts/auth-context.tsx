@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { jwt_to_date } from "scripts/datetime";
 
 // Initial state is defined here just for IDE purposes
@@ -14,7 +14,7 @@ const initialState = {
    * @param {string} token The value for the new token
    * @param {boolean} [keepLogged] Store the data in the local section. DEFAULT IS FALSE
    */
-  onLogin: (token, keepLogged) => {},
+  onLogin: (token:string, keepLogged:boolean) => {},
 
   /**
    * Clear the token from local (and context) storage
@@ -24,13 +24,20 @@ const initialState = {
 // Context that will hold the auth calls
 const AuthContext = createContext(initialState);
 
-export const AuthContextProvider = ({ children }) => {
+export const AuthContextProvider:React.FC<{}> = ({ children }) => {
+  // State
+  const [authState, setAuthState] = useState({
+    token: "",
+    onLogin: () => {},
+    onLogout: () => {},
+  });
+
+  useEffect(() => {}, []);
   // Reading local/session storage
   const storageName = process.env.REACT_APP_TOKEN || "Token";
   const local = localStorage.getItem(storageName);
   const session = sessionStorage.getItem(storageName);
-
-  let token = local || session;
+  let token:string|null = local || session;
 
   if (token) {
     const expires = jwt_to_date(token);
@@ -43,15 +50,8 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
-  // State
-  const [authState, setAuthState] = useState({
-    token: token || "",
-    onLogin: () => {},
-    onLogout: () => {},
-  });
-
   // Handlers
-  const onLogin = (token, keepLogged = false) => {
+  const onLogin = (token:string, keepLogged = false) => {
     if (keepLogged) {
       localStorage.setItem(storageName, token);
     }

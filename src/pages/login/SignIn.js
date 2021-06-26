@@ -25,6 +25,7 @@ import {
 } from "scripts/regex";
 import { insert_at } from "scripts/string";
 import { useAuth } from "app/static-contexts/auth-context";
+import jwt from "jsonwebtoken";
 
 const styling = makeStyles((theme) => ({
   paper: {
@@ -79,10 +80,17 @@ export const SignIn = () => {
   const onForgetPassword = () => history.push("/login/recover-password");
 
   // Handlers
+  /**
+   * Check if email is valid
+   */
   const checkEmail = useCallback(() => {
     const valid = REGEX_EMAIL.test(email);
     setEmailIsValid(!email.length || valid);
   }, [email]);
+
+  /**
+   * Check if the password attend to its requirement
+   */
   const checkRequirements = useCallback(() => {
     let isValid = true;
     if (!password.value.length) {
@@ -117,9 +125,15 @@ export const SignIn = () => {
       setPassword((state) => ({ ...state, isValid, errorMessage }));
     }
   }, [password.value]);
+
+  /**
+   * Login into system, stores the data into local/session storage
+   */
   const submit = () => {
     // Token: response from api
-    const token = process.env.REACT_APP_TEST || "";
+    let token = "";
+    // Generate a new token that will work for a year
+    token = jwt.sign({ data: "foobar" }, "secret", { expiresIn: "365d" });
 
     // Update token
     auth.onLogin(token, remember);
