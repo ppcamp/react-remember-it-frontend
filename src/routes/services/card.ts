@@ -1,6 +1,6 @@
-import { Dashboard } from "@material-ui/icons";
 import { CardCreatePage } from "pages/card";
 import { CardEditPage } from "pages/card/Edit";
+import { Dashboard } from "pages/Dashboard";
 import { RouteObject } from "scripts/shared-types";
 
 const routes: RouteObject[] = [
