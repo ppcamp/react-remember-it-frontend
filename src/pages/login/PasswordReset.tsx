@@ -17,6 +17,7 @@ import {
   REGEX_HAS_SPECIAL_CHARS,
 } from "scripts/regex";
 import { insert_at } from "scripts/string";
+import { RouteParams } from "scripts/shared-types";
 
 const styling = makeStyles((theme) => ({
   paper: {
@@ -38,20 +39,47 @@ const styling = makeStyles((theme) => ({
   },
 }));
 
+type PasswordReducerState = {
+  password: string;
+  isValid: boolean;
+  errorMessage: string;
+  checkPassword: string;
+};
+
 const initialFields = {
   password: "",
   isValid: true,
   errorMessage: "",
   checkPassword: "",
 };
+
+enum ActionKind {
+  "HANDLE_INPUT_CHANGE",
+  "HANDLE_VALIDITY",
+}
+
+type Action = {
+  type: ActionKind;
+  payload?: string;
+  isValid?: boolean;
+  errorMessage?: string;
+  field?: string;
+};
+
 const fieldsReducer = (
-  state,
-  { type, field, payload, isValid, errorMessage }
-) => {
+  state: PasswordReducerState,
+  action: Action
+): PasswordReducerState => {
+  const { type, payload, isValid, errorMessage, field } = action;
+
   switch (type) {
-    case "HANDLE_INPUT_CHANGE":
+    case ActionKind.HANDLE_INPUT_CHANGE:
+      if (!field || !payload)
+        throw Error("You must pass 'isValid' and 'errorMessage'");
       return { ...state, [field]: payload };
-    case "HANDLE_VALIDITY":
+    case ActionKind.HANDLE_VALIDITY:
+      if (!isValid || !errorMessage)
+        throw Error("You must pass 'isValid' and 'errorMessage'");
       return { ...state, isValid, errorMessage };
     default:
       return initialFields;
@@ -60,18 +88,18 @@ const fieldsReducer = (
 
 export const PasswordReset = () => {
   // Query params
-  const { id } = useParams();
+  const { id } = useParams<RouteParams>();
 
   // States
   const [form, dispatch] = useReducer(fieldsReducer, initialFields);
   const [showError, setShowError] = useState(false);
 
   // Actions
-  const onUpdate = (e) => {
+  const onUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
-      type: "HANDLE_INPUT_CHANGE",
+      type: ActionKind.HANDLE_INPUT_CHANGE,
       field: e.target.name,
-      payload: e.target.value,
+      payload: e.target.value as string,
     });
   };
 
@@ -79,7 +107,7 @@ export const PasswordReset = () => {
   const checkRequirements = useCallback(() => {
     let isValid = true;
     if (!form.password.length) {
-      dispatch({ type: "HANDLE_VALIDITY", isValid, errorMessage: "" });
+      dispatch({ type: ActionKind.HANDLE_VALIDITY, isValid, errorMessage: "" });
     }
     // Handling errors
     else {
@@ -107,7 +135,7 @@ export const PasswordReset = () => {
       const pos = errorMessage.lastIndexOf(",");
       if (pos !== -1) errorMessage = insert_at(errorMessage, pos, " e ");
 
-      dispatch({ type: "HANDLE_VALIDITY", isValid, errorMessage });
+      dispatch({ type: ActionKind.HANDLE_VALIDITY, isValid, errorMessage });
     }
   }, [form.password]);
 
@@ -135,57 +163,57 @@ export const PasswordReset = () => {
   const classes = styling();
 
   return (
-    <Container maxWidth='xs'>
+    <Container maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOpen />
         </Avatar>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           Recuperar senha
         </Typography>
 
         {/* Field 1 */}
         <form className={classes.form} noValidate>
           <TextField
-            type='password'
-            variant='outlined'
-            margin='normal'
+            type="password"
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            label='Senha'
-            name='password'
-            autoComplete='password'
+            label="Senha"
+            name="password"
+            autoComplete="password"
             autoFocus
             onChange={onUpdate}
             value={form.password}
-            placeholder='Digite a senha'
+            placeholder="Digite a senha"
             error={!form.isValid}
             helperText={!form.isValid && form.errorMessage}
           />
 
           {/* Field 2 */}
           <TextField
-            type='password'
-            variant='outlined'
-            margin='normal'
+            type="password"
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            label='Repita a senha'
-            name='checkPassword'
-            autoComplete='checkPassword'
+            label="Repita a senha"
+            name="checkPassword"
+            autoComplete="checkPassword"
             onChange={onUpdate}
             value={form.checkPassword}
-            placeholder='Digite a senha novamente'
+            placeholder="Digite a senha novamente"
             error={showError}
             helperText={showError && "As senhas não coincidem"}
           />
 
           {/* Button */}
           <Button
-            type='button'
+            type="button"
             fullWidth
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             className={classes.submit}
             onClick={submit}
           >

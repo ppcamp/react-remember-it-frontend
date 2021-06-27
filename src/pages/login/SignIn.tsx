@@ -25,6 +25,7 @@ import {
 } from "scripts/regex";
 import { insert_at } from "scripts/string";
 import { useAuth } from "app/static-contexts/auth-context";
+import { RootState } from "store";
 // import jwt from "jsonwebtoken";
 
 const styling = makeStyles((theme) => ({
@@ -62,7 +63,7 @@ export const SignIn = () => {
 
   // Redux states
   const dispatch = useDispatch();
-  const email = useSelector((state) => state.email.email);
+  const email = useSelector((state: RootState) => state.email.email);
 
   // History
   const history = useHistory();
@@ -71,10 +72,10 @@ export const SignIn = () => {
   const onToggleRemember = () => {
     setRemember(!remember);
   };
-  const onEmailChange = (e) => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(emailActions.updateEmail(e.target.value));
   };
-  const onPasswordChange = (e) => {
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword({ ...password, value: e.target.value });
   };
   const onForgetPassword = () => history.push("/login/recover-password");
@@ -131,7 +132,7 @@ export const SignIn = () => {
    */
   const submit = () => {
     // Token: response from api
-    let token = process.env.REACT_APP_TEST;
+    let token = process.env.REACT_APP_TEST || "";
     // Generate a new token that will work for a year
     // token = jwt.sign({ data: "foobar" }, "secret", { expiresIn: "365d" });
 
@@ -189,7 +190,7 @@ export const SignIn = () => {
             type="password"
             autoComplete="current-password"
             onChange={onPasswordChange}
-            value={password.password}
+            value={password.value}
             error={!password.isValid}
             helperText={!password.isValid && password.errorMessage}
           />

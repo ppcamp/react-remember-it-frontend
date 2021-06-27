@@ -12,13 +12,14 @@ import {
   Container,
   Grid,
   makeStyles,
+  Theme,
   useTheme,
 } from "@material-ui/core";
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { ImageAPI } from "api";
 
-const styling = makeStyles((theme) => ({
+const styling = makeStyles((theme: Theme) => ({
   save: {
     background: theme.palette.success.main,
     color: "#fff",
@@ -57,10 +58,10 @@ export const CardCreatePage = () => {
   const handleToggleView = () => {
     setPage(!page);
   };
-  const handleFrontChange = (front) => {
+  const handleFrontChange = (front: string) => {
     setEditor({ ...editor, front });
   };
-  const handleBackChange = (back) => {
+  const handleBackChange = (back: string) => {
     setEditor({ ...editor, back });
   };
 
@@ -78,7 +79,7 @@ export const CardCreatePage = () => {
       <Container>
         {page && (
           <CardMarkdownEdit
-            name='Frente'
+            name="Frente"
             editor={editor.front}
             onUpdate={handleFrontChange}
             imagePath={IMAGE_PATH}
@@ -86,7 +87,7 @@ export const CardCreatePage = () => {
         )}
         {!page && (
           <CardMarkdownEdit
-            name='Atrás'
+            name="Atrás"
             editor={editor.back}
             onUpdate={handleBackChange}
             imagePath={IMAGE_PATH}
@@ -95,24 +96,24 @@ export const CardCreatePage = () => {
       </Container>
 
       {/* ButtonGroup */}
-      <Box p={0} textAlign='center' display='block'>
+      <Box p={0} textAlign="center" display="block">
         <Grid
           container
           spacing={3}
-          direction='row'
-          justify='center'
-          alignItems='center'
+          direction="row"
+          justify="center"
+          alignItems="center"
         >
           <Grid item>
             <Button
-              aria-label='cancel this action'
-              variant='contained'
+              aria-label="cancel this action"
+              variant="contained"
               startIcon={<Clear />}
               className={style.cancel}
-              size='medium'
+              size="medium"
               onClick={onCancel}
               component={Link}
-              to='/'
+              to="/"
             >
               Cancelar
             </Button>
@@ -120,13 +121,13 @@ export const CardCreatePage = () => {
 
           <Grid item>
             <Button
-              aria-label='goes back'
-              variant='contained'
+              aria-label="goes back"
+              variant="contained"
               startIcon={<NavigateBefore />}
-              color='primary'
-              size='medium'
+              color="primary"
+              size="medium"
               onClick={handleToggleView}
-              component='span'
+              component="span"
               disabled={page}
             >
               Voltar
@@ -134,13 +135,13 @@ export const CardCreatePage = () => {
           </Grid>
           <Grid item>
             <Button
-              aria-label='write the back part'
-              variant='contained'
+              aria-label="write the back part"
+              variant="contained"
               startIcon={<NavigateNext />}
-              color='primary'
-              size='medium'
+              color="primary"
+              size="medium"
               onClick={handleToggleView}
-              component='span'
+              component="span"
               disabled={!page}
             >
               Avançar
@@ -148,13 +149,13 @@ export const CardCreatePage = () => {
           </Grid>
           <Grid item>
             <Button
-              aria-label='save in the database'
-              variant='contained'
+              aria-label="save in the database"
+              variant="contained"
               startIcon={<Save />}
               className={style.save}
-              size='medium'
+              size="medium"
               onClick={onSubmit}
-              component='span'
+              component="span"
               disabled={page}
             >
               Salvar

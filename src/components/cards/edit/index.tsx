@@ -13,6 +13,7 @@ import {
   Box,
   Container,
   useTheme,
+  GridSpacing,
 } from "@material-ui/core";
 // Markdown
 import ReactMarkdown from "react-markdown";
@@ -28,9 +29,19 @@ import Menu from "./menu";
 
 // japanese formatting
 import style from "./index.module.css";
-import { TextArea } from "components/common/textarea";
+import { TextArea } from "components/textarea";
 
-export const CardMarkdownEdit = ({
+type MarkdownEditProps = {
+  name: string;
+  editor: string;
+  onUpdate: (v: string) => void;
+  imagePath: string;
+  gridSpacing?: GridSpacing;
+  cardsSize?: number;
+  maxInput?: number;
+};
+
+export const CardMarkdownEdit: React.FC<MarkdownEditProps> = ({
   name,
   editor: markdown,
   onUpdate: markdownUpdate,
@@ -57,9 +68,9 @@ export const CardMarkdownEdit = ({
   };
 
   // Constants
-  const GRID_SPACING = gridSpacing || 3;
-  const CARDS_SIZE = cardsSize || 400;
-  const MAXIMUM_INPUT = maxInput || 500;
+  const GRID_SPACING: GridSpacing = gridSpacing || 3;
+  const CARDS_SIZE: number = cardsSize || 400;
+  const MAXIMUM_INPUT: number = maxInput || 500;
   const PLACEHOLDER = `Digite o texto aqui. Exemplo:
 
 # Algum título
@@ -74,13 +85,7 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
 `;
 
   // Handlers
-  const handleCursorPosition = (e) => {
-    setCursor({
-      start: e.target.selectionStart,
-      end: e.target.selectionEnd,
-    });
-  };
-  const handleMarkdownUpdate = (val) => {
+  const handleMarkdownUpdate = (val: string) => {
     // every time that changes the markdown, will update history
     const hist = { ...history };
     hist.undo = markdown.slice();
@@ -109,16 +114,24 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
   };
 
   // Actions
-  const onChangeMarkdown = (e) => {
+  const onChangeMarkdown = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     handleMarkdownUpdate(e.target.value);
+
+    // Handle cursor position
+    setCursor({
+      //@ts-ignore
+      start: e.target.selectionStart,
+      //@ts-ignore
+      end: e.target.selectionEnd,
+    });
   };
 
   return (
     <Container>
-      <Box height='100vh'>
+      <Box height="100vh">
         {/* Title */}
         <Box py={7}>
-          <Typography align='center' variant='h4'>
+          <Typography align="center" variant="h4">
             {name}
           </Typography>
         </Box>
@@ -128,13 +141,13 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
           <Grid
             container
             spacing={GRID_SPACING}
-            direction='row'
-            justify='space-between'
-            alignItems='center'
+            direction="row"
+            justify="space-between"
+            alignItems="center"
           >
             <Grid item xs={6} className={style.noPadding}>
               <Menu
-                color='background.paper'
+                color="background.paper"
                 value={markdown}
                 update={handleMarkdownUpdate}
                 cursor={cursor}
@@ -145,9 +158,9 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
             </Grid>
             <Grid item xs={6} className={style.noPadding}>
               <Typography
-                variant='overline'
-                align='center'
-                display='block'
+                variant="overline"
+                align="center"
+                display="block"
                 gutterBottom
               >
                 Pré visualização
@@ -161,18 +174,17 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
           <Grid
             container
             spacing={GRID_SPACING}
-            direction='row'
-            justify='space-between'
-            alignItems='center'
+            direction="row"
+            justify="space-between"
+            alignItems="center"
           >
             {/* Textarea */}
             <Grid item xs={6}>
-              <Paper elevation={6} color='background.paper'>
+              <Paper elevation={6} color="background.paper">
                 <Box p={2} height={CARDS_SIZE}>
                   <TextArea
                     value={markdown}
                     onChange={onChangeMarkdown}
-                    handleCursor={handleCursorPosition}
                     placeholder={PLACEHOLDER}
                     maxLength={MAXIMUM_INPUT}
                   />
@@ -183,7 +195,7 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
             {/* Preview */}
             <Grid item xs={6}>
               <Paper elevation={6}>
-                <Box p={2} height={CARDS_SIZE} alignItems='center'>
+                <Box p={2} height={CARDS_SIZE} alignItems="center">
                   <ReactMarkdown
                     children={markdown}
                     remarkPlugins={[remarkMath, gfm]}
@@ -194,8 +206,8 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
                     components={{
                       p: ({ node, ...props }) => (
                         <Typography
-                          display='block'
-                          align='justify'
+                          display="block"
+                          align="justify"
                           noWrap
                           paragraph
                           component={"span"}
@@ -204,55 +216,55 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
                       ),
                       img: ({ node, ...props }) => (
                         <span>
-                          <a href={props.src}>
+                          <a href={props.src as string}>
                             <img
                               className={style["markdown-image"]}
                               style={borderImage}
-                              alt='some mdimage'
+                              alt="some mdimage"
                               {...props}
                             />
                           </a>
                           <Typography
                             paragraph
-                            align='center'
-                            variant='overline'
+                            align="center"
+                            variant="overline"
                           >
-                            {props.alt}
+                            {props.alt as string}
                           </Typography>
                         </span>
                       ),
-                      h1: ({ node, ...props }) => (
+                      h1: ({ ...props }) => (
                         <Typography
                           paragraph
-                          align='center'
-                          variant='h4'
+                          align="center"
+                          variant="h4"
                           {...props}
                         />
                       ),
                       h2: ({ node, ...props }) => (
                         <Typography
                           paragraph
-                          align='center'
-                          variant='hGRID_SPACING'
+                          align="center"
+                          variant="h5"
                           {...props}
                         />
                       ),
                       h3: ({ node, ...props }) => (
                         <Typography
                           paragraph
-                          align='center'
-                          variant='h6'
+                          align="center"
+                          variant="h6"
                           {...props}
                         />
                       ),
                       h4: ({ node, ...props }) => (
-                        <Typography paragraph variant='subtitle2' {...props} />
+                        <Typography paragraph variant="subtitle2" {...props} />
                       ),
                       h5: ({ node, ...props }) => (
-                        <Typography paragraph variant='subtitle2' {...props} />
+                        <Typography paragraph variant="subtitle2" {...props} />
                       ),
                       h6: ({ node, ...props }) => (
-                        <Typography paragraph variant='subtitle2' {...props} />
+                        <Typography paragraph variant="subtitle2" {...props} />
                       ),
                       hr: ({ node, ...props }) => (
                         <hr className={style["markdown-hr"]} {...props} />

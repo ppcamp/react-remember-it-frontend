@@ -138,7 +138,7 @@ export class ApiFile extends BaseApi {
    * @param {string} id The id of the element that will be retrieve
    * @param {string} suburl Additional path
    */
-  toString(id: string, suburl = "") {
+  toString(id?: string, suburl = "") {
     let query = [suburl, id].join("/").slice(0, -1);
     const url = new URL(query, this.address);
     return url.toString();

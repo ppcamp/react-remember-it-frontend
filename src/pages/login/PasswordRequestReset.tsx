@@ -7,14 +7,15 @@ import {
   Button,
   Avatar,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import { LockOpen } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { emailActions } from "store/slices/email";
 import { Copyright } from "components/footer/basic";
 import { REGEX_EMAIL } from "scripts/regex";
+import { RootState } from "store";
 
-const styling = makeStyles((theme) => ({
+const styling = makeStyles((theme: Theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
@@ -39,11 +40,11 @@ export const PasswordRequestReset = () => {
   const [isValid, setIsValid] = useState(true);
 
   // Redux
-  const email = useSelector((state) => state.email.email);
+  const email = useSelector((state: RootState) => state.email.email);
   const dispatch = useDispatch();
 
   // Actions
-  const onEmailChange = (e) => {
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(emailActions.updateEmail(e.target.value));
   };
 
@@ -66,23 +67,23 @@ export const PasswordRequestReset = () => {
   const classes = styling();
 
   return (
-    <Container maxWidth='xs'>
+    <Container maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOpen />
         </Avatar>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           Recuperar senha
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            label='Email'
-            name='email'
-            autoComplete='email'
+            label="Email"
+            name="email"
+            autoComplete="email"
             autoFocus
             onChange={onEmailChange}
             value={email}
@@ -90,10 +91,10 @@ export const PasswordRequestReset = () => {
             error={!isValid}
           />
           <Button
-            type='button'
+            type="button"
             fullWidth
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             className={classes.submit}
             disabled={!isValid || !email.length}
             onClick={submit}

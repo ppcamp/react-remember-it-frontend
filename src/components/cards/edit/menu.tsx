@@ -19,44 +19,77 @@ import {
 } from "@material-ui/icons";
 
 /**
+ * Holds the cursor position
+ */
+export type Cursor = {
+  start: number;
+  end: number;
+};
+
+export type History = {
+  undo: string;
+  redo: string;
+};
+
+type MenuProps = {
+  value: string;
+  cursor: Cursor;
+  history: History;
+  style?: string;
+  color: string;
+  update: Function;
+  redo: Function;
+  undo: Function;
+};
+
+/**
  * Menu
  *
  * TODO: missing image upload function to server
  */
-const Menu = (props) => {
+const Menu: React.FC<MenuProps> = ({
+  value,
+  cursor,
+  update,
+  color,
+  redo,
+  undo,
+  history,
+  style,
+}) => {
   /**
    * Adds a bold in the selected text or create a the keyword inplace
    */
   const addBold = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before;
     result += text.length ? `**${text}**` : "**negrito**";
     result += after;
-    props.update(result);
+    update(result);
   };
 
   /**
    * Adds a italic in the selected text or create a the keyword inplace
    */
   const addItalic = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before;
     result += text.length ? `*${text}*` : "*itálico*";
     result += after;
-    props.update(result);
+    update(result);
   };
 
   /**
    * Adds title in the selected text or create a the keyword inplace
    */
   const addTitle = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before;
     result += text.length
       ? text[0] === "#"
@@ -64,16 +97,16 @@ const Menu = (props) => {
         : `# ${text}`
       : "# título";
     result += after;
-    props.update(result);
+    update(result);
   };
 
   /**
    * Adds a bullet list in the selected text or create a sample inplace
    */
   const addBulletList = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before;
 
     if (text.length) {
@@ -83,16 +116,16 @@ const Menu = (props) => {
       result += "\n* item";
     }
     result += after;
-    props.update(result);
+    update(result);
   };
 
   /**
    * Adds a numerated list in the selected text or create a sample inplace
    */
   const addNumeratedList = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before;
 
     if (text.length) {
@@ -104,74 +137,74 @@ const Menu = (props) => {
       result += "\n1. item";
     }
     result += after;
-    props.update(result);
+    update(result);
   };
 
   /**
    * Adds a hyperlink in the selected text or create a the keyword inplace
    */
   const addHyperlink = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before;
     result += text.length
       ? `[${text}](http://www.google.com)`
       : "[Título para o link](http://www.google.com)";
     result += after;
-    props.update(result);
+    update(result);
   };
 
   /**
    * Adds an image inplace
    */
   const addImage = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before + text;
     result += `![descrição da imagem](link)`;
     result += after;
-    props.update(result);
+    update(result);
   };
 
   /**
    * Adds a single line inplace
    */
   const addLine = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before + text + "****\n" + after;
-    props.update(result);
+    update(result);
   };
 
   /**
    * Adds a citation in the selected text or create a the keyword inplace
    */
   const addCitation = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before;
     result += text.length ? `\n> ${text}` : "> citation";
     result += after;
-    props.update(result);
+    update(result);
   };
 
   /**
    * Adds a japanese in the selected text or create a the keyword inplace
    */
   const addJapanese = () => {
-    const before = props.value.slice(0, props.cursor.start);
-    const text = props.value.slice(props.cursor.start, props.cursor.end);
-    const after = props.value.slice(props.cursor.end);
+    const before = value.slice(0, cursor.start);
+    const text = value.slice(cursor.start, cursor.end);
+    const after = value.slice(cursor.end);
     let result = before;
     result += text.length
       ? `<ruby> <rb>${text}</rb><rt>?</rt> </ruby>`
       : "<ruby> <rb>日</rb><rt>にっ</rt> <rb>本</rb><rt>ぽん</rt> <rb>語</rb><rt>ご</rt> </ruby>";
     result += after;
-    props.update(result);
+    update(result);
   };
 
   /**********************
@@ -179,22 +212,22 @@ const Menu = (props) => {
    *********************/
 
   let redoUndoSec = null;
-  if (props.redo !== undefined && props.undo !== undefined) {
+  if (redo !== undefined && undo !== undefined) {
     redoUndoSec = (
-      <Box display='inline'>
+      <Box display="inline">
         <IconButton
-          disabled={!props.history.undo.length}
-          aria-label='undo'
-          component='span'
-          onClick={() => props.undo()}
+          disabled={!history.undo.length}
+          aria-label="undo"
+          component="span"
+          onClick={() => undo()}
         >
           <Undo />
         </IconButton>
         <IconButton
-          disabled={!props.history.redo.length}
-          aria-label='redo'
-          component='span'
-          onClick={() => props.redo()}
+          disabled={!history.redo.length}
+          aria-label="redo"
+          component="span"
+          onClick={() => redo()}
         >
           <Redo />
         </IconButton>
@@ -204,81 +237,81 @@ const Menu = (props) => {
   }
 
   return (
-    <Paper elevation={6} className={props.style}>
+    <Paper elevation={6} className={style}>
       <nav>
         {redoUndoSec}
         <IconButton
-          aria-label='add a title format'
-          component='span'
+          aria-label="add a title format"
+          component="span"
           onClick={addTitle}
         >
-          <FormatSize fontSize='small' />
+          <FormatSize fontSize="small" />
         </IconButton>
         <IconButton
-          aria-label='create a bold element'
-          component='span'
+          aria-label="create a bold element"
+          component="span"
           onClick={addBold}
         >
-          <FormatBold fontSize='small' />
+          <FormatBold fontSize="small" />
         </IconButton>
         <IconButton
-          aria-label='create a italic field'
-          component='span'
+          aria-label="create a italic field"
+          component="span"
           onClick={addItalic}
         >
-          <FormatItalic fontSize='small' />
+          <FormatItalic fontSize="small" />
         </IconButton>
         |
         <IconButton
-          aria-label='create a bullet list'
-          component='span'
+          aria-label="create a bullet list"
+          component="span"
           onClick={addBulletList}
         >
-          <FormatListBulleted fontSize='small' />
+          <FormatListBulleted fontSize="small" />
         </IconButton>
         <IconButton
-          aria-label='create a numbered list'
-          component='span'
+          aria-label="create a numbered list"
+          component="span"
           onClick={addNumeratedList}
         >
-          <FormatListNumbered fontSize='small' />
+          <FormatListNumbered fontSize="small" />
         </IconButton>
         |
         <IconButton
-          aria-label='insert a link'
-          component='span'
+          aria-label="insert a link"
+          component="span"
           onClick={addHyperlink}
         >
-          <InsertLink fontSize='small' />
+          <InsertLink fontSize="small" />
         </IconButton>
         <IconButton
-          aria-label='upload picture'
-          component='span'
+          aria-label="upload picture"
+          component="span"
           onClick={addImage}
         >
-          <InsertPhoto fontSize='small' />
+          <InsertPhoto fontSize="small" />
         </IconButton>
         <IconButton
-          aria-label='create a quotation'
-          component='span'
+          aria-label="create a quotation"
+          component="span"
           onClick={addCitation}
         >
-          <FormatQuote fontSize='small' />
+          <FormatQuote fontSize="small" />
         </IconButton>
         <IconButton
-          aria-label='create a single line'
-          component='span'
+          aria-label="create a single line"
+          component="span"
           onClick={addLine}
         >
-          <HorizontalSplit fontSize='small' />
+          <HorizontalSplit fontSize="small" />
         </IconButton>
         |
         <IconButton
-          aria-label='create a space to asian chars'
-          component='span'
+          aria-label="create a space to asian chars"
+          component="span"
           onClick={addJapanese}
         >
-          <Translate fontSize='small' />
+          <Translate fontSize="small" />
         </IconButton>
       </nav>
     </Paper>

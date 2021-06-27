@@ -1,15 +1,23 @@
 import { useTheme } from "@material-ui/core";
 import React from "react";
-import css from "./textarea.module.css";
+import css from "./index.module.css";
 
-export const TextArea = ({
+type TextAreaProps = {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  placeholder: string;
+  maxLength: number;
+  rows?: number;
+  className?: string;
+};
+export const TextArea: React.FC<TextAreaProps> = ({
   value,
   onChange,
-  handleCursor,
   placeholder,
   maxLength,
   rows,
   className,
+  // handleCursor,
 }) => {
   const { palette } = useTheme();
   const textAreaStyling = {
@@ -24,8 +32,8 @@ export const TextArea = ({
       value={value}
       onChange={onChange}
       rows={rows || 20}
-      onKeyDown={handleCursor}
-      onClick={handleCursor}
+      // onKeyDown={handleCursor}
+      // onClick={handleCursor}
       placeholder={placeholder}
       maxLength={maxLength || 500}
     />

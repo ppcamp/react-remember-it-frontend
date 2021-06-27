@@ -5,17 +5,23 @@ const initialState = {
   backView: "",
 };
 
+type Action = {
+  type: string;
+  front?: string;
+  backView?: string;
+};
+
 const cardSlice = createSlice({
   name: "card",
   initialState,
   reducers: {
-    updateFront(state, action) {
+    updateFront(state, action: Action) {
       console.log("Updated front");
-      state.frontView = action.front;
+      state.frontView = action.front as string;
     },
-    updateBack(state, action) {
+    updateBack(state, action: Action) {
       console.log("Updated Back");
-      state.BackView = action.backView;
+      state.backView = action.backView as string;
     },
   },
 });
