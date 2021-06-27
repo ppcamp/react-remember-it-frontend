@@ -25,7 +25,7 @@ import {
 } from "scripts/regex";
 import { insert_at } from "scripts/string";
 import { useAuth } from "app/static-contexts/auth-context";
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 
 const styling = makeStyles((theme) => ({
   paper: {
@@ -131,9 +131,9 @@ export const SignIn = () => {
    */
   const submit = () => {
     // Token: response from api
-    let token = "";
+    let token = process.env.REACT_APP_TEST;
     // Generate a new token that will work for a year
-    token = jwt.sign({ data: "foobar" }, "secret", { expiresIn: "365d" });
+    // token = jwt.sign({ data: "foobar" }, "secret", { expiresIn: "365d" });
 
     // Update token
     auth.onLogin(token, remember);
@@ -155,24 +155,24 @@ export const SignIn = () => {
   const classes = styling();
 
   return (
-    <Container maxWidth='xs'>
+    <Container maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlined />
         </Avatar>
-        <Typography component='h1' variant='h5'>
+        <Typography component="h1" variant="h5">
           Login
         </Typography>
         <form className={classes.form} noValidate>
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            id='email'
-            label='Email Address'
-            name='email'
-            autoComplete='email'
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
             autoFocus
             onChange={onEmailChange}
             value={email}
@@ -180,30 +180,30 @@ export const SignIn = () => {
             error={!emailIsValid}
           />
           <TextField
-            variant='outlined'
-            margin='normal'
+            variant="outlined"
+            margin="normal"
             required
             fullWidth
-            name='password'
-            label='Senha'
-            type='password'
-            autoComplete='current-password'
+            name="password"
+            label="Senha"
+            type="password"
+            autoComplete="current-password"
             onChange={onPasswordChange}
             value={password.password}
             error={!password.isValid}
             helperText={!password.isValid && password.errorMessage}
           />
           <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Remember me'
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
             onClick={onToggleRemember}
             value={remember}
           />
           <Button
-            type='button'
+            type="button"
             fullWidth
-            variant='contained'
-            color='primary'
+            variant="contained"
+            color="primary"
             className={classes.submit}
             onClick={submit}
           >
@@ -213,14 +213,14 @@ export const SignIn = () => {
             <Grid item xs>
               <Link
                 // href='/login/recover-password'
-                variant='body2'
+                variant="body2"
                 onClick={onForgetPassword}
               >
                 Esqueceu a senha?
               </Link>
             </Grid>
             <Grid item>
-              <Link href='/login/new' variant='body2'>
+              <Link href="/login/new" variant="body2">
                 {"Não tem uma conta? Crie uma!"}
               </Link>
             </Grid>

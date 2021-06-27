@@ -1,30 +1,61 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Alert from '@material-ui/lab/Alert';
-import IconButton from '@material-ui/core/IconButton';
-import Collapse from '@material-ui/core/Collapse';
-import Button from '@material-ui/core/Button';
-import CloseIcon from '@material-ui/icons/Close';
+import React from "react";
+import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import Alert, { Color } from "@material-ui/lab/Alert";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import { Snackbar } from "@material-ui/core";
+import { AlertTitle } from "@material-ui/lab";
+
+type TransitionAlertsProps = {
+  message: string;
+  title?: string;
+  severity: Color;
+  timeout?: number;
+  remember?: boolean;
+};
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      width: '100%',
-      '& > * + *': {
+      margin: "auto",
+      width: "100%",
+      marginTop: theme.spacing(2),
+      "& > * + *": {
         marginTop: theme.spacing(2),
       },
     },
-  }),
+  })
 );
 
-export default function TransitionAlerts() {
+export const TransitionAlerts: React.FC<TransitionAlertsProps> = ({
+  message,
+  title,
+  timeout,
+  severity,
+  remember,
+}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   return (
     <div className={classes.root}>
-      <Collapse in={open}>
+      <Snackbar
+        open={open}
+        autoHideDuration={timeout ? timeout : 6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
         <Alert
+          onClose={handleClose}
+          severity={severity}
+          variant="filled"
+          style={{ width: "100vh" }}
           action={
             <IconButton
               aria-label="close"
@@ -38,18 +69,10 @@ export default function TransitionAlerts() {
             </IconButton>
           }
         >
-          Close me!
+          {title && <AlertTitle>{title}</AlertTitle>}
+          {message}
         </Alert>
-      </Collapse>
-      <Button
-        disabled={open}
-        variant="outlined"
-        onClick={() => {
-          setOpen(true);
-        }}
-      >
-        Re-open
-      </Button>
+      </Snackbar>
     </div>
   );
-}
+};

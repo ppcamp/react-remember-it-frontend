@@ -17,7 +17,7 @@ const ThemeContext = createContext(initialState);
 
 // Styling
 namespace ThemePalette {
-  export const Ligth:PaletteOptions = {
+  export const Ligth: PaletteOptions = {
     type: "light",
     common: {
       black: "#000",
@@ -102,7 +102,7 @@ namespace ThemePalette {
       activatedOpacity: 0.12,
     },
   };
-  export const Dark:PaletteOptions = {
+  export const Dark: PaletteOptions = {
     common: {
       black: "#000",
       white: "#fff",
@@ -202,7 +202,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.text.primary,
   },
 }));
-const MainTheme:React.FC<{}> = (props) => {
+const MainTheme: React.FC<{}> = (props) => {
   const theme = useTheme();
   const classes = useStyles(theme);
 
@@ -220,9 +220,11 @@ const MainTheme:React.FC<{}> = (props) => {
   );
 };
 
-export const ThemeContextProvider:React.FC<{}> = (props) => {
+export const ThemeContextProvider: React.FC<{}> = (props) => {
   // User configs
-  const themePreference = (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content === "white";
+  const themePreference =
+    (document.querySelector("meta[name='theme-color']") as HTMLMetaElement)
+      .content === "white";
 
   // States
   const [theme, setTheme] = useState(themePreference);

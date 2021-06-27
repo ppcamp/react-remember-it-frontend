@@ -1,52 +1,56 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {},
-"launch": {
-		// Use IntelliSense to learn about possible attributes.
-		// Hover to view descriptions of existing attributes.
-		// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"name": "Debug: Root",
-				"type": "pwa-chrome",
-				"request": "launch",
-				"url": "http://localhost:3000/",
-				"webRoot": "${workspaceFolder}"
-			},
-			{
-				"name": "Debug: Card",
-				"type": "pwa-chrome",
-				"request": "launch",
-				"url": "http://localhost:3000/card",
-				"webRoot": "${workspaceFolder}"
-			},
-			{
-				"name": "Debug: Login",
-				"type": "pwa-chrome",
-				"request": "launch",
-				"url": "http://localhost:3000/login",
-				"webRoot": "${workspaceFolder}"
-			},
-			{
-				"name": "Debug: Request change password",
-				"type": "pwa-chrome",
-				"request": "launch",
-				"url": "http://localhost:3000/login/recover-password",
-				"webRoot": "${workspaceFolder}"
-			},
-			{
-				"name": "Debug: Recover Password",
-				"type": "pwa-chrome",
-				"request": "launch",
-				"url": "http://localhost:3000/login/recover-password/3",
-				"webRoot": "${workspaceFolder}"
-			}
-		]
-	},
-	"compounds": []
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+  },
+  "launch": {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug: Root",
+        "type": "pwa-chrome",
+        "request": "launch",
+        "url": "http://localhost:3000/",
+        "webRoot": "${workspaceFolder}"
+      },
+      {
+        "name": "Debug: Card",
+        "type": "pwa-chrome",
+        "request": "launch",
+        "url": "http://localhost:3000/card",
+        "webRoot": "${workspaceFolder}"
+      },
+      {
+        "name": "Debug: Login",
+        "type": "pwa-chrome",
+        "request": "launch",
+        "url": "http://localhost:3000/login",
+        "webRoot": "${workspaceFolder}"
+      },
+      {
+        "name": "Debug: Request change password",
+        "type": "pwa-chrome",
+        "request": "launch",
+        "url": "http://localhost:3000/login/recover-password",
+        "webRoot": "${workspaceFolder}"
+      },
+      {
+        "name": "Debug: Recover Password",
+        "type": "pwa-chrome",
+        "request": "launch",
+        "url": "http://localhost:3000/login/recover-password/3",
+        "webRoot": "${workspaceFolder}"
+      }
+    ]
+  },
+  "compounds": []
 }

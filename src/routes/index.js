@@ -32,8 +32,8 @@ const protectedRoutes = [...cardRoutes];
  * @returns A router to every route element
  */
 export const Routing = () => {
-  const { token } = useAuth();
-  const isLogged = token.length > 0;
+  const { token, expired } = useAuth();
+  const isLogged = token.length > 0 && !expired;
 
   return (
     <Router>

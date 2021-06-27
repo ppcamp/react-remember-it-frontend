@@ -8,11 +8,11 @@ import { ThemeContextProvider } from "./static-contexts/theme-context";
 
 export const App = () => {
   return (
-    <AuthContextProvider>
-      <ThemeContextProvider>
-        <Routing />
-      </ThemeContextProvider>
-    </AuthContextProvider>
+    <ThemeContextProvider>
+      <AuthContextProvider>
+          <Routing />
+      </AuthContextProvider>
+    </ThemeContextProvider>
   );
 };
 
