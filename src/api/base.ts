@@ -4,7 +4,7 @@
 // Using this approach, it's easier to test the routes and test the retrieving
 // information
 
-const NotImplementedYetException = "Not implemented yet. Missing API";
+const NotImplementedYetException = Error("Not implemented yet. Missing API");
 
 /**
  * Base class that contains the api host
@@ -13,7 +13,7 @@ class BaseApi {
   protected address: URL;
   constructor(endpoint: string | null = null) {
     if (!process.env.REACT_APP_API)
-      throw "You must define the endpoint for this API";
+      throw Error("You must define the endpoint for this API");
     const _address = new URL(process.env.REACT_APP_API);
     this.address = _address;
 
