@@ -6,6 +6,7 @@ import {
   ThemeProvider,
   useTheme,
 } from "@material-ui/core";
+import { PaletteOptions } from "@material-ui/core/styles/createPalette";
 
 // Context
 const initialState = {
@@ -15,8 +16,8 @@ const initialState = {
 const ThemeContext = createContext(initialState);
 
 // Styling
-const THEME_PALETTE = {
-  LIGHT: {
+namespace ThemePalette {
+  export const Ligth:PaletteOptions = {
     type: "light",
     common: {
       black: "#000",
@@ -100,8 +101,8 @@ const THEME_PALETTE = {
       focusOpacity: 0.12,
       activatedOpacity: 0.12,
     },
-  },
-  DARK: {
+  };
+  export const Dark:PaletteOptions = {
     common: {
       black: "#000",
       white: "#fff",
@@ -166,7 +167,7 @@ const THEME_PALETTE = {
       secondary: "rgba(255, 255, 255, 0.7)",
       disabled: "rgba(255, 255, 255, 0.5)",
       hint: "rgba(255, 255, 255, 0.5)",
-      icon: "rgba(255, 255, 255, 0.5)",
+      // icon: "rgba(255, 255, 255, 0.5)",
     },
     divider: "rgba(255, 255, 255, 0.12)",
     background: {
@@ -186,21 +187,22 @@ const THEME_PALETTE = {
       focusOpacity: 0.12,
       activatedOpacity: 0.24,
     },
-    palette: {
-      background: {
-        default: "#151515",
-        paper: "#fff",
-      },
-    },
-  },
-};
+    // palette: {
+    //   background: {
+    //     default: "#151515",
+    //     paper: "#fff",
+    //   },
+    // },
+  };
+}
+
 const useStyles = makeStyles((theme) => ({
   application: {
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
   },
 }));
-const MainTheme = (props) => {
+const MainTheme:React.FC<{}> = (props) => {
   const theme = useTheme();
   const classes = useStyles(theme);
 
@@ -218,16 +220,15 @@ const MainTheme = (props) => {
   );
 };
 
-export const ThemeContextProvider = (props) => {
+export const ThemeContextProvider:React.FC<{}> = (props) => {
   // User configs
-  const themePreference =
-    document.querySelector("meta[name='theme-color']").content === "white";
+  const themePreference = (document.querySelector("meta[name='theme-color']") as HTMLMetaElement).content === "white";
 
   // States
   const [theme, setTheme] = useState(themePreference);
   const muitheme = React.useMemo(() => {
     const t = createMuiTheme({
-      palette: theme ? THEME_PALETTE.LIGHT : THEME_PALETTE.DARK,
+      palette: theme ? ThemePalette.Ligth : ThemePalette.Dark,
     });
     return t;
   }, [theme]);
