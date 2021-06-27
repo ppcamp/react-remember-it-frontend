@@ -252,3 +252,5 @@ export const ThemeContextProvider: React.FC<{}> = (props) => {
 };
 
 export default ThemeContext;
+
+export const usePalette = () => useTheme().palette;
