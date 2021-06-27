@@ -24,6 +24,13 @@
     "version": "0.2.0",
     "configurations": [
       {
+        "name": "Debug: Dashboard",
+        "request": "launch",
+        "type": "pwa-chrome",
+        "url": "http://localhost:3000/dashboard",
+        "webRoot": "${workspaceFolder}"
+      },
+      {
         "name": "Debug: Root",
         "type": "pwa-chrome",
         "request": "launch",

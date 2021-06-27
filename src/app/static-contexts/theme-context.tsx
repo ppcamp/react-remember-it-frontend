@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import {
   createMuiTheme,
   CssBaseline,
@@ -253,4 +253,5 @@ export const ThemeContextProvider: React.FC<{}> = (props) => {
 
 export default ThemeContext;
 
+export const useThemeCtx = () => useContext(ThemeContext);
 export const usePalette = () => useTheme().palette;

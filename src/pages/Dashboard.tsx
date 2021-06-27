@@ -2,8 +2,9 @@
  * Terá todos os decks
  */
 
+import { MenuAppBar } from "components/topbar";
 import React from "react";
 
-const Dashboard = () => {
-  return <h3>Dashboard</h3>;
+export const Dashboard = () => {
+  return <MenuAppBar />;
 };

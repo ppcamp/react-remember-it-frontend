@@ -26,7 +26,7 @@ import {
 import { insert_at } from "scripts/string";
 import { useAuth } from "app/static-contexts/auth-context";
 import { RootState } from "store";
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 const styling = makeStyles((theme) => ({
   paper: {
@@ -128,13 +128,14 @@ export const SignIn = () => {
   }, [password.value]);
 
   /**
+   * TODO: Update this function to get the authtoken from server
    * Login into system, stores the data into local/session storage
    */
   const submit = () => {
     // Token: response from api
     let token = process.env.REACT_APP_TEST || "";
     // Generate a new token that will work for a year
-    // token = jwt.sign({ data: "foobar" }, "secret", { expiresIn: "365d" });
+    token = jwt.sign({ data: "foobar" }, "secret", { expiresIn: "365d" });
 
     // Update token
     auth.onLogin(token, remember);
