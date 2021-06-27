@@ -10,11 +10,12 @@ import { Provider } from "react-redux";
 // import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
+  // <React.StrictMode> // components rendering twice in dev mod
+  // In the future, react will be rendered concurrently, so this will be necessary,
+  // however in the devmode, ins't necessary at all for now
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementsByTagName("main")[0]
 );
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { jwt_to_date } from "scripts/datetime";
 
 // Initial state is defined here just for IDE purposes
@@ -25,19 +25,20 @@ const initialState = {
 const AuthContext = createContext(initialState);
 
 export const AuthContextProvider:React.FC<{}> = ({ children }) => {
+
+  // Reading local/session storage
+  const storageName = process.env.REACT_APP_TOKEN || "Token";
+  const local = localStorage.getItem(storageName) || "";
+  const session = sessionStorage.getItem(storageName) || "";
+  let token:string = local || session;
+
+
   // State
   const [authState, setAuthState] = useState({
-    token: "",
+    token,
     onLogin: () => {},
     onLogout: () => {},
   });
-
-  useEffect(() => {}, []);
-  // Reading local/session storage
-  const storageName = process.env.REACT_APP_TOKEN || "Token";
-  const local = localStorage.getItem(storageName);
-  const session = sessionStorage.getItem(storageName);
-  let token:string|null = local || session;
 
   if (token) {
     const expires = jwt_to_date(token);
