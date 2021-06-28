@@ -2,6 +2,7 @@
  * Terá todos os decks
  */
 
+import React from "react";
 import {
   Box,
   Card,
@@ -16,8 +17,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { usePalette } from "app/static-contexts/theme-context";
-import React from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { CardType, DeckType } from "scripts/types";
 
 //#region styles
 const useStyles = makeStyles((theme: Theme) =>
@@ -34,20 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 //#endregion
-
-//#region Types
-export type CardType = {
-  id: string | number;
-  front: string;
-  back: string;
-};
-export type DeckType = {
-  id: string | number;
-  title: string;
-  description: string; //
-  cards: CardType[]; // all cards
-  review: CardType[]; // cards to review
-};
 
 type DecksViewProps = {
   decks: DeckType[];
@@ -103,9 +90,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
                           subheader={
                             <Typography align="center">
                               <span style={{ color: palette.warning.main }}>
-                                {val.review.length}
+                                {(val.review as CardType[]).length}
                               </span>
-                              /{val.cards.length}
+                              /{(val.cards as CardType[]).length}
                             </Typography>
                           }
                         />
