@@ -19,6 +19,7 @@ import { usePalette } from "app/static-contexts/theme-context";
 import { MenuAppBar } from "components/topbar";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useHistory } from "react-router-dom";
 
 //#region samples
 namespace Samples {
@@ -76,16 +77,19 @@ type DeckType = {
   cards: CardType[]; // all cards
   review: CardType[]; // cards to review
 };
-const initDecks: DeckType[] = Samples.Decks;
 
 //#endregion
 
-export const Dashboard = () => {
+export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
   // Change header
   document.title += ": Dashboard";
 
+  // Path change
+  const history = useHistory();
+
   // Theming
   const palette = usePalette();
+  const elevation = palette.type === "dark" ? 0 : 5;
   const classes = useStyles();
   const loadingIcon = (
     <Box m={4} alignItems="center" display="flex" justifyContent="space-around">
@@ -97,6 +101,10 @@ export const Dashboard = () => {
 
   // States
   const [decks, setDecks] = useState(initDecks);
+  useEffect(() => {
+    // Will fetch the data in the first rendering cycle
+    setDecks(Samples.Decks);
+  }, []);
 
   // Handlers
   const fetchMoreData = () => {
@@ -107,14 +115,11 @@ export const Dashboard = () => {
       setDecks((decks: React.ComponentState) => [...decks, ...new_el]);
     }, 1500);
   };
-  useEffect(() => {
-    console.log(decks);
-  }, [decks]);
 
   // Actions
-  const onClickCard = (val: number | string) => {
-    console.log("Clicked on card ", val);
-  };
+  const onClickCard = (id: number | string) => history.push(`/deck/${id}`);
+
+  // Renderer
   return (
     <div>
       <Box mt={2} mb={4}>
@@ -134,47 +139,49 @@ export const Dashboard = () => {
       </Box>
 
       <section style={{ height: "80vh" }}>
-        <InfiniteScroll
-          dataLength={decks.length}
-          next={fetchMoreData}
-          hasMore={true}
-          // loader={<h4>Loading...</h4>}
-          loader={loadingIcon}
-          style={{ display: "flex", flexDirection: "column", left: "300px" }} //To put endMessage and loader to the top.
-        >
-          <div className={classes.root}>
-            <Grid
-              container
-              direction="row"
-              justify="space-around"
-              alignItems="center"
-              spacing={0}
-            >
-              {decks.map((val, index) => (
-                <Grid item key={index} xs={4}>
-                  <Box m={4}>
-                    <Card>
-                      <CardActionArea onClick={() => onClickCard(val.id)}>
-                        <CardHeader
-                          title={val.title}
-                          subheader={
-                            <Typography align="center">
-                              <span style={{ color: palette.warning.main }}>
-                                {val.review.length}
-                              </span>
-                              /{val.cards.length}
-                            </Typography>
-                          }
-                        />
-                        <CardContent>{val.description}</CardContent>
-                      </CardActionArea>
-                    </Card>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
-          </div>
-        </InfiniteScroll>
+        {decks && (
+          <InfiniteScroll
+            dataLength={decks.length}
+            next={fetchMoreData}
+            hasMore={true}
+            // loader={<h4>Loading...</h4>}
+            loader={loadingIcon}
+            style={{ display: "flex", flexDirection: "column", left: "300px" }} //To put endMessage and loader to the top.
+          >
+            <div className={classes.root}>
+              <Grid
+                container
+                direction="row"
+                justify="space-around"
+                alignItems="center"
+                spacing={0}
+              >
+                {decks.map((val, index) => (
+                  <Grid item key={index} xs={4}>
+                    <Box m={4}>
+                      <Card elevation={elevation}>
+                        <CardActionArea onClick={() => onClickCard(val.id)}>
+                          <CardHeader
+                            title={val.title}
+                            subheader={
+                              <Typography align="center">
+                                <span style={{ color: palette.warning.main }}>
+                                  {val.review.length}
+                                </span>
+                                /{val.cards.length}
+                              </Typography>
+                            }
+                          />
+                          <CardContent>{val.description}</CardContent>
+                        </CardActionArea>
+                      </Card>
+                    </Box>
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          </InfiniteScroll>
+        )}
       </section>
     </div>
   );

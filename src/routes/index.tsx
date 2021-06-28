@@ -12,7 +12,9 @@ import { Page404 } from "pages/NotFound";
 import { loginRoutes } from "./services/login";
 import { cardRoutes } from "./services/card";
 import { useAuth } from "app/static-contexts/auth-context";
+import { deckRoutes } from "./services/deck";
 
+//#region defining routes
 const publicRoutes = [
   ...loginRoutes,
   {
@@ -24,8 +26,8 @@ const publicRoutes = [
     component: Page404,
   },
 ];
-
-const protectedRoutes = [...cardRoutes];
+const protectedRoutes = [...cardRoutes, ...deckRoutes];
+//#endregion
 
 /**
  * Does routing for multipage application
