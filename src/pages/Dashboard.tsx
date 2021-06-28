@@ -65,7 +65,7 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
   const classes = useStyles();
 
   // Change header
-  document.title += ": Dashboard";
+  document.title = "Remember It - Dashboard";
 
   // Path change
   const history = useHistory();

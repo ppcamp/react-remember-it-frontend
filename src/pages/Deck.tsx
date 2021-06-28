@@ -23,13 +23,21 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const DeckPage = () => {
+  const { id } = useParams<RouteParams>();
+
   // History
   const history = useHistory();
 
+  // State
   const deck = useSelector((state: RootState) => state.deck);
-  const classes = useStyles();
-  const { id } = useParams<RouteParams>();
 
+  // Change title
+  document.title = `Remember It - Deck ${id}`;
+
+  // style
+  const classes = useStyles();
+
+  // Handlers
   const onClickSettings = () => {
     // open settings modal
   };
@@ -40,6 +48,7 @@ export const DeckPage = () => {
     history.push("/dashboard");
   };
 
+  // Render
   return (
     <div>
       <MenuAppBar />
