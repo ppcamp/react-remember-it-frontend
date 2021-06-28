@@ -51,7 +51,7 @@ export const MenuAppBar = () => {
   const theme = useThemeCtx();
   const palette = usePalette();
   const themeIcon =
-    palette.type === "dark" ? <Brightness4 /> : <Brightness4Outlined />;
+    palette.type === "dark" ? <Brightness4Outlined /> : <Brightness4 />;
 
   // UserName
   const userName = "ppcamp";
