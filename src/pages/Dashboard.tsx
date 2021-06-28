@@ -16,6 +16,8 @@ import { CardType, DeckType } from "scripts/types";
 import { MenuAppBar } from "components/topbar";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { deckActions } from "store/slices/deck";
 
 //#region samples
 namespace Samples {
@@ -56,6 +58,9 @@ const useStyles = makeStyles((theme: Theme) =>
 //#endregion
 
 export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
+  // redux store
+  const dispatch = useDispatch();
+
   // styling
   const classes = useStyles();
 
@@ -77,13 +82,20 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
       setDecks((decks: React.ComponentState) => [...decks, ...new_el]);
     }, 1500);
   };
+  // TODO: change to api update
+  // Will fetch the data in the first rendering cycle
   useEffect(() => {
-    // Will fetch the data in the first rendering cycle
     setDecks(Samples.Decks);
   }, []);
 
   // Actions
-  const onClickCard = (id: number | string) => history.push(`/deck/${id}`);
+  const onClickCard = (id: number | string) => {
+    // change screen
+    history.push(`/deck/${id}`);
+    // change store
+    const deck = decks.find((_, index) => index === id);
+    dispatch(deckActions.update(deck as DeckType));
+  };
   const onClickNewDeck = () => {
     console.log("new deck");
   };

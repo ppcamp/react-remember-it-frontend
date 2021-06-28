@@ -3,11 +3,12 @@ import { Box, Typography } from "@material-ui/core";
 import { MenuAppBar } from "components/topbar";
 import { useParams } from "react-router";
 import { RouteParams } from "scripts/shared-types";
+import { useSelector } from "react-redux";
+import { RootState } from "store";
 
 export const DeckPage = () => {
-  const title = "Deck title";
+  const deck = useSelector((state: RootState) => state.deck);
   const { id } = useParams<RouteParams>();
-  const description = `Deck #${id}`;
 
   return (
     <div>
@@ -15,10 +16,10 @@ export const DeckPage = () => {
 
       <Box m={4} py={4}>
         <Typography variant="h4" paragraph>
-          {title}
+          {deck.title}
         </Typography>
         <Typography variant="body1" paragraph>
-          {description}
+          {deck.description}
         </Typography>
       </Box>
       <Box p={4}>
