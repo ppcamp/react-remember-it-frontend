@@ -7,10 +7,12 @@ import { ThemeContextProvider } from "./static-contexts/theme-context";
 // import style from "./theme.module.css";
 
 export const App = () => {
+  document.title = "Remember It";
+
   return (
     <ThemeContextProvider>
       <AuthContextProvider>
-          <Routing />
+        <Routing />
       </AuthContextProvider>
     </ThemeContextProvider>
   );

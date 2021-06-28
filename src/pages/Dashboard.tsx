@@ -4,11 +4,14 @@
 
 import {
   Box,
+  Card,
+  CardActionArea,
+  CardContent,
+  CardHeader,
   CircularProgress,
   createStyles,
   Grid,
   makeStyles,
-  Paper,
   Theme,
   Typography,
 } from "@material-ui/core";
@@ -16,6 +19,32 @@ import { usePalette } from "app/static-contexts/theme-context";
 import { MenuAppBar } from "components/topbar";
 import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+
+//#region samples
+namespace Samples {
+  export const Cards: CardType[] = Array.from({ length: 10 }, (_, i) => {
+    const a: CardType = {
+      back: "Parte de trás de um card",
+      front: "Parte da frente de um card",
+      id: i,
+    };
+    a.id = i;
+    return a;
+  });
+
+  export const Decks = Array.from({ length: 30 }, (_, i) => {
+    const el: DeckType = {
+      review: Cards,
+      cards: Cards,
+      id: i,
+      title: `Some title for deck #${i}`,
+      description:
+        "Qui eiusmod sint mollit ullamco aliquip tempor pariatur ipsum ut mollit minim sint. Lorem exercitation id minim in e.",
+    };
+    return el;
+  });
+}
+//#endregion
 
 //#region styles
 
@@ -35,38 +64,29 @@ const useStyles = makeStyles((theme: Theme) =>
 //#endregion
 
 //#region Types
-type Card = {
+type CardType = {
   id: string | number;
   front: string;
   back: string;
 };
-type Deck = {
+type DeckType = {
   id: string | number;
   title: string;
-  description: string;
-  cards: Card[];
+  description: string; //
+  cards: CardType[]; // all cards
+  review: CardType[]; // cards to review
 };
-const initDecks: Deck[] = new Array(30).fill(0);
+const initDecks: DeckType[] = Samples.Decks;
+
 //#endregion
 
 export const Dashboard = () => {
+  // Change header
+  document.title += ": Dashboard";
+
+  // Theming
   const palette = usePalette();
-  const elevation = palette.type === "dark" ? 0 : 3;
   const classes = useStyles();
-  const [decks, setDecks] = useState(initDecks);
-
-  const fetchMoreData = () => {
-    // a fake async api call like which sends
-    // 20 more records in 1.5 secs
-    setTimeout(() => {
-      const new_el = new Array(30).fill(1);
-      setDecks((decks: React.ComponentState) => [...decks, ...new_el]);
-    }, 1500);
-  };
-  useEffect(() => {
-    console.log(decks);
-  }, [decks]);
-
   const loadingIcon = (
     <Box m={4} alignItems="center" display="flex" justifyContent="space-around">
       <Box>
@@ -75,6 +95,26 @@ export const Dashboard = () => {
     </Box>
   );
 
+  // States
+  const [decks, setDecks] = useState(initDecks);
+
+  // Handlers
+  const fetchMoreData = () => {
+    // a fake async api call like which sends
+    // 20 more records in 1.5 secs
+    setTimeout(() => {
+      const new_el = Samples.Decks;
+      setDecks((decks: React.ComponentState) => [...decks, ...new_el]);
+    }, 1500);
+  };
+  useEffect(() => {
+    console.log(decks);
+  }, [decks]);
+
+  // Actions
+  const onClickCard = (val: number | string) => {
+    console.log("Clicked on card ", val);
+  };
   return (
     <div>
       <Box mt={2} mb={4}>
@@ -110,14 +150,25 @@ export const Dashboard = () => {
               alignItems="center"
               spacing={0}
             >
-              {decks.map((i, index) => (
+              {decks.map((val, index) => (
                 <Grid item key={index} xs={4}>
                   <Box m={4}>
-                    <Paper className={classes.cards} elevation={elevation}>
-                      <Typography variant="subtitle1" align="left">
-                        Grid item - #{index}
-                      </Typography>
-                    </Paper>
+                    <Card>
+                      <CardActionArea onClick={() => onClickCard(val.id)}>
+                        <CardHeader
+                          title={val.title}
+                          subheader={
+                            <Typography align="center">
+                              <span style={{ color: palette.warning.main }}>
+                                {val.review.length}
+                              </span>
+                              /{val.cards.length}
+                            </Typography>
+                          }
+                        />
+                        <CardContent>{val.description}</CardContent>
+                      </CardActionArea>
+                    </Card>
                   </Box>
                 </Grid>
               ))}
