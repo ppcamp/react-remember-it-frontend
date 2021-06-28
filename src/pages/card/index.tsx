@@ -16,7 +16,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { ImageAPI } from "api";
 
 const styling = makeStyles((theme: Theme) => ({
@@ -46,6 +46,8 @@ const styling = makeStyles((theme: Theme) => ({
 const IMAGE_PATH = ImageAPI.toString();
 
 export const CardCreatePage = () => {
+  const history = useHistory();
+
   // States
   const [page, setPage] = useState(true);
 
@@ -71,7 +73,9 @@ export const CardCreatePage = () => {
 
   // Actions
   const onSubmit = () => {};
-  const onCancel = () => {};
+  const onCancel = () => {
+    history.goBack();
+  };
 
   return (
     <Container>

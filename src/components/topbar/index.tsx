@@ -9,6 +9,7 @@ import {
   AppBar,
   Button,
   Box,
+  Link,
 } from "@material-ui/core";
 import {
   AccountCircle,
@@ -76,6 +77,7 @@ export const MenuAppBar = () => {
     auth.onLogout();
     history.push("/login");
   };
+  const goHome = () => history.push("/dashboard");
 
   // Element itself
   return (
@@ -85,7 +87,9 @@ export const MenuAppBar = () => {
           <Toolbar>
             {/* Title */}
             <Typography variant="h6" className={classes.title} noWrap>
-              Remember-it
+              <Link href="?" color="textPrimary" onClick={goHome}>
+                Remember-it
+              </Link>
             </Typography>
 
             {/* Left Icons */}

@@ -23,6 +23,7 @@ const deckSlice = createSlice({
       state.description = action.payload.description;
       state.cards = action.payload.cards;
       state.review = action.payload.review;
+      state.id = action.payload.id;
     },
   },
 });

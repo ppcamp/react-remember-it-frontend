@@ -2,6 +2,7 @@ import React from "react";
 
 export type RouteParams = {
   id: string;
+  deck?: string;
 };
 
 export type RouteObject = {

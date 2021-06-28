@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Grid, IconButton, Typography } from "@material-ui/core";
-import { DeleteForever, Settings } from "@material-ui/icons";
+import { Box, Fab, Grid, IconButton, Typography } from "@material-ui/core";
+import { Add, DeleteForever, Settings } from "@material-ui/icons";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { MenuAppBar } from "components/topbar";
 import { RouteParams } from "scripts/shared-types";
@@ -18,6 +18,11 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
       textAlign: "center",
       color: theme.palette.text.secondary,
+    },
+    fab: {
+      position: "fixed",
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
     },
   })
 );
@@ -46,6 +51,15 @@ export const DeckPage = () => {
 
     // open settings modal
     history.push("/dashboard");
+  };
+
+  const onClickNewCard = () => {
+    if (!deck.id) {
+      throw new Error("Must exist an deck id");
+    }
+    const newItem = `/${deck.id as string}/card`;
+    console.log(newItem);
+    history.push(newItem);
   };
 
   // Render
@@ -85,6 +99,16 @@ export const DeckPage = () => {
       <Box p={4}>
         <Typography variant="h6">Cartões</Typography>
       </Box>
+      <Fab
+        variant="extended"
+        size="medium"
+        color="primary"
+        className={classes.fab}
+        onClick={onClickNewCard}
+      >
+        <Add />
+        Novo cartão
+      </Fab>
     </div>
   );
 };

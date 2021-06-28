@@ -89,11 +89,11 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
   }, []);
 
   // Actions
-  const onClickCard = (id: number | string) => {
+  const onClickCard = (index: number | string) => {
     // change screen
-    history.push(`/deck/${id}`);
+    history.push(`/deck/${index}`);
     // change store
-    const deck = decks.find((_, index) => index === id);
+    const deck = decks.find((_, i) => i === index);
     dispatch(deckActions.update(deck as DeckType));
   };
   const onClickNewDeck = () => {

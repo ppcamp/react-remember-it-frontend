@@ -4,11 +4,11 @@ import { RouteObject } from "scripts/shared-types";
 
 const routes: RouteObject[] = [
   {
-    path: "/card",
+    path: "/:deck/card",
     component: CardCreatePage,
   },
   {
-    path: "/card/:id",
+    path: "/:deck/card/:id",
     component: CardEditPage,
   },
 ];
