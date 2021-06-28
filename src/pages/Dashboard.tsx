@@ -87,9 +87,7 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
   // Renderer
   return (
     <div>
-      <Box mt={2} mb={4}>
-        <MenuAppBar />
-      </Box>
+      <MenuAppBar />
 
       {/* Carroussel of cards to review */}
       <Box m={4} py={4}>

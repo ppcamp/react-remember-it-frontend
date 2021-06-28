@@ -80,16 +80,17 @@ export const MenuAppBar = () => {
   // Element itself
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="transparent" elevation={0}>
-        <Toolbar>
-          {/* Title */}
-          <Typography variant="h6" className={classes.title} noWrap>
-            Remember-it
-          </Typography>
+      <Box mt={2} mb={4}>
+        <AppBar position="static" color="transparent" elevation={0}>
+          <Toolbar>
+            {/* Title */}
+            <Typography variant="h6" className={classes.title} noWrap>
+              Remember-it
+            </Typography>
 
-          {/* Left Icons */}
-          <div className={classes.sectionDesktop}>
-            {/* Mail notification
+            {/* Left Icons */}
+            <div className={classes.sectionDesktop}>
+              {/* Mail notification
             <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <Mail />
@@ -97,7 +98,7 @@ export const MenuAppBar = () => {
             </IconButton>
             */}
 
-            {/* Notifications
+              {/* Notifications
             <IconButton aria-label="show 17 new notifications" color="inherit">
               <Badge badgeContent={17} color="secondary">
                 <Notifications />
@@ -105,53 +106,54 @@ export const MenuAppBar = () => {
             </IconButton>
             */}
 
-            {/* Toggle theme */}
-            <Box pr={2}>
-              <IconButton
-                aria-label="toggle theme"
-                color="inherit"
-                size="small"
-                name="Change theme"
-                onClick={theme.toggleTheme}
-              >
-                {themeIcon}
-              </IconButton>
-            </Box>
+              {/* Toggle theme */}
+              <Box pr={2}>
+                <IconButton
+                  aria-label="toggle theme"
+                  color="inherit"
+                  size="small"
+                  name="Change theme"
+                  onClick={theme.toggleTheme}
+                >
+                  {themeIcon}
+                </IconButton>
+              </Box>
 
-            {/* User login */}
-            <Box>
-              <Button
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleUserMenu}
-                color="inherit"
-                startIcon={<AccountCircle />}
-              >
-                {userName}
-              </Button>
-            </Box>
-          </div>
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-            open={open}
-            onClose={handleCloseUserMenu}
-          >
-            <MenuItem onClick={handleCloseUserMenu}>Configurações</MenuItem>
-            <MenuItem onClick={onLogout}>Sair</MenuItem>
-          </Menu>
-        </Toolbar>
-      </AppBar>
+              {/* User login */}
+              <Box>
+                <Button
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleUserMenu}
+                  color="inherit"
+                  startIcon={<AccountCircle />}
+                >
+                  {userName}
+                </Button>
+              </Box>
+            </div>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={open}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuItem onClick={handleCloseUserMenu}>Configurações</MenuItem>
+              <MenuItem onClick={onLogout}>Sair</MenuItem>
+            </Menu>
+          </Toolbar>
+        </AppBar>
+      </Box>
     </div>
   );
 };
