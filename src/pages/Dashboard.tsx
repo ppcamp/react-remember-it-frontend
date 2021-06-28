@@ -11,7 +11,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Add } from "@material-ui/icons";
-import { DecksView, CardType, DeckType } from "components/decks";
+import { DecksView } from "components/decks";
+import { CardType, DeckType } from "scripts/types";
 import { MenuAppBar } from "components/topbar";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -46,7 +47,7 @@ namespace Samples {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     fab: {
-      position: "absolute",
+      position: "fixed",
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },
@@ -83,6 +84,9 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
 
   // Actions
   const onClickCard = (id: number | string) => history.push(`/deck/${id}`);
+  const onClickNewDeck = () => {
+    console.log("new deck");
+  };
 
   // Renderer
   return (
@@ -105,8 +109,15 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
         onClickCard={onClickCard}
       />
 
-      <Fab color="secondary" className={classes.fab}>
+      <Fab
+        variant="extended"
+        size="medium"
+        color="primary"
+        className={classes.fab}
+        onClick={onClickNewDeck}
+      >
         <Add />
+        Novo baralho
       </Fab>
     </div>
   );
