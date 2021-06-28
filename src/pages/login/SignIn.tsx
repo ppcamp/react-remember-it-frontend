@@ -139,6 +139,7 @@ export const SignIn = () => {
 
     // Update token
     auth.onLogin(token, remember);
+    history.push("/dashboard");
   };
 
   // watchers

@@ -16,6 +16,8 @@ import {
   Brightness4Outlined,
 } from "@material-ui/icons";
 import { usePalette, useThemeCtx } from "app/static-contexts/theme-context";
+import { useAuth } from "app/static-contexts/auth-context";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,6 +48,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const MenuAppBar = () => {
   const classes = useStyles();
+  // auth
+  const auth = useAuth();
+  // history
+  const history = useHistory();
 
   // Theme control
   const theme = useThemeCtx();
@@ -64,6 +70,11 @@ export const MenuAppBar = () => {
   };
   const handleCloseUserMenu = () => {
     setAnchorEl(null);
+  };
+  const onLogout = () => {
+    handleCloseUserMenu();
+    auth.onLogout();
+    history.push("/login");
   };
 
   // Element itself
@@ -137,7 +148,7 @@ export const MenuAppBar = () => {
             onClose={handleCloseUserMenu}
           >
             <MenuItem onClick={handleCloseUserMenu}>Configurações</MenuItem>
-            <MenuItem onClick={handleCloseUserMenu}>Sair</MenuItem>
+            <MenuItem onClick={onLogout}>Sair</MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>

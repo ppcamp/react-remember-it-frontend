@@ -124,7 +124,7 @@ export const Dashboard = () => {
       {/* Carroussel of cards to review */}
       <Box m={4} py={4}>
         <section>
-          <Typography variant="h6">Cartões para revisar</Typography>
+          <Typography variant="h6">Revisão</Typography>
         </section>
       </Box>
 
