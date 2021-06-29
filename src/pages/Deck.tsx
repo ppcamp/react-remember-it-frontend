@@ -1,15 +1,17 @@
 import React from "react";
-import { Box, Fab, Grid, IconButton, Typography } from "@material-ui/core";
+import { Box, Fab, Grid, Typography, IconButton } from "@material-ui/core";
 import { Add, DeleteForever, Settings } from "@material-ui/icons";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { MenuAppBar } from "components/topbar";
 import { RouteParams } from "scripts/shared-types";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { useHistory } from "react-router-dom";
 import { CardsView } from "components/cards/miniview";
 import { CardType } from "scripts/types";
+import { DeckSettings } from "components/decks/deckconfig";
+import { deckActions } from "store/slices/deck";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -25,6 +27,16 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "fixed",
       bottom: theme.spacing(2),
       right: theme.spacing(2),
+    },
+    modal: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    settings: {
+      backgroundColor: theme.palette.background.paper,
+      boxShadow: theme.shadows[5],
+      padding: theme.spacing(3),
     },
   })
 );
@@ -42,6 +54,9 @@ export const DeckPage = () => {
     description,
     id: deckId,
   } = useSelector((state: RootState) => state.deck);
+  const dispatch = useDispatch();
+
+  const [openConfigs, setOpenConfigs] = React.useState(false);
 
   // Change title
   document.title = `Remember It - Deck ${id}`;
@@ -50,16 +65,14 @@ export const DeckPage = () => {
   const classes = useStyles();
 
   // Handlers
-  const onClickSettings = () => {
-    // open settings modal
-  };
+  const onClickSettings = () => setOpenConfigs(true); // open settings modal
+  const handleClose = () => setOpenConfigs(false); // close settings modal
   const onClickDelete = () => {
     // deleted element
 
     // open settings modal
     history.push("/dashboard");
   };
-
   const fetchMoreData = () => {};
 
   const onClickNewCard = () => {
@@ -71,9 +84,27 @@ export const DeckPage = () => {
     history.push(newItem);
   };
 
+  const handleUpdateTitle = (title: string) => {
+    dispatch(deckActions.update({ title }));
+  };
+  const handleUpdateDescription = (description: string) => {
+    dispatch(deckActions.update({ description }));
+  };
+
   // Render
   return (
     <div>
+      {/* Modal */}
+      <DeckSettings
+        title={title as string}
+        description={description as string}
+        updateTitle={handleUpdateTitle}
+        updateDescription={handleUpdateDescription}
+        show={openConfigs}
+        onClose={handleClose}
+      />
+
+      {/* Topbar */}
       <MenuAppBar />
 
       {/* Deck description */}

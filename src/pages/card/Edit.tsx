@@ -5,42 +5,12 @@
  */
 import React, { useState } from "react";
 import { CardMarkdownEdit } from "components/cards/edit";
-import {
-  Box,
-  Button,
-  Container,
-  Grid,
-  makeStyles,
-  Theme,
-  useTheme,
-} from "@material-ui/core";
+import { Box, Button, Container, Grid, useTheme } from "@material-ui/core";
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
 import { Link, useParams } from "react-router-dom";
 import { ImageAPI } from "api";
 import { RouteParams } from "scripts/shared-types";
-
-const styling = makeStyles((theme: Theme) => ({
-  save: {
-    background: theme.palette.success.main,
-    color: "#fff",
-    "&:hover": {
-      backgroundColor:
-        theme.palette.type === "dark"
-          ? theme.palette.success.dark
-          : theme.palette.success.light,
-    },
-  },
-  cancel: {
-    background: theme.palette.error.main,
-    color: theme.palette.error.contrastText,
-    "&:hover": {
-      backgroundColor:
-        theme.palette.type === "dark"
-          ? theme.palette.error.dark
-          : theme.palette.error.light,
-    },
-  },
-}));
+import { styling } from "components/styles/buttons";
 
 // API
 const IMAGE_PATH = ImageAPI.toString();

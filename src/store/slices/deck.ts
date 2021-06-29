@@ -5,25 +5,30 @@ const initialState: DeckType = {
   id: "",
   title: "",
   description: "",
-  cards: null,
-  review: null,
+  cards: undefined,
+  review: undefined,
 };
+
+type Deck = { [Key in keyof DeckType]?: DeckType[Key] };
 
 type Action = {
   type: string;
-  payload: DeckType;
+  payload: Deck;
 };
 
 const deckSlice = createSlice({
   name: "deck",
   initialState,
   reducers: {
-    update(state, action: Action) {
-      state.title = action.payload.title;
-      state.description = action.payload.description;
-      state.cards = action.payload.cards;
-      state.review = action.payload.review;
-      state.id = action.payload.id;
+    update(
+      state,
+      { payload: { cards, description, id, review, title } }: Action
+    ) {
+      if (title) state.title = title;
+      if (description) state.description = description;
+      if (cards) state.cards = cards;
+      if (review) state.review = review;
+      if (id) state.id = id;
     },
   },
 });
