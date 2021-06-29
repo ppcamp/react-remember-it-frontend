@@ -8,6 +8,8 @@ import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { RootState } from "store";
 import { useHistory } from "react-router-dom";
+import { CardsView } from "components/cards/miniview";
+import { CardType } from "scripts/types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,7 +36,12 @@ export const DeckPage = () => {
   const history = useHistory();
 
   // State
-  const deck = useSelector((state: RootState) => state.deck);
+  const {
+    cards,
+    title,
+    description,
+    id: deckId,
+  } = useSelector((state: RootState) => state.deck);
 
   // Change title
   document.title = `Remember It - Deck ${id}`;
@@ -53,11 +60,13 @@ export const DeckPage = () => {
     history.push("/dashboard");
   };
 
+  const fetchMoreData = () => {};
+
   const onClickNewCard = () => {
-    if (!deck.id) {
+    if (!deckId) {
       throw new Error("Must exist an deck id");
     }
-    const newItem = `/${deck.id as string}/card`;
+    const newItem = `/${deckId as string}/card`;
     console.log(newItem);
     history.push(newItem);
   };
@@ -67,6 +76,7 @@ export const DeckPage = () => {
     <div>
       <MenuAppBar />
 
+      {/* Deck description */}
       <Box m={4} py={4}>
         <div className={classes.root}>
           <Grid
@@ -77,10 +87,10 @@ export const DeckPage = () => {
           >
             <Grid item xs={8}>
               <Typography variant="h4" paragraph>
-                {deck.title}
+                {title}
               </Typography>
               <Typography variant="body1" paragraph>
-                {deck.description}
+                {description}
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -96,9 +106,16 @@ export const DeckPage = () => {
           </Grid>
         </div>
       </Box>
+
+      {/* Cards */}
       <Box p={4}>
         <Typography variant="h6">Cartões</Typography>
       </Box>
+      {cards && (
+        <CardsView cards={cards as CardType[]} fetchMoreData={fetchMoreData} />
+      )}
+
+      {/* Floating button  */}
       <Fab
         variant="extended"
         size="medium"

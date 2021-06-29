@@ -121,6 +121,7 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
         onClickCard={onClickCard}
       />
 
+      {/* Floating button */}
       <Fab
         variant="extended"
         size="medium"
