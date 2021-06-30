@@ -55,6 +55,7 @@ export const GamingPage = () => {
     // Evaluate these values over Super Memo 2
     const [n, EF, I] = SM2({ q: 3, n: 3, EF: 5, I: 3 });
 
+    console.log(btnValue, n, EF, I);
     // Go to the next card to review
     handleNextCard();
   };
