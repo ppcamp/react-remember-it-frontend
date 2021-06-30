@@ -8,7 +8,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CircularProgress,
   createStyles,
   Grid,
   makeStyles,
@@ -18,7 +17,6 @@ import {
   IconButton,
 } from "@material-ui/core";
 import { usePalette } from "app/static-contexts/theme-context";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { CardType } from "scripts/types";
 import { DeleteForever } from "@material-ui/icons";
 import { MarkdownViewer } from "./edit/markdownview";
@@ -87,9 +85,7 @@ const TableCell: React.FC<CardType & { imagePath: string }> = ({
   imagePath,
 }) => {
   const [isFront, setIsFront] = useState(true);
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setIsFront(newValue === 0);
-  };
+  const handleChange = () => setIsFront(!isFront);
 
   return (
     <div>
@@ -126,53 +122,34 @@ const TableCell: React.FC<CardType & { imagePath: string }> = ({
 // API
 const IMAGE_PATH = ImageAPI.toString();
 
-export const CardsView: React.FC<CardViewProps> = ({
-  cards,
-  fetchMoreData,
-}) => {
+export const CardsView: React.FC<CardViewProps> = ({ cards }) => {
   // Theming
   const palette = usePalette();
   const elevation = palette.type === "dark" ? 0 : 5;
   const classes = useStyles();
-  const loadingIcon = (
-    <Box m={4} alignItems="center" display="flex" justifyContent="space-around">
-      <Box>
-        <CircularProgress />
-      </Box>
-    </Box>
-  );
 
   return (
     <section style={{ height: "80vh" }}>
       {cards && (
-        <InfiniteScroll
-          dataLength={cards.length}
-          next={fetchMoreData}
-          hasMore={true}
-          // loader={<h4>Loading...</h4>}
-          loader={loadingIcon}
-          style={{ display: "flex", flexDirection: "column", left: "300px" }} //To put endMessage and loader to the top.
-        >
-          <div className={classes.root}>
-            <Grid
-              container
-              direction="row"
-              justify="space-around"
-              alignItems="center"
-              spacing={0}
-            >
-              {cards.map((val, index) => (
-                <Grid item key={index} xs={4}>
-                  <Box m={4}>
-                    <Card elevation={elevation}>
-                      <TableCell {...val} imagePath={IMAGE_PATH} />
-                    </Card>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
-          </div>
-        </InfiniteScroll>
+        <div className={classes.root}>
+          <Grid
+            container
+            direction="row"
+            justify="space-around"
+            alignItems="center"
+            spacing={0}
+          >
+            {cards.map((val, index) => (
+              <Grid item key={index} xs={4}>
+                <Box m={4}>
+                  <Card elevation={elevation}>
+                    <TableCell {...val} imagePath={IMAGE_PATH} />
+                  </Card>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </div>
       )}
     </section>
   );
