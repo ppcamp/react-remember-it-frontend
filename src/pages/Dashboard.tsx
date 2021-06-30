@@ -4,17 +4,19 @@
 
 import {
   Box,
+  Button,
   createStyles,
   Fab,
+  Grid,
   makeStyles,
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Add } from "@material-ui/icons";
+import { Add, PlayArrow } from "@material-ui/icons";
 import { DecksView } from "components/decks";
 import { CardType, DeckType } from "scripts/types";
 import { MenuAppBar } from "components/topbar";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deckActions } from "store/slices/deck";
@@ -72,21 +74,32 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
 
   // States
   const [decks, setDecks] = useState(initDecks);
+  const [hasMoreData, setHasMoreData] = useState(true);
 
   // Handlers
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     // a fake async api call like which sends
     // 20 more records in 1.5 secs
+
     setTimeout(() => {
       const new_el = Samples.Decks;
-      setDecks((decks: React.ComponentState) => [...decks, ...new_el]);
-    }, 1500);
-  };
+      setDecks((decks: React.ComponentState) => {
+        if (decks) {
+          return [...decks, ...new_el];
+        } else {
+          return new_el;
+        }
+      });
+      // setHasMoreData(false);
+    }, 2e3);
+  }, []);
+
   // TODO: change to api update
   // Will fetch the data in the first rendering cycle
   useEffect(() => {
-    setDecks(Samples.Decks);
-  }, []);
+    fetchData();
+    setHasMoreData(false);
+  }, [fetchData]);
 
   // Actions
   const onClickCard = (index: number | string) => {
@@ -105,20 +118,24 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
     <div>
       <MenuAppBar />
 
-      {/* Carroussel of cards to review */}
-      <Box m={4} py={4}>
-        <Typography variant="h6">Revisão</Typography>
-      </Box>
-      <section></section>
-
       {/* Decks with lazy loading and infinite scroll */}
       <Box p={4}>
-        <Typography variant="h6">Baralhos</Typography>
+        <Grid container justify="space-between" alignItems="flex-start">
+          <Grid item xs={9}>
+            <Typography variant="h6">Baralhos</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Box textAlign="right">
+              <Button startIcon={<PlayArrow />}> Revisar tudo</Button>
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
       <DecksView
         decks={decks}
         fetchMoreData={fetchData}
         onClickCard={onClickCard}
+        hasMoreData={hasMoreData}
       />
 
       {/* Floating button */}
