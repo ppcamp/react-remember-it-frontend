@@ -41,7 +41,7 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
         p: ({ node, ...props }) => (
           <Typography
             display="block"
-            align="justify"
+            align="center"
             noWrap
             paragraph
             component={"span"}
@@ -50,14 +50,14 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
         ),
         img: ({ node, ...props }) => (
           <span>
-            <a href={props.src as string}>
-              <img
-                className={style["markdown-image"]}
-                style={borderImage}
-                alt="some mdimage"
-                {...props}
-              />
-            </a>
+            {/* <a href={props.src as string}> */}
+            <img
+              className={style["markdown-image"]}
+              style={borderImage}
+              alt="some mdimage"
+              {...props}
+            />
+            {/* </a> */}
             <Typography paragraph align="center" variant="overline">
               {props.alt as string}
             </Typography>
