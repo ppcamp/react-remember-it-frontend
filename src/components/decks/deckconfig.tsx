@@ -62,6 +62,8 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
   onClose,
 }) => {
   const onSave = () => {
+    updateDescription(deckDescription);
+    updateTitle(deckTitle);
     onClose(); // close the window after change the element
   };
   const [deckTitle, setDeckTitle] = useState(title);
@@ -71,6 +73,13 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
   const classes = useStyles();
   const theme = useTheme();
   const style = styling(theme);
+
+  const onChangeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDeckDescription(e.target.value);
+  };
+  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDeckTitle(e.target.value);
+  };
 
   return (
     <Modal
@@ -107,6 +116,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
                   margin="normal"
                   InputLabelProps={{ shrink: true }}
                   value={deckTitle}
+                  onChange={onChangeTitle}
                 />
               </Grid>
 
@@ -119,6 +129,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
                   margin="normal"
                   InputLabelProps={{ shrink: true }}
                   value={deckDescription}
+                  onChange={onChangeDescription}
                 />
               </Grid>
             </Grid>
