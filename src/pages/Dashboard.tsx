@@ -20,6 +20,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deckActions } from "store/slices/deck";
+import { cardReviewActions } from "store/slices/review";
+import { TransitionAlerts } from "components/alerts";
+import { Color } from "@material-ui/lab";
 
 //#region samples
 namespace Samples {
@@ -28,6 +31,9 @@ namespace Samples {
       back: "Parte de trás de um card",
       front: "Parte da frente de um card",
       id: i,
+      n: 0,
+      EF: 2.5,
+      I: 0,
     };
     a.id = i;
     return a;
@@ -35,7 +41,7 @@ namespace Samples {
 
   export const Decks = Array.from({ length: 30 }, (_, i) => {
     const el: DeckType = {
-      review: Cards,
+      review: i < 1 ? Cards : [],
       cards: Cards,
       id: i,
       title: `Some title for deck #${i}`,
@@ -59,7 +65,21 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 //#endregion
 
-export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
+//#region reducers
+type ErrorState = {
+  show: boolean;
+  type: Color;
+  message: string;
+};
+//#endregion
+
+export const Dashboard = ({
+  initDecks,
+  initialErrors,
+}: {
+  initDecks: DeckType[];
+  initialErrors: ErrorState;
+}) => {
   // redux store
   const dispatch = useDispatch();
 
@@ -75,6 +95,7 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
   // States
   const [decks, setDecks] = useState(initDecks);
   const [hasMoreData, setHasMoreData] = useState(true);
+  const [error, setError] = useState(initialErrors);
 
   // Handlers
   const fetchData = useCallback(() => {
@@ -112,6 +133,28 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
   const onClickNewDeck = () => {
     console.log("new deck");
   };
+  const onReviewAll = () => {
+    const payload: CardType[] = [];
+    decks
+      // getting all cards to review inside all loaded decks
+      .filter((val) => val.review?.length)
+      // concatenating all cards into one single vector
+      .forEach((deck) => {
+        if (deck.review) payload.push(...deck.review);
+      });
+
+    if (!payload.length) {
+      setError({
+        message: "Não existem cartões para revisar",
+        show: true,
+        type: "error",
+      });
+    } else {
+      // console.log(payload);
+      dispatch(cardReviewActions.update(payload));
+      history.push("/remember-it");
+    }
+  };
 
   // Renderer
   return (
@@ -121,12 +164,21 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
       {/* Decks with lazy loading and infinite scroll */}
       <Box p={4}>
         <Grid container justify="space-between" alignItems="flex-start">
+          {/* Title */}
           <Grid item xs={9}>
             <Typography variant="h6">Baralhos</Typography>
           </Grid>
+
+          {/* Play */}
           <Grid item xs={3}>
             <Box textAlign="right">
-              <Button startIcon={<PlayArrow />}> Revisar tudo</Button>
+              <Button
+                startIcon={<PlayArrow />}
+                onClick={onReviewAll}
+                disabled={!decks || error !== undefined}
+              >
+                Revisar tudo
+              </Button>
             </Box>
           </Grid>
         </Grid>
@@ -149,6 +201,11 @@ export const Dashboard = ({ initDecks }: { initDecks: DeckType[] }) => {
         <Add />
         Novo baralho
       </Fab>
+
+      {/* Alerts */}
+      {error && error.show && (
+        <TransitionAlerts severity={error.type} message={error.message} />
+      )}
     </div>
   );
 };

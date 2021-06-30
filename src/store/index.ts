@@ -2,12 +2,14 @@ import emailSlice from "./slices/email";
 import cardSlice from "./slices/card";
 import { configureStore } from "@reduxjs/toolkit";
 import deckSlice from "./slices/deck";
+import cardReviewSlice from "./slices/review";
 
 export const store = configureStore({
   reducer: {
     card: cardSlice.reducer,
     email: emailSlice.reducer,
     deck: deckSlice.reducer,
+    cardsReview: cardReviewSlice.reducer,
   },
 });
 

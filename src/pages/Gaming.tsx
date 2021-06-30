@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,53 +12,76 @@ import { MenuAppBar } from "components/topbar";
 import { MarkdownViewer } from "components/cards/edit/markdownview";
 import { ImageAPI } from "api";
 import { SM2, UserGrade } from "scripts/super-memo-2";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "store";
+import { useHistory } from "react-router-dom";
+import { cardReviewActions } from "store/slices/review";
 
 const IMAGE_PATH = ImageAPI.toString();
 
 export const GamingPage = () => {
-  // TODO: will receive this data from redux or
-  const front = `
-  # Some mardkown sample
-  ---
-
-  ![image google](http://s2.glbimg.com/z_gIOSUdsxyNGClgVLYVBHBziyw=/0x0:400x400/400x400/s.glbimg.com/po/tt2/f/original/2016/05/20/new-google-favicon-logo.png)
-  `;
-  const back = `
-  # Result`;
-
   // Css
   const classes = useStyles();
 
+  // get value from store
+  const { cards } = useSelector((state: RootState) => state.cardsReview);
+  const dispatch = useDispatch();
+  const [cardPos, setCardPos] = useState(0);
+
   // States
-  const [markdown, setMarkdown] = useState(front);
+  const [markdown, setMarkdown] = useState(cards[0].front);
   const [isFront, setIsFront] = useState(true);
   const [disableBTN, setDisableBTN] = useState(true);
 
+  const history = useHistory();
+
   // Handlers
   const onReview = () => {
-    // allows only to see it once
+    // allows only to see it the answer once
     if (isFront) {
       setIsFront(!isFront);
-      setMarkdown(isFront ? back : front);
+      setMarkdown(isFront ? cards[cardPos].front : cards[cardPos].back);
       setDisableBTN(false);
     }
   };
+  const handleUpdates = () => {
+    // foreach element in the store, update them in the database
+    // stores data into database
+    cards.forEach((v) => console.log(v));
+  };
   const handleNextCard = () => {
+    if (cardPos === cards.length - 1) {
+      // store into database the modifications of those cards
+      handleUpdates();
+      // if reached the end of the session, go back to home screen
+      history.goBack();
+      // force exit
+      return;
+    } else {
+      // update change the current card
+      setCardPos((pos) => pos + 1);
+    }
     // load the markdown for the next card to review on deck
-    setMarkdown("New page");
+    setMarkdown(cards[cardPos].front);
     // reset those fields
-    setIsFront(false);
+    setIsFront(true);
     setDisableBTN(true);
   };
   const onClickButton = (e: React.MouseEvent<HTMLElement>) => {
     const btnValue = (e.currentTarget as HTMLInputElement).value;
     // Evaluate these values over Super Memo 2
     const [n, EF, I] = SM2({ q: 3, n: 3, EF: 5, I: 3 });
+    // update the current element in the store
+    dispatch(cardReviewActions.updateByPos({ pos: cardPos, n, EF, I }));
 
     console.log(btnValue, n, EF, I);
     // Go to the next card to review
     handleNextCard();
   };
+
+  useEffect(() => {
+    console.log(cards);
+  }, [cards]);
 
   return (
     <div>
