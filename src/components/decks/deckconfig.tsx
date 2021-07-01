@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import { Clear, Save } from "@material-ui/icons";
 import { styling } from "components/styles/buttons";
+import { DeckType } from "scripts/types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,13 +47,26 @@ const useStyles = makeStyles((theme: Theme) =>
 
 type DeckSettingsProps = {
   title: string;
-  updateTitle: (title: string) => void;
+  updateTitle: (v: string) => void;
   description: string;
-  updateDescription: (description: string) => void;
+  updateDescription: (v: string) => void;
   show: boolean;
   onClose: () => void;
+  afterSave?: () => void;
+  deck?: DeckType;
 };
 
+/**
+ *
+ * @param title The deck title holder
+ * @param description The description holder
+ * @param updateTitle Update the current `title` holder
+ * @param updateDescription Update the current `description` holder
+ * @param show When will open the modal object
+ * @param onClose The action that will close the modal itself
+ * @param afterSave The function that, when passed, will execute at the end of an save trigger.
+ * @returns
+ */
 export const DeckSettings: React.FC<DeckSettingsProps> = ({
   title,
   description,
@@ -60,11 +74,24 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
   updateTitle,
   show,
   onClose,
+  afterSave,
+  deck,
 }) => {
+  /**
+   * FIXME: for some reason, this don't update the description at first modification
+   */
   const onSave = () => {
-    updateDescription(deckDescription);
-    updateTitle(deckTitle);
+    console.log("Saving...,", deckDescription, deckTitle);
+    updateDescription.bind(deckDescription);
+    console.log("Saving...,", title);
+    updateTitle.bind(deckTitle);
     onClose(); // close the window after change the element
+    // runs the callback function after save the element
+    if (afterSave !== undefined) {
+      console.log("Call after save");
+      afterSave();
+      console.log("After save title: ", title, description);
+    }
   };
   const [deckTitle, setDeckTitle] = useState(title);
   const [deckDescription, setDeckDescription] = useState(description);

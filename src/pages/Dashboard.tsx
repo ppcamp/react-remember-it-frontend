@@ -23,6 +23,7 @@ import { deckActions } from "store/slices/deck";
 import { cardReviewActions } from "store/slices/review";
 import { TransitionAlerts } from "components/alerts";
 import { Color } from "@material-ui/lab";
+import { DeckSettings } from "components/decks/deckconfig";
 
 //#region samples
 namespace Samples {
@@ -76,28 +77,41 @@ type ErrorState = {
 export const Dashboard = ({
   initDecks,
   initialErrors,
+  initNewDeck,
 }: {
   initDecks: DeckType[];
   initialErrors: ErrorState;
+  initNewDeck: DeckType;
 }) => {
-  // redux store
-  const dispatch = useDispatch();
-
-  // styling
+  //#region styling
   const classes = useStyles();
 
   // Change header
   document.title = "Remember It - Dashboard";
+  //#endregion
 
   // Path change
   const history = useHistory();
 
-  // States
+  //#region States
+
+  // redux store
+  const dispatch = useDispatch();
+
   const [decks, setDecks] = useState(initDecks);
   const [hasMoreData, setHasMoreData] = useState(true);
   const [error, setError] = useState(initialErrors);
+  const [modal, setModal] = useState(false);
+  const [newDeck, setNewDeck] = useState({
+    id: -1,
+    title: "",
+    description: "",
+    cards: [],
+    review: [],
+  });
+  //#endregion
 
-  // Handlers
+  //#region Handlers
   const fetchData = useCallback(() => {
     // a fake async api call like which sends
     // 20 more records in 1.5 secs
@@ -115,25 +129,75 @@ export const Dashboard = ({
     }, 2e3);
   }, []);
 
+  /**
+   * TODO: send to API and get the ID, put the id in the object and add
+   *        them into deck list
+   */
+  const afterSave = () => {
+    onUpdateDescription("testeaa");
+    console.log(newDeck);
+    setDecks((decks) => [newDeck, ...decks]);
+  };
+
   // TODO: change to api update
   // Will fetch the data in the first rendering cycle
   useEffect(() => {
     fetchData();
     setHasMoreData(false);
   }, [fetchData]);
+  //#endregion
 
-  // Actions
-  const onClickCard = (index: number | string) => {
+  //#region Actions
+
+  /**
+   * Update the title element for the new deck
+   * @param title The new string to put into the local variable
+   */
+  const onUpdateTitle = (title: string) => {
+    title = "teste";
+    setNewDeck({ ...newDeck, title: title as string });
+  };
+
+  /**
+   * Update the description element for the new Deck
+   * @param description The new string to put into the local variable
+   */
+  const onUpdateDescription = (description: string) => {
+    description = "aaaaaaaaaaa";
+    setNewDeck({ ...newDeck, description: description as string });
+  };
+
+  /**
+   * Opens the modal for the new deck elements
+   */
+  const onOpenDeckModal = () => {
+    setModal(true);
+  };
+
+  /**
+   * Opens the modal element
+   */
+  const onCloseDeckModal = () => {
+    setModal(!modal);
+  };
+
+  /**
+   * Open the selected deck
+   * @param index The position of the current deck
+   */
+  const onClickDeck = (index: number | string) => {
     // change screen
     history.push(`/deck/${index}`);
     // change store
     const deck = decks.find((_, i) => i === index);
     dispatch(deckActions.update(deck as DeckType));
   };
-  const onClickNewDeck = () => {
-    console.log("new deck");
-  };
-  const onReviewAll = () => {
+
+  /**
+   * Opens the gaming for all cards to review in the current deck
+   * This will filter the current decks loaded
+   */
+  const onClickToReview = () => {
     const payload: CardType[] = [];
     decks
       // getting all cards to review inside all loaded decks
@@ -150,15 +214,28 @@ export const Dashboard = ({
         type: "error",
       });
     } else {
-      // console.log(payload);
       dispatch(cardReviewActions.update(payload));
       history.push("/remember-it");
     }
   };
+  //#endregion
 
   // Renderer
   return (
     <div>
+      {/* Creating a new deck */}
+      <DeckSettings
+        title={newDeck.title as string}
+        description={newDeck.description as string}
+        updateTitle={onUpdateTitle}
+        updateDescription={onUpdateDescription}
+        show={modal}
+        onClose={onCloseDeckModal}
+        deck={newDeck}
+        afterSave={afterSave}
+      />
+
+      {/* Navbar */}
       <MenuAppBar />
 
       {/* Decks with lazy loading and infinite scroll */}
@@ -174,7 +251,7 @@ export const Dashboard = ({
             <Box textAlign="right">
               <Button
                 startIcon={<PlayArrow />}
-                onClick={onReviewAll}
+                onClick={onClickToReview}
                 disabled={!decks || error !== undefined}
               >
                 Revisar tudo
@@ -186,7 +263,7 @@ export const Dashboard = ({
       <DecksView
         decks={decks}
         fetchMoreData={fetchData}
-        onClickCard={onClickCard}
+        onClickCard={onClickDeck}
         hasMoreData={hasMoreData}
       />
 
@@ -196,7 +273,7 @@ export const Dashboard = ({
         size="medium"
         color="primary"
         className={classes.fab}
-        onClick={onClickNewDeck}
+        onClick={onOpenDeckModal}
       >
         <Add />
         Novo baralho
