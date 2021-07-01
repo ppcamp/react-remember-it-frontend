@@ -16,8 +16,18 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { ImageAPI } from "api";
+import { RouteParams } from "scripts/shared-types";
+import { useDispatch } from "react-redux";
+import { deckActions } from "store/slices/deck";
+import { CardSendType, CardType } from "scripts/types";
+import {
+  EasienessFactorDefault,
+  IntervalDefault,
+  RepetetionsDefault,
+} from "scripts/super-memo-2";
+import { Errors } from "scripts/errors";
 
 const styling = makeStyles((theme: Theme) => ({
   save: {
@@ -47,23 +57,26 @@ const IMAGE_PATH = ImageAPI.toString();
 
 export const CardCreatePage = () => {
   const history = useHistory();
+  const { deck } = useParams<RouteParams>();
 
-  // States
+  //#region States
   const [page, setPage] = useState(true);
+  const dispatch = useDispatch();
 
   const [editor, setEditor] = useState({
     front: "",
     back: "",
   });
+  //#endregion
 
-  // handlers
-  const handleToggleView = () => {
+  //#region Actions
+  const onToggleView = () => {
     setPage(!page);
   };
-  const handleFrontChange = (front: string) => {
+  const onFrontChange = (front: string) => {
     setEditor({ ...editor, front });
   };
-  const handleBackChange = (back: string) => {
+  const onBackChange = (back: string) => {
     setEditor({ ...editor, back });
   };
 
@@ -72,7 +85,35 @@ export const CardCreatePage = () => {
   const style = styling(theme);
 
   // Actions
-  const onSubmit = () => {};
+  /**
+   * Submit the card into the api and add them into deck
+   */
+  const onSubmit = () => {
+    if (!deck) {
+      throw new Error(Errors.MISSING_ID);
+    } else {
+      const input: CardSendType = {
+        back: editor.back,
+        front: editor.front,
+        EF: EasienessFactorDefault,
+        n: RepetetionsDefault,
+        I: IntervalDefault,
+      };
+
+      // TODO: submit into api
+      // get the id
+      const card: CardType = { ...input, id: "some_id_asdasdasd" };
+
+      // update into store
+      dispatch(deckActions.addCardIntoDeck({ deckId: deck, card }));
+
+      // return to the previous screen
+      history.goBack();
+    }
+  };
+  /**
+   * Goes back to the previous screen
+   */
   const onCancel = () => {
     history.goBack();
   };
@@ -85,7 +126,7 @@ export const CardCreatePage = () => {
           <CardMarkdownEdit
             name="Frente"
             editor={editor.front}
-            onUpdate={handleFrontChange}
+            onUpdate={onFrontChange}
             imagePath={IMAGE_PATH}
           />
         )}
@@ -93,7 +134,7 @@ export const CardCreatePage = () => {
           <CardMarkdownEdit
             name="Atrás"
             editor={editor.back}
-            onUpdate={handleBackChange}
+            onUpdate={onBackChange}
             imagePath={IMAGE_PATH}
           />
         )}
@@ -130,7 +171,7 @@ export const CardCreatePage = () => {
               startIcon={<NavigateBefore />}
               color="primary"
               size="medium"
-              onClick={handleToggleView}
+              onClick={onToggleView}
               component="span"
               disabled={page}
             >
@@ -144,7 +185,7 @@ export const CardCreatePage = () => {
               startIcon={<NavigateNext />}
               color="primary"
               size="medium"
-              onClick={handleToggleView}
+              onClick={onToggleView}
               component="span"
               disabled={!page}
             >

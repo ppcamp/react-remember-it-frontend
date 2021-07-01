@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Backdrop,
   Box,
@@ -16,7 +16,13 @@ import {
 import { Clear, Save } from "@material-ui/icons";
 import { styling } from "components/styles/buttons";
 import { DeckType } from "scripts/types";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "store";
+import { Errors } from "scripts/errors";
+import { deckActions } from "store/slices/deck";
 
+//#region Styling
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -44,69 +50,89 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+//#endregion
 
+//#region types
 type DeckSettingsProps = {
-  title: string;
-  updateTitle: (v: string) => void;
-  description: string;
-  updateDescription: (v: string) => void;
+  deck: string;
   show: boolean;
   onClose: () => void;
-  afterSave?: () => void;
-  deck?: DeckType;
 };
+//#endregion
 
 /**
  *
- * @param title The deck title holder
- * @param description The description holder
- * @param updateTitle Update the current `title` holder
- * @param updateDescription Update the current `description` holder
+ * @param deck The deck id
  * @param show When will open the modal object
  * @param onClose The action that will close the modal itself
  * @param afterSave The function that, when passed, will execute at the end of an save trigger.
  * @returns
  */
 export const DeckSettings: React.FC<DeckSettingsProps> = ({
-  title,
-  description,
-  updateDescription,
-  updateTitle,
+  deck,
   show,
   onClose,
-  afterSave,
-  deck,
 }) => {
-  /**
-   * FIXME: for some reason, this don't update the description at first modification
-   */
-  const onSave = () => {
-    console.log("Saving...,", deckDescription, deckTitle);
-    updateDescription.bind(deckDescription);
-    console.log("Saving...,", title);
-    updateTitle.bind(deckTitle);
-    onClose(); // close the window after change the element
-    // runs the callback function after save the element
-    if (afterSave !== undefined) {
-      console.log("Call after save");
-      afterSave();
-      console.log("After save title: ", title, description);
-    }
-  };
-  const [deckTitle, setDeckTitle] = useState(title);
-  const [deckDescription, setDeckDescription] = useState(description);
+  //#region States
+  const dispatch = useDispatch();
+  const decks = useSelector((state: RootState) => state.deck);
+  const [deckTitle, setDeckTitle] = useState("");
+  const [deckDescription, setDeckDescription] = useState("");
 
-  // Theming
+  useEffect(() => {
+    const d = decks.find((it) => it.id === deck);
+    if (!d) throw new Error(Errors.MISSING_ID);
+    setDeckTitle(d.title);
+    setDeckDescription(d.description);
+  }, []);
+  //#endregion
+
+  //#region Styling
   const classes = useStyles();
   const theme = useTheme();
   const style = styling(theme);
+  //#endregion
 
+  //#region Actions
+
+  /**
+   * Update the description
+   * @param e The event handler
+   */
   const onChangeDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDeckDescription(e.target.value);
   };
+
+  /**
+   * Update the title
+   * @param e The event handler
+   */
   const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDeckTitle(e.target.value);
   };
+
+  /**
+   * TODO: changes the data into api
+   * Update the element in the store
+   */
+  const onSave = () => {
+    // get deck
+    const d = decks.find((it) => it.id === deck);
+    if (!d) throw new Error(Errors.MISSING_ID);
+
+    const editDeck: DeckType = {
+      ...d,
+      description: deckDescription,
+      title: deckTitle,
+    };
+
+    // update deck into store
+    dispatch(deckActions.splice(editDeck));
+
+    // close the modal
+    onClose();
+  };
+  //#endregion
 
   return (
     <Modal

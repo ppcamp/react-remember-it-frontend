@@ -24,7 +24,7 @@ import { LoadingIcon, EndIcon } from "components/styles/icons";
 export const DecksView: React.FC<DecksViewProps> = ({
   decks,
   fetchMoreData,
-  onClickCard,
+  onClickDeck,
   hasMoreData,
 }) => {
   // Theming
@@ -57,7 +57,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
                   <Grid item xs={4}>
                     <Box m={4}>
                       <Card elevation={elevation}>
-                        <CardActionArea onClick={() => onClickCard(val.id)}>
+                        <CardActionArea onClick={() => onClickDeck(val.id)}>
                           <CardHeader
                             title={val.title}
                             subheader={
@@ -106,7 +106,7 @@ const useStyles = makeStyles((theme: Theme) =>
 type DecksViewProps = {
   decks: DeckType[];
   fetchMoreData: () => void;
-  onClickCard: any;
+  onClickDeck: any;
   hasMoreData: boolean;
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Fab, Grid, Typography, IconButton } from "@material-ui/core";
 import { Add, DeleteForever, Settings } from "@material-ui/icons";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
@@ -9,10 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { useHistory } from "react-router-dom";
 import { CardsView } from "components/cards/miniview";
-import { CardType } from "scripts/types";
+import { CardType, DeckType } from "scripts/types";
 import { DeckSettings } from "components/decks/deckconfig";
 import { deckActions } from "store/slices/deck";
+import { Errors } from "scripts/errors";
 
+//#region Styling
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -40,68 +42,98 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+//#endregion
 
 export const DeckPage = () => {
+  // get deck id
   const { id } = useParams<RouteParams>();
-
   // History
   const history = useHistory();
 
-  // State
-  const {
-    cards,
-    title,
-    description,
-    id: deckId,
-  } = useSelector((state: RootState) => state.deck);
-  const dispatch = useDispatch();
-
-  const [openConfigs, setOpenConfigs] = React.useState(false);
-
+  //#region styling
+  const classes = useStyles();
   // Change title
   document.title = `Remember It - Deck ${id}`;
+  //#endregion
 
-  // style
-  const classes = useStyles();
+  //#region  States
+  // redux
+  const decks = useSelector((state: RootState) => state.deck);
+  const dispatch = useDispatch();
+  // get the deck that has this id
+  let deck = decks.find((it) => it.id === id);
+  // open modal configs
+  const [openConfigs, setOpenConfigs] = React.useState(false);
+  //#endregion
 
-  // Handlers
-  const onClickSettings = () => setOpenConfigs(true); // open settings modal
-  const handleClose = () => setOpenConfigs(false); // close settings modal
-  const onClickDelete = () => {
+  //#region Actions
+
+  /**
+   * open settings modal
+   */
+  const onOpenSettingsModal = () => {
+    setOpenConfigs(true);
+  };
+
+  /**
+   *  Close settings modal
+   */
+  const onCloseSettingsModal = () => {
+    setOpenConfigs(false);
+  };
+
+  /**
+   * Remove the deck
+   * TODO: send api request to remove this deck
+   */
+  const onDeleteDeck = () => {
     // deleted element
-
-    // open settings modal
+    dispatch(deckActions.remove(id));
     history.push("/dashboard");
   };
-  const fetchMoreData = () => {};
 
+  /**
+   * Create a new card element, redirecting the user into the card page
+   */
   const onClickNewCard = () => {
-    if (!deckId) {
-      throw new Error("Must exist an deck id");
+    if (!id.length) {
+      throw new Error(Errors.MISSING_ID);
+    } else {
+      const newCard: string = `/${id}/card`;
+      history.push(newCard);
     }
-    const newItem = `/${deckId as string}/card`;
-    console.log(newItem);
-    history.push(newItem);
   };
 
-  const handleUpdateTitle = (title: string) => {
-    dispatch(deckActions.update({ title }));
+  /**
+   * Update a deck title
+   * @param title Update the deck title
+   */
+  const onUpdateTitle = (title: string) => {
+    // dispatch(deckActions.update({ title }));
   };
-  const handleUpdateDescription = (description: string) => {
-    dispatch(deckActions.update({ description }));
+
+  /**
+   * Update a deck description
+   * @param description
+   */
+  const onUpdateDescription = (description: string) => {
+    // dispatch(deckActions.update({ description }));
   };
+
+  //#endregion
+
+  //#region Actions
+
+  //#endregion
 
   // Render
   return (
     <div>
       {/* Modal */}
       <DeckSettings
-        title={title as string}
-        description={description as string}
-        updateTitle={handleUpdateTitle}
-        updateDescription={handleUpdateDescription}
+        deck={id}
         show={openConfigs}
-        onClose={handleClose}
+        onClose={onCloseSettingsModal}
       />
 
       {/* Topbar */}
@@ -118,18 +150,18 @@ export const DeckPage = () => {
           >
             <Grid item xs={8}>
               <Typography variant="h4" paragraph>
-                {title}
+                {deck && deck.title}
               </Typography>
               <Typography variant="body1" paragraph>
-                {description}
+                {deck && deck.description}
               </Typography>
             </Grid>
             <Grid item xs={2}>
               <Box textAlign="right">
-                <IconButton onClick={onClickSettings}>
+                <IconButton onClick={onOpenSettingsModal}>
                   <Settings />
                 </IconButton>
-                <IconButton onClick={onClickDelete}>
+                <IconButton onClick={onDeleteDeck}>
                   <DeleteForever />
                 </IconButton>
               </Box>
@@ -142,9 +174,7 @@ export const DeckPage = () => {
       <Box p={4}>
         <Typography variant="h6">Cartões</Typography>
       </Box>
-      {cards && (
-        <CardsView cards={cards as CardType[]} fetchMoreData={fetchMoreData} />
-      )}
+      {deck && deck.cards && <CardsView cards={deck && deck.cards} />}
 
       {/* Floating button  */}
       <Fab

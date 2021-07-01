@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme: Theme) =>
 //#region types
 type CardViewProps = {
   cards: CardType[];
-  fetchMoreData: () => void;
 };
 type TableCellPanelProps = {
   isFront: boolean;
@@ -122,6 +121,10 @@ const TableCell: React.FC<CardType & { imagePath: string }> = ({
 // API
 const IMAGE_PATH = ImageAPI.toString();
 
+/**
+ * Shows a grid with all cards passed through
+ * @param cards The cards to show in the deck page
+ */
 export const CardsView: React.FC<CardViewProps> = ({ cards }) => {
   // Theming
   const palette = usePalette();

@@ -18,41 +18,14 @@ import { CardType, DeckType } from "scripts/types";
 import { MenuAppBar } from "components/topbar";
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deckActions } from "store/slices/deck";
 import { cardReviewActions } from "store/slices/review";
 import { TransitionAlerts } from "components/alerts";
-import { Color } from "@material-ui/lab";
 import { DeckSettings } from "components/decks/deckconfig";
-
-//#region samples
-namespace Samples {
-  export const Cards: CardType[] = Array.from({ length: 10 }, (_, i) => {
-    const a: CardType = {
-      back: "Parte de trás de um card",
-      front: "Parte da frente de um card",
-      id: i,
-      n: 0,
-      EF: 2.5,
-      I: 0,
-    };
-    a.id = i;
-    return a;
-  });
-
-  export const Decks = Array.from({ length: 30 }, (_, i) => {
-    const el: DeckType = {
-      review: i < 1 ? Cards : [],
-      cards: Cards,
-      id: i,
-      title: `Some title for deck #${i}`,
-      description:
-        "Qui eiusmod sint mollit ullamco aliquip tempor pariatur ipsum ut mollit minim sint. Lorem exercitation id minim in e.",
-    };
-    return el;
-  });
-}
-//#endregion
+import { ErrorType } from "scripts/shared-types";
+import { Mocks } from "mocks/samples";
+import { RootState } from "store";
 
 //#region styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -66,21 +39,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 //#endregion
 
-//#region reducers
-type ErrorState = {
-  show: boolean;
-  type: Color;
-  message: string;
-};
-//#endregion
+const MAX_DECKS_LOAD = 10;
 
 export const Dashboard = ({
-  initDecks,
   initialErrors,
   initNewDeck,
 }: {
   initDecks: DeckType[];
-  initialErrors: ErrorState;
+  initialErrors: ErrorType;
   initNewDeck: DeckType;
 }) => {
   //#region styling
@@ -96,11 +62,13 @@ export const Dashboard = ({
   //#region States
 
   // redux store
+  const decks = useSelector((state: RootState) => state.deck);
   const dispatch = useDispatch();
-
-  const [decks, setDecks] = useState(initDecks);
-  const [hasMoreData, setHasMoreData] = useState(true);
+  // if has more decks to fetch
+  const [hasMoreData, setHasMoreData] = useState(false);
+  // error messages
   const [error, setError] = useState(initialErrors);
+
   const [modal, setModal] = useState(false);
   const [newDeck, setNewDeck] = useState({
     id: -1,
@@ -116,34 +84,19 @@ export const Dashboard = ({
     // a fake async api call like which sends
     // 20 more records in 1.5 secs
 
+    // TODO: Remove this mocking
     setTimeout(() => {
-      const new_el = Samples.Decks;
-      setDecks((decks: React.ComponentState) => {
-        if (decks) {
-          return [...decks, ...new_el];
-        } else {
-          return new_el;
-        }
-      });
-      // setHasMoreData(false);
+      const deck = Mocks.Decks(MAX_DECKS_LOAD);
+      dispatch(deckActions.append(deck));
     }, 2e3);
-  }, []);
 
-  /**
-   * TODO: send to API and get the ID, put the id in the object and add
-   *        them into deck list
-   */
-  const afterSave = () => {
-    onUpdateDescription("testeaa");
-    console.log(newDeck);
-    setDecks((decks) => [newDeck, ...decks]);
-  };
+    // TODO: if the returned data is <= than the MAX_DECKS_LOAD
+    setHasMoreData(true);
+  }, [dispatch]);
 
-  // TODO: change to api update
   // Will fetch the data in the first rendering cycle
   useEffect(() => {
     fetchData();
-    setHasMoreData(false);
   }, [fetchData]);
   //#endregion
 
@@ -183,14 +136,11 @@ export const Dashboard = ({
 
   /**
    * Open the selected deck
-   * @param index The position of the current deck
+   * @param deckId The position of the current deck
    */
-  const onClickDeck = (index: number | string) => {
+  const onClickDeck = (deckId: string) => {
     // change screen
-    history.push(`/deck/${index}`);
-    // change store
-    const deck = decks.find((_, i) => i === index);
-    dispatch(deckActions.update(deck as DeckType));
+    history.push(`/deck/${deckId}`);
   };
 
   /**
@@ -224,7 +174,7 @@ export const Dashboard = ({
   return (
     <div>
       {/* Creating a new deck */}
-      <DeckSettings
+      {/* <DeckSettings
         title={newDeck.title as string}
         description={newDeck.description as string}
         updateTitle={onUpdateTitle}
@@ -233,7 +183,7 @@ export const Dashboard = ({
         onClose={onCloseDeckModal}
         deck={newDeck}
         afterSave={afterSave}
-      />
+      /> */}
 
       {/* Navbar */}
       <MenuAppBar />
@@ -263,7 +213,7 @@ export const Dashboard = ({
       <DecksView
         decks={decks}
         fetchMoreData={fetchData}
-        onClickCard={onClickDeck}
+        onClickDeck={onClickDeck}
         hasMoreData={hasMoreData}
       />
 
