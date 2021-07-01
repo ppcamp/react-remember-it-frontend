@@ -22,6 +22,12 @@ import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    home: {
+      "&:hover": {
+        cursor: "pointer",
+      },
+    },
+
     root: {
       flexGrow: 1,
     },
@@ -87,7 +93,11 @@ export const MenuAppBar = () => {
           <Toolbar>
             {/* Title */}
             <Typography variant="h6" className={classes.title} noWrap>
-              <Link href="?" color="textPrimary" onClick={goHome}>
+              <Link
+                className={classes.home}
+                color="textPrimary"
+                onClick={goHome}
+              >
                 Remember-it
               </Link>
             </Typography>
