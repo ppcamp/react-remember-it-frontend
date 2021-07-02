@@ -1,0 +1,11 @@
+.root {
+  flex-grow: 4;
+}
+
+.grid {
+  min-height: 100vh;
+}
+
+.noPadding {
+  padding: 0px;
+}

@@ -8,8 +8,8 @@ import {
   makeStyles,
   Theme,
 } from "@material-ui/core";
-import { MenuAppBar } from "components/topbar";
-import { MarkdownViewer } from "components/cards/edit/markdownview";
+import { MenuAppBar } from "components/MenuAppBar";
+import { MarkdownViewer } from "components/cards/MarkdownViewer";
 import { ImageAPI } from "api";
 import { SM2, UserGrade } from "scripts/super-memo-2";
 import { useDispatch, useSelector } from "react-redux";

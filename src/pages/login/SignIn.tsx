@@ -16,7 +16,7 @@ import { LockOutlined } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { emailActions } from "store/slices/email";
 import { useHistory } from "react-router-dom";
-import { Copyright } from "components/footer/basic";
+import { Copyright } from "components/StickyFooter/basic";
 import {
   REGEX_EMAIL,
   REGEX_HAS_DIGITS,

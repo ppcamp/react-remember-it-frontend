@@ -14,17 +14,17 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Add, PlayArrow } from "@material-ui/icons";
-import { DecksView } from "components/decks";
+import { DecksView } from "components/decks/DecksView";
 import { CardType, DeckType } from "scripts/types";
-import { MenuAppBar } from "components/topbar";
+import { MenuAppBar } from "components/MenuAppBar";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deckActions } from "store/slices/deck";
 import { cardReviewActions } from "store/slices/review";
-import { TransitionAlerts } from "components/alerts";
+import { TransitionAlerts } from "components/ui/TransitionAlerts";
 // import { DeckSettings } from "components/decks/deckconfig";
 import { ErrorType } from "scripts/shared-types";
-import { Mocks } from "__tests__/mocks/samples";
+import { Mocks } from "mocks/samples";
 import { RootState } from "store";
 
 //#region styling

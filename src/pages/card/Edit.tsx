@@ -4,13 +4,13 @@
  * TODO: Fix a problem with the buttons group (They are changing its position)
  */
 import React, { useState } from "react";
-import { CardMarkdownEdit } from "components/cards/edit";
+import { CardMarkdownEdit } from "components/cards/CardMarkdownEdit";
 import { Box, Button, Container, Grid, useTheme } from "@material-ui/core";
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
 import { Link, useParams } from "react-router-dom";
 import { ImageAPI } from "api";
 import { RouteParams } from "scripts/shared-types";
-import { styling } from "components/styles/buttons";
+import { styling } from "components/ui/styles/buttons";
 
 // API
 const IMAGE_PATH = ImageAPI.toString();

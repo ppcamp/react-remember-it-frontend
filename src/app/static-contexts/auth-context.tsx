@@ -1,4 +1,4 @@
-import { TransitionAlerts } from "components/alerts";
+import { TransitionAlerts } from "components/ui/TransitionAlerts";
 import React, { createContext, useContext, useState } from "react";
 import { jwt_to_date } from "scripts/datetime";
 

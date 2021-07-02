@@ -5,7 +5,7 @@
  */
 
 import React, { useState } from "react";
-import { CardMarkdownEdit } from "components/cards/edit";
+import { CardMarkdownEdit } from "components/cards/CardMarkdownEdit";
 import {
   Box,
   Button,

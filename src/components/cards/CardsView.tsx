@@ -19,7 +19,7 @@ import {
 import { usePalette } from "app/static-contexts/theme-context";
 import { CardType } from "scripts/types";
 import { DeleteForever } from "@material-ui/icons";
-import { MarkdownViewer } from "./edit/markdownview";
+import { MarkdownViewer } from "./MarkdownViewer";
 import { ImageAPI } from "api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";

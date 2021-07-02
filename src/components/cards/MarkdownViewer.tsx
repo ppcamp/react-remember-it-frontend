@@ -11,7 +11,7 @@ import rehypeKatex from "rehype-katex";
 import { Typography, useTheme } from "@material-ui/core";
 
 // css import
-import style from "./index.module.css";
+import style from "./MarkdownViewer.module.css";
 
 type MarkdownViewerProps = {
   markdown: string;

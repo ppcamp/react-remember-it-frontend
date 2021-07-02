@@ -14,7 +14,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { Clear, Save } from "@material-ui/icons";
-import { styling } from "components/styles/buttons";
+import { styling } from "components/ui/styles/buttons";
 import { DeckType } from "scripts/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";

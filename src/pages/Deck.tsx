@@ -2,14 +2,14 @@ import React from "react";
 import { Box, Fab, Grid, Typography, IconButton } from "@material-ui/core";
 import { Add, DeleteForever, Settings } from "@material-ui/icons";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
-import { MenuAppBar } from "components/topbar";
+import { MenuAppBar } from "components/MenuAppBar";
 import { RouteParams } from "scripts/shared-types";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { useHistory } from "react-router-dom";
-import { CardsView } from "components/cards/miniview";
-import { DeckSettings } from "components/decks/deckconfig";
+import { CardsView } from "components/cards/CardsView";
+import { DeckSettings } from "components/decks/DeckSettings";
 import { deckActions } from "store/slices/deck";
 import { Errors } from "scripts/errors";
 

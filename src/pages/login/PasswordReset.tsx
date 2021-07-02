@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { LockOpen } from "@material-ui/icons";
-import { Copyright } from "components/footer/basic";
+import { Copyright } from "components/StickyFooter/basic";
 import { useParams } from "react-router-dom";
 import {
   REGEX_HAS_DIGITS,

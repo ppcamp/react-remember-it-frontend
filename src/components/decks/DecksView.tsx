@@ -19,7 +19,7 @@ import {
 import { usePalette } from "app/static-contexts/theme-context";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { CardType, DeckType } from "scripts/types";
-import { LoadingIcon, EndIcon } from "components/styles/icons";
+import { LoadingIcon, EndIcon } from "components/ui/styles/icons";
 
 export const DecksView: React.FC<DecksViewProps> = ({
   decks,
