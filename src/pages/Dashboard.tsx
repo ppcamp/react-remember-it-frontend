@@ -84,7 +84,7 @@ export const Dashboard = ({
 
     // TODO: Remove this mocking
     setTimeout(() => {
-      const deck = Mocks.Decks(MAX_DECKS_LOAD, 4, 0);
+      const deck = Mocks.Decks(MAX_DECKS_LOAD, 4, 1);
       dispatch(decksActions.append(deck));
     }, 2e3);
 
