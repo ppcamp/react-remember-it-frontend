@@ -37,7 +37,7 @@ const deckSlice = createSlice({
      * @param id The id of the element that will be removed
      */
     remove(state, { payload: id }: PayloadAction<string>) {
-      let pos = state.findIndex((d) => d.id === id);
+      const pos = state.findIndex((d) => d.id === id);
       if (pos === -1) {
         throw new Error(Errors.NotFoundDeck);
       } else {
@@ -70,15 +70,15 @@ const deckSlice = createSlice({
         payload: { deckId, cardId },
       }: PayloadAction<DeckId & { cardId: string }>
     ) {
-      let pos = state.findIndex((d) => d.id === deckId);
+      const pos = state.findIndex((d) => d.id === deckId);
       if (pos === -1) {
         throw new Error(Errors.NotFoundDeck);
       } else {
-        pos = state[pos].cards.findIndex((c) => c.id === cardId);
+        const cardPos = state[pos].cards.findIndex((c) => c.id === cardId);
         if (pos === -1) {
           throw new Error(Errors.NotFoundCard);
         } else {
-          state[pos].cards.splice(pos, 1);
+          state[pos].cards.splice(cardPos, 1);
         }
       }
     },
@@ -92,15 +92,15 @@ const deckSlice = createSlice({
       state,
       { payload: { deckId, card } }: PayloadAction<DeckId & { card: CardType }>
     ) {
-      let pos = state.findIndex((d) => d.id === deckId);
+      const pos = state.findIndex((d) => d.id === deckId);
       if (pos === -1) {
         throw new Error(Errors.NotFoundDeck);
       } else {
-        pos = state[pos].cards.findIndex((c) => c.id === card.id);
+        const cardPos = state[pos].cards.findIndex((c) => c.id === card.id);
         if (pos === -1) {
           throw new Error(Errors.NotFoundCard);
         } else {
-          state[pos].cards.splice(pos, 1, card);
+          state[pos].cards.splice(cardPos, 1, card);
         }
       }
     },
