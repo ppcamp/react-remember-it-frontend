@@ -38,6 +38,3 @@ const cardReviewSlice = createSlice({
 });
 
 export default cardReviewSlice;
-export const cardReviewActions = cardReviewSlice.actions;
-
-export {};

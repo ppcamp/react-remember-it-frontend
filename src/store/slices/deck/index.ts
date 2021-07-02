@@ -125,5 +125,3 @@ const deckSlice = createSlice({
 });
 
 export default deckSlice;
-
-export const deckActions = deckSlice.actions;

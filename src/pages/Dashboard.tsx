@@ -19,8 +19,8 @@ import { CardType, DeckType } from "scripts/types";
 import { MenuAppBar } from "components/MenuAppBar";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { deckActions } from "store/slices/deck";
-import { cardReviewActions } from "store/slices/review";
+import decksActions from "store/slices/deck/actions";
+import cardReviewActions from "store/slices/review/actions";
 import { TransitionAlerts } from "components/ui/TransitionAlerts";
 // import { DeckSettings } from "components/decks/deckconfig";
 import { ErrorType } from "scripts/shared-types";
@@ -60,7 +60,7 @@ export const Dashboard = ({
   //#region States
 
   // redux store
-  const decks = useSelector((state: RootState) => state.deck);
+  const decks = useSelector((state: RootState) => state.decks);
   const dispatch = useDispatch();
   // if has more decks to fetch
   const [hasMoreData, setHasMoreData] = useState(false);
@@ -85,7 +85,7 @@ export const Dashboard = ({
     // TODO: Remove this mocking
     setTimeout(() => {
       const deck = Mocks.Decks(MAX_DECKS_LOAD);
-      dispatch(deckActions.append(deck));
+      dispatch(decksActions.append(deck));
     }, 2e3);
 
     // TODO: if the returned data is <= than the MAX_DECKS_LOAD

@@ -4,7 +4,7 @@ const initialState = {
   email: "",
 };
 
-const emailSice = createSlice({
+const emailSlice = createSlice({
   name: "email",
   initialState,
   reducers: {
@@ -14,6 +14,4 @@ const emailSice = createSlice({
   },
 });
 
-export default emailSice;
-
-export const emailActions = emailSice.actions;
+export default emailSlice;

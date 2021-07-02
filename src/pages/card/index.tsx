@@ -20,7 +20,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { ImageAPI } from "api";
 import { RouteParams } from "scripts/shared-types";
 import { useDispatch } from "react-redux";
-import { deckActions } from "store/slices/deck";
+import decksActions from "store/slices/deck/actions";
 import { CardSendType, CardType } from "scripts/types";
 import {
   EasienessFactorDefault,
@@ -105,7 +105,7 @@ export const CardCreatePage = () => {
       const card: CardType = { ...input, id: "some_id_asdasdasd" };
 
       // update into store
-      dispatch(deckActions.addCardIntoDeck({ deckId: deck, card }));
+      dispatch(decksActions.addCardIntoDeck({ deckId: deck, card }));
 
       // return to the previous screen
       history.goBack();

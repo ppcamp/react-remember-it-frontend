@@ -10,7 +10,7 @@ import { RootState } from "store";
 import { useHistory } from "react-router-dom";
 import { CardsView } from "components/cards/CardsView";
 import { DeckSettings } from "components/decks/DeckSettings";
-import { deckActions } from "store/slices/deck";
+import decksActions from "store/slices/deck/actions";
 import { Errors } from "scripts/errors";
 
 //#region Styling
@@ -57,7 +57,7 @@ export const DeckPage = () => {
 
   //#region  States
   // redux
-  const decks = useSelector((state: RootState) => state.deck);
+  const decks = useSelector((state: RootState) => state.decks);
   const dispatch = useDispatch();
   // get the deck that has this id
   let deck = decks.find((it) => it.id === id);
@@ -87,7 +87,7 @@ export const DeckPage = () => {
    */
   const onDeleteDeck = () => {
     // deleted element
-    dispatch(deckActions.remove(id));
+    dispatch(decksActions.remove(id));
     history.push("/dashboard");
   };
 

@@ -19,7 +19,7 @@ import { DeckType } from "scripts/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { Errors } from "scripts/errors";
-import { deckActions } from "store/slices/deck";
+import decksActions from "store/slices/deck/actions";
 
 //#region Styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -74,7 +74,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
 }) => {
   //#region States
   const dispatch = useDispatch();
-  const decks = useSelector((state: RootState) => state.deck);
+  const decks = useSelector((state: RootState) => state.decks);
   const [deckTitle, setDeckTitle] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
 
@@ -126,7 +126,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
     };
 
     // update deck into store
-    dispatch(deckActions.splice(editDeck));
+    dispatch(decksActions.splice(editDeck));
 
     // close the modal
     onClose();

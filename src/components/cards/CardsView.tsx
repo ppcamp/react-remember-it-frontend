@@ -23,7 +23,7 @@ import { MarkdownViewer } from "./MarkdownViewer";
 import { ImageAPI } from "api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
-import { deckActions } from "store/slices/deck";
+import decksActions from "store/slices/deck/actions";
 
 //#region styles
 const useStyles = makeStyles((theme: Theme) =>
@@ -130,7 +130,7 @@ const IMAGE_PATH = ImageAPI.toString();
  */
 export const CardsView: React.FC<CardViewProps> = ({ deck }) => {
   //#region States
-  const decks = useSelector((state: RootState) => state.deck);
+  const decks = useSelector((state: RootState) => state.decks);
   const dispatch = useDispatch();
   const cards = decks.find((it) => it.id === deck)?.cards;
   //#endregion
@@ -147,7 +147,7 @@ export const CardsView: React.FC<CardViewProps> = ({ deck }) => {
    * @param cardId The id of a given card
    */
   const onClickDelete = (cardId: string) => {
-    dispatch(deckActions.removeCardFromDeck({ deckId: deck, cardId }));
+    dispatch(decksActions.removeCardFromDeck({ deckId: deck, cardId }));
   };
   //#endregion
 

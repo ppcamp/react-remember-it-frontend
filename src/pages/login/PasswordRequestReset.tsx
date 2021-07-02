@@ -10,7 +10,7 @@ import {
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { LockOpen } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { emailActions } from "store/slices/email";
+import emailActions from "store/slices/email/actions";
 import { Copyright } from "components/StickyFooter/basic";
 import { REGEX_EMAIL } from "scripts/regex";
 import { RootState } from "store";

@@ -15,7 +15,7 @@ import { SM2, UserGrade } from "scripts/super-memo-2";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { useHistory } from "react-router-dom";
-import { cardReviewActions } from "store/slices/review";
+import cardReviewActions from "store/slices/review/actions";
 
 const IMAGE_PATH = ImageAPI.toString();
 
