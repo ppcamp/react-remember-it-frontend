@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 // default pages
 import { DefaultPage } from "pages";
-import { Page404 } from "pages/NotFound";
+import { Page404 } from "pages/404";
 // import routes
 import { loginRoutes } from "./services/login";
 import { cardRoutes } from "./services/card";

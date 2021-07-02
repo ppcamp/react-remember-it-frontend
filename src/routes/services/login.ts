@@ -1,7 +1,7 @@
-import { SignIn } from "pages/login/SignIn";
-import { SignUp } from "pages/login/SignUp";
-import { PasswordReset } from "pages/login/PasswordReset";
-import { PasswordRequestReset } from "pages/login/PasswordRequestReset";
+import { SignIn } from "pages/login";
+import { SignUp } from "pages/login/signup";
+import { PasswordReset } from "pages/login/recover-password/[id]";
+import { PasswordRequestReset } from "pages/login/recover-password";
 import { RouteObject } from "scripts/shared-types";
 
 const routes: RouteObject[] = [

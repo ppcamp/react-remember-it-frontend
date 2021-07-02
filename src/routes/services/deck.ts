@@ -1,5 +1,5 @@
-import { Dashboard } from "pages/Dashboard";
-import { DeckPage } from "pages/Deck";
+import { Dashboard } from "pages/dashboard";
+import { DeckPage } from "pages/[deck]/[id]";
 import { RouteObject } from "scripts/shared-types";
 
 export const deckRoutes: RouteObject[] = [

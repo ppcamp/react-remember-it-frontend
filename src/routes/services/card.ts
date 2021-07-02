@@ -1,6 +1,6 @@
-import { CardCreatePage } from "pages/card";
-import { CardEditPage } from "pages/card/Edit";
-import { GamingPage } from "pages/Gaming";
+import { CardCreatePage } from "pages/[deck]/card";
+import { CardEditPage } from "pages/[deck]/card/[id]";
+import { GamingPage } from "pages/remember-it";
 import { RouteObject } from "scripts/shared-types";
 
 const routes: RouteObject[] = [
