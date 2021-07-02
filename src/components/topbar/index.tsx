@@ -15,6 +15,7 @@ import {
   AccountCircle,
   Brightness4,
   Brightness4Outlined,
+  ExitToApp,
 } from "@material-ui/icons";
 import { usePalette, useThemeCtx } from "app/static-contexts/theme-context";
 import { useAuth } from "app/static-contexts/auth-context";
@@ -60,30 +61,33 @@ export const MenuAppBar = () => {
   // history
   const history = useHistory();
 
-  // Theme control
+  //#region Styling
   const theme = useThemeCtx();
   const palette = usePalette();
   const themeIcon =
     palette.type === "dark" ? <Brightness4Outlined /> : <Brightness4 />;
+  //#endregion
 
+  //#region Actions
   // UserName
-  const userName = "ppcamp";
+  // const userName = "someNickLoadedFromAuthContext";
 
   // HiddenMenu user toggle
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorEl(null);
-  };
+  // const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  // const open = Boolean(anchorEl);
+  // const handleUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+  // setAnchorEl(event.currentTarget);
+  // };
+  // const handleCloseUserMenu = () => {
+  //   setAnchorEl(null);
+  // };
   const onLogout = () => {
-    handleCloseUserMenu();
+    // handleCloseUserMenu();
     auth.onLogout();
     history.push("/login");
   };
   const goHome = () => history.push("/dashboard");
+  //#endregion
 
   // Element itself
   return (
@@ -135,7 +139,7 @@ export const MenuAppBar = () => {
 
               {/* User login */}
               <Box>
-                <Button
+                {/* <Button
                   aria-label="account of current user"
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
@@ -144,10 +148,23 @@ export const MenuAppBar = () => {
                   startIcon={<AccountCircle />}
                 >
                   {userName}
-                </Button>
+                </Button> */}
+
+                <IconButton
+                  aria-label="logout"
+                  color="inherit"
+                  size="small"
+                  name="Change theme"
+                  onClick={onLogout}
+                >
+                  <ExitToApp />
+                  {/* {userName} */}
+                </IconButton>
               </Box>
             </div>
-            <Menu
+
+            {/* NOTE: implement in the future */}
+            {/* <Menu
               id="menu-appbar"
               anchorEl={anchorEl}
               anchorOrigin={{
@@ -164,7 +181,7 @@ export const MenuAppBar = () => {
             >
               <MenuItem onClick={handleCloseUserMenu}>Configurações</MenuItem>
               <MenuItem onClick={onLogout}>Sair</MenuItem>
-            </Menu>
+            </Menu> */}
           </Toolbar>
         </AppBar>
       </Box>
