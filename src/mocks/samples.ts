@@ -22,8 +22,8 @@ export namespace Mocks {
    */
   export const Decks = (
     length: number,
-    cardsLength: number = 3,
-    cardsReview: number = 1
+    cardsLength: number = 10,
+    cardsReview: number = 3
   ): DeckType[] =>
     Array.from({ length }, (_, i) => {
       const el: DeckType = {

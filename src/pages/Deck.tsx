@@ -150,10 +150,10 @@ export const DeckPage = () => {
           >
             <Grid item xs={8}>
               <Typography variant="h4" paragraph>
-                {deck && deck.title}
+                {deck?.title}
               </Typography>
               <Typography variant="body1" paragraph>
-                {deck && deck.description}
+                {deck?.description}
               </Typography>
             </Grid>
             <Grid item xs={2}>
@@ -174,7 +174,7 @@ export const DeckPage = () => {
       <Box p={4}>
         <Typography variant="h6">Cartões</Typography>
       </Box>
-      {deck && deck.cards && <CardsView cards={deck && deck.cards} />}
+      {deck?.cards && <CardsView deck={id} />}
 
       {/* Floating button  */}
       <Fab

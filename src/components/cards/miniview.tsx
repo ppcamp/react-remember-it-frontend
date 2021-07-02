@@ -21,6 +21,9 @@ import { CardType } from "scripts/types";
 import { DeleteForever } from "@material-ui/icons";
 import { MarkdownViewer } from "./edit/markdownview";
 import { ImageAPI } from "api";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "store";
+import { deckActions } from "store/slices/deck";
 
 //#region styles
 const useStyles = makeStyles((theme: Theme) =>
@@ -40,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 //#region types
 type CardViewProps = {
-  cards: CardType[];
+  deck: string;
 };
 type TableCellPanelProps = {
   isFront: boolean;
@@ -77,12 +80,9 @@ const TableCellPanel: React.FC<TableCellPanelProps> = ({
  * @param back The backview for a card
  * @param front The frontview for a card
  */
-const TableCell: React.FC<CardType & { imagePath: string }> = ({
-  front,
-  back,
-  id,
-  imagePath,
-}) => {
+const TableCell: React.FC<
+  CardType & { imagePath: string; onDelete: (cardId: string) => void }
+> = ({ front, back, id, imagePath, onDelete }) => {
   const [isFront, setIsFront] = useState(true);
   const handleChange = () => setIsFront(!isFront);
 
@@ -91,7 +91,10 @@ const TableCell: React.FC<CardType & { imagePath: string }> = ({
       <CardContent>
         <CardHeader
           action={
-            <IconButton aria-label="remove this card">
+            <IconButton
+              aria-label="remove this card"
+              onClick={() => onDelete(id)}
+            >
               <DeleteForever />
             </IconButton>
           }
@@ -125,11 +128,28 @@ const IMAGE_PATH = ImageAPI.toString();
  * Shows a grid with all cards passed through
  * @param cards The cards to show in the deck page
  */
-export const CardsView: React.FC<CardViewProps> = ({ cards }) => {
-  // Theming
+export const CardsView: React.FC<CardViewProps> = ({ deck }) => {
+  //#region States
+  const decks = useSelector((state: RootState) => state.deck);
+  const dispatch = useDispatch();
+  const cards = decks.find((it) => it.id === deck)?.cards;
+  //#endregion
+
+  //#region Styling
   const palette = usePalette();
   const elevation = palette.type === "dark" ? 0 : 5;
   const classes = useStyles();
+  //#endregion
+
+  //#region Actions
+  /**
+   * Remove a card from the deck
+   * @param cardId The id of a given card
+   */
+  const onClickDelete = (cardId: string) => {
+    dispatch(deckActions.removeCardFromDeck({ deckId: deck, cardId }));
+  };
+  //#endregion
 
   return (
     <section style={{ height: "80vh" }}>
@@ -142,11 +162,15 @@ export const CardsView: React.FC<CardViewProps> = ({ cards }) => {
             alignItems="center"
             spacing={0}
           >
-            {cards.map((val, index) => (
+            {cards?.map((val, index) => (
               <Grid item key={index} xs={4}>
                 <Box m={4}>
                   <Card elevation={elevation}>
-                    <TableCell {...val} imagePath={IMAGE_PATH} />
+                    <TableCell
+                      {...val}
+                      imagePath={IMAGE_PATH}
+                      onDelete={onClickDelete}
+                    />
                   </Card>
                 </Box>
               </Grid>
