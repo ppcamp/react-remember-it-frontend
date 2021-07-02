@@ -4,6 +4,13 @@
 
 # Remember it
 
+## ToDo:
+
+- [ ] Enable the button for new deck
+- [ ] Fix user signup
+- [ ] Connect with api
+- [ ] Check mobile view
+
 ## Project overview
 
 The folders inside `src` directory are:

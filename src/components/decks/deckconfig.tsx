@@ -16,7 +16,6 @@ import {
 import { Clear, Save } from "@material-ui/icons";
 import { styling } from "components/styles/buttons";
 import { DeckType } from "scripts/types";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { Errors } from "scripts/errors";
@@ -84,7 +83,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
     if (!d) throw new Error(Errors.MISSING_ID);
     setDeckTitle(d.title);
     setDeckDescription(d.description);
-  }, []);
+  }, [decks, deck]);
   //#endregion
 
   //#region Styling

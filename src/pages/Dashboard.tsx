@@ -2,6 +2,7 @@
  * Terá todos os decks
  */
 
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -16,13 +17,12 @@ import { Add, PlayArrow } from "@material-ui/icons";
 import { DecksView } from "components/decks";
 import { CardType, DeckType } from "scripts/types";
 import { MenuAppBar } from "components/topbar";
-import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deckActions } from "store/slices/deck";
 import { cardReviewActions } from "store/slices/review";
 import { TransitionAlerts } from "components/alerts";
-import { DeckSettings } from "components/decks/deckconfig";
+// import { DeckSettings } from "components/decks/deckconfig";
 import { ErrorType } from "scripts/shared-types";
 import { Mocks } from "mocks/samples";
 import { RootState } from "store";
@@ -43,11 +43,9 @@ const MAX_DECKS_LOAD = 10;
 
 export const Dashboard = ({
   initialErrors,
-  initNewDeck,
 }: {
   initDecks: DeckType[];
   initialErrors: ErrorType;
-  initNewDeck: DeckType;
 }) => {
   //#region styling
   const classes = useStyles();
@@ -106,6 +104,7 @@ export const Dashboard = ({
    * Update the title element for the new deck
    * @param title The new string to put into the local variable
    */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const onUpdateTitle = (title: string) => {
     title = "teste";
     setNewDeck({ ...newDeck, title: title as string });
@@ -115,6 +114,7 @@ export const Dashboard = ({
    * Update the description element for the new Deck
    * @param description The new string to put into the local variable
    */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const onUpdateDescription = (description: string) => {
     description = "aaaaaaaaaaa";
     setNewDeck({ ...newDeck, description: description as string });
@@ -130,6 +130,7 @@ export const Dashboard = ({
   /**
    * Opens the modal element
    */
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   const onCloseDeckModal = () => {
     setModal(!modal);
   };

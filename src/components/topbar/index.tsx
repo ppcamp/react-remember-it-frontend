@@ -1,18 +1,18 @@
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
-  Menu,
-  MenuItem,
+  // Menu,
+  // MenuItem,
+  // Button,
   IconButton,
   Typography,
   Toolbar,
   AppBar,
-  Button,
   Box,
   Link,
 } from "@material-ui/core";
 import {
-  AccountCircle,
+  // AccountCircle,
   Brightness4,
   Brightness4Outlined,
   ExitToApp,

@@ -79,6 +79,7 @@ export const SignIn = () => {
     setPassword({ ...password, value: e.target.value });
   };
   const onForgetPassword = () => history.push("/login/recover-password");
+  const onNewUser = () => history.push("/login/signup");
 
   // Handlers
   /**
@@ -223,7 +224,7 @@ export const SignIn = () => {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/login/new" variant="body2">
+              <Link href="" onClick={onNewUser} variant="body2">
                 {"Não tem uma conta? Crie uma!"}
               </Link>
             </Grid>

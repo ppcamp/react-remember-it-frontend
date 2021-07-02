@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -23,15 +23,15 @@ export const GamingPage = () => {
   // Css
   const classes = useStyles();
 
+  //#region States
   // get value from store
   const { cards } = useSelector((state: RootState) => state.cardsReview);
   const dispatch = useDispatch();
   const [cardPos, setCardPos] = useState(0);
-
-  // States
   const [markdown, setMarkdown] = useState(cards[0].front);
   const [isFront, setIsFront] = useState(true);
   const [disableBTN, setDisableBTN] = useState(true);
+  //#endregion
 
   const history = useHistory();
 
@@ -39,49 +39,62 @@ export const GamingPage = () => {
   const onReview = () => {
     // allows only to see it the answer once
     if (isFront) {
-      setIsFront(!isFront);
-      setMarkdown(isFront ? cards[cardPos].front : cards[cardPos].back);
+      setIsFront(false);
+      setMarkdown(cards[cardPos].back);
       setDisableBTN(false);
     }
   };
+
+  /**
+   * TODO: Put into api
+   * Update all cards in this review section
+   */
   const handleUpdates = () => {
-    // foreach element in the store, update them in the database
-    // stores data into database
-    cards.forEach((v) => console.log(v));
+    //
+    console.log(cards[cardPos]);
   };
+
+  /**
+   * On click in some button
+   */
   const handleNextCard = () => {
     if (cardPos === cards.length - 1) {
-      // store into database the modifications of those cards
-      handleUpdates();
       // if reached the end of the session, go back to home screen
       history.goBack();
-      // force exit
-      return;
     } else {
-      // update change the current card
+      // change the current card
       setCardPos((pos) => pos + 1);
+      // reset those fields
+      setMarkdown(cards[cardPos].front);
+      setIsFront(true);
+      setDisableBTN(true);
     }
-    // load the markdown for the next card to review on deck
-    setMarkdown(cards[cardPos].front);
-    // reset those fields
-    setIsFront(true);
-    setDisableBTN(true);
   };
+
+  /**
+   * Read the value from a button
+   * @param e A button event that has a value equivalent into `UserGrade`
+   */
   const onClickButton = (e: React.MouseEvent<HTMLElement>) => {
-    const btnValue = (e.currentTarget as HTMLInputElement).value;
+    const btnValue: number = (e.currentTarget as HTMLButtonElement)
+      .value as unknown as number;
     // Evaluate these values over Super Memo 2
-    const [n, EF, I] = SM2({ q: 3, n: 3, EF: 5, I: 3 });
+    const [n, EF, I] = SM2({
+      q: btnValue,
+      n: 3,
+      EF: 5,
+      I: 3,
+    });
+    // TODO: store into database the modifications of the current card
+    console.log(btnValue, n, EF, I);
+    handleUpdates();
+
     // update the current element in the store
     dispatch(cardReviewActions.updateByPos({ pos: cardPos, n, EF, I }));
 
-    console.log(btnValue, n, EF, I);
     // Go to the next card to review
     handleNextCard();
   };
-
-  useEffect(() => {
-    console.log(cards);
-  }, [cards]);
 
   return (
     <div>
@@ -113,7 +126,7 @@ export const GamingPage = () => {
       >
         <div className={classes.root}>
           <Button
-            value={UserGrade.TotalBlackout}
+            value={UserGrade.TotalBlackout as number}
             variant="contained"
             className={classes.btnForgot}
             onClick={onClickButton}
@@ -122,7 +135,7 @@ export const GamingPage = () => {
             Esqueci
           </Button>
           <Button
-            value={UserGrade.VeryWrong}
+            value={UserGrade.VeryWrong as number}
             variant="contained"
             className={classes.btnVeryWrong}
             onClick={onClickButton}
@@ -131,7 +144,7 @@ export const GamingPage = () => {
             Errei muito
           </Button>
           <Button
-            value={UserGrade.Wrong}
+            value={UserGrade.Wrong as number}
             variant="contained"
             className={classes.btnWrong}
             onClick={onClickButton}
@@ -140,7 +153,7 @@ export const GamingPage = () => {
             Errei
           </Button>
           <Button
-            value={UserGrade.Ok}
+            value={UserGrade.Ok as number}
             variant="contained"
             className={classes.btnOk}
             onClick={onClickButton}
@@ -149,7 +162,7 @@ export const GamingPage = () => {
             Acertei
           </Button>
           <Button
-            value={UserGrade.WellDone}
+            value={UserGrade.WellDone as number}
             variant="contained"
             className={classes.btnWellDone}
             onClick={onClickButton}
@@ -158,7 +171,7 @@ export const GamingPage = () => {
             Fácil
           </Button>
           <Button
-            value={UserGrade.Easy}
+            value={UserGrade.Easy as number}
             variant="contained"
             className={classes.btnEasy}
             onClick={onClickButton}

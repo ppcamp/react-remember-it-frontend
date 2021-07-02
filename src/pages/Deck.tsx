@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box, Fab, Grid, Typography, IconButton } from "@material-ui/core";
 import { Add, DeleteForever, Settings } from "@material-ui/icons";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { useHistory } from "react-router-dom";
 import { CardsView } from "components/cards/miniview";
-import { CardType, DeckType } from "scripts/types";
 import { DeckSettings } from "components/decks/deckconfig";
 import { deckActions } from "store/slices/deck";
 import { Errors } from "scripts/errors";
@@ -103,26 +102,6 @@ export const DeckPage = () => {
       history.push(newCard);
     }
   };
-
-  /**
-   * Update a deck title
-   * @param title Update the deck title
-   */
-  const onUpdateTitle = (title: string) => {
-    // dispatch(deckActions.update({ title }));
-  };
-
-  /**
-   * Update a deck description
-   * @param description
-   */
-  const onUpdateDescription = (description: string) => {
-    // dispatch(deckActions.update({ description }));
-  };
-
-  //#endregion
-
-  //#region Actions
 
   //#endregion
 
