@@ -16,12 +16,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { useHistory } from "react-router-dom";
 import cardReviewActions from "store/slices/review/actions";
+import { usePalette } from "app/static-contexts/theme-context";
 
 const IMAGE_PATH = ImageAPI.toString();
 
 export const GamingPage = () => {
   // Css
   const classes = useStyles();
+  const palette = usePalette();
+  const elevation = palette.type === "dark" ? 0 : 5;
 
   //#region States
   // get value from store
@@ -108,7 +111,10 @@ export const GamingPage = () => {
         css={{ width: "50%", margin: "auto" }}
         className={classes.card}
       >
-        <Card style={{ width: "100%", margin: 0, padding: 0 }}>
+        <Card
+          elevation={elevation}
+          style={{ width: "100%", margin: 0, padding: 0 }}
+        >
           <CardActionArea className={classes.card} onClick={onReview}>
             <Box px={2}>
               <MarkdownViewer imagePath={IMAGE_PATH} markdown={markdown} />
