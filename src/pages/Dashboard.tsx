@@ -24,7 +24,7 @@ import { cardReviewActions } from "store/slices/review";
 import { TransitionAlerts } from "components/alerts";
 // import { DeckSettings } from "components/decks/deckconfig";
 import { ErrorType } from "scripts/shared-types";
-import { Mocks } from "mocks/samples";
+import { Mocks } from "__tests__/mocks/samples";
 import { RootState } from "store";
 
 //#region styling
