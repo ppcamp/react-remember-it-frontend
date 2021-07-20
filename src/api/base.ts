@@ -1,3 +1,5 @@
+// TODO: remove most of this code
+
 // It implement the basic object that every service must 'extends it'
 // Using this approach, it's easier to test the routes and test the retrieving
 // information

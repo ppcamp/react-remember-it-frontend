@@ -14,7 +14,7 @@ type EndpointsType = {
  * Returns the endpoint urls
  * @returns The endpoints urls
  */
-export function GetEndpoints(): EndpointsType {
+function GetEndpoints(): EndpointsType {
   const API = process.env.REACT_APP_API;
   if (!API) {
     throw new ApiNotFoundException();
