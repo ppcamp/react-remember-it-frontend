@@ -9,9 +9,9 @@
 import React from "react";
 import {
   Box,
+  Button,
   createStyles,
   Grid,
-  Link,
   makeStyles,
   Theme,
   Typography,
@@ -198,12 +198,12 @@ export const DefaultPage = () => {
 
       {/* Login into system */}
       <Box p={7} textAlign="center" /*  className={classes.login} */>
-        <Link href="/login">
-          <Typography variant="h5" color="textPrimary">
+        <Button href="/login" variant="contained" color='primary'>
+          <Typography variant="h6" color="textPrimary">
             {" "}
             Entre no sistema!
           </Typography>
-        </Link>
+        </Button>
       </Box>
 
       {/* footer */}

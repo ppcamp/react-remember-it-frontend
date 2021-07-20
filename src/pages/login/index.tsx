@@ -178,7 +178,7 @@ export const SignIn = () => {
             required
             fullWidth
             id="email"
-            label="Email Address"
+            label="Email"
             name="email"
             autoComplete="email"
             autoFocus
@@ -203,7 +203,7 @@ export const SignIn = () => {
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
+            label="Manter logado"
             onClick={onToggleRemember}
             value={remember}
           />
@@ -220,7 +220,7 @@ export const SignIn = () => {
           <Grid container>
             <Grid item xs>
               <Link
-                // href='/login/recover-password'
+                href='/login/recover-password'
                 variant="body2"
                 onClick={onForgetPassword}
               >
