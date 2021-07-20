@@ -12,7 +12,7 @@ import { LockOpen } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import emailActions from "store/slices/email/actions";
 import { Copyright } from "components/StickyFooter/basic";
-import { REGEX_EMAIL } from "scripts/regex";
+import { REGEX_EMAIL } from "scripts/regex/regex";
 import { RootState } from "store";
 
 const styling = makeStyles((theme: Theme) => ({

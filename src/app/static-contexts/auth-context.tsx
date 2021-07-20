@@ -1,6 +1,6 @@
 import { TransitionAlerts } from "components/ui/TransitionAlerts";
-import React, { createContext, useContext, useState } from "react";
-import { jwt_to_date } from "scripts/datetime";
+import React, { createContext, useState } from "react";
+import { jwt_to_date } from "scripts/functions/datetime";
 
 // Initial state is defined here just for IDE purposes
 const initialState = {
@@ -81,6 +81,5 @@ export const AuthContextProvider: React.FC<{}> = ({ children }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
 
 export default AuthContext;

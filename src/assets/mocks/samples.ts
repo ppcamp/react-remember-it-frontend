@@ -1,4 +1,4 @@
-import { CardType, DeckType } from "scripts/types";
+import { CardType, DeckType } from "scripts/types/types";
 import { v4 as uuidv4 } from "uuid";
 
 export namespace Mocks {

@@ -18,16 +18,16 @@ import {
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { ImageAPI } from "api";
-import { RouteParams } from "scripts/shared-types";
+import { RouteParams } from "scripts/types/shared-types";
 import { useDispatch } from "react-redux";
 import decksActions from "store/slices/deck/actions";
-import { CardSendType, CardType } from "scripts/types";
+import { CardSendType, CardType } from "scripts/types/types";
 import {
   EasienessFactorDefault,
   IntervalDefault,
   RepetetionsDefault,
-} from "scripts/super-memo-2";
-import { Errors } from "scripts/errors";
+} from "scripts/functions/super-memo-2";
+import { Errors } from "scripts/errors/errors";
 
 const styling = makeStyles((theme: Theme) => ({
   save: {

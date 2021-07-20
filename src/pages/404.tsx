@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Link, Typography } from "@material-ui/core";
 import { Warning } from "@material-ui/icons";
 import { useHistory, useLocation } from "react-router-dom";
-import { usePalette } from "app/static-contexts/theme-context";
+import { usePalette } from "hooks/usePalette";
 
 export const Page404 = () => {
   const location = useLocation<string>();

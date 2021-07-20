@@ -16,10 +16,10 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { usePalette } from "app/static-contexts/theme-context";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { CardType, DeckType } from "scripts/types";
+import { CardType, DeckType } from "scripts/types/types";
 import { LoadingIcon, EndIcon } from "components/ui/styles/icons";
+import { usePalette } from "hooks/usePalette";
 
 export const DecksView: React.FC<DecksViewProps> = ({
   decks,

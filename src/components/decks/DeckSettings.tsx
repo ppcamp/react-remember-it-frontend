@@ -15,10 +15,10 @@ import {
 } from "@material-ui/core";
 import { Clear, Save } from "@material-ui/icons";
 import { styling } from "components/ui/styles/buttons";
-import { DeckType } from "scripts/types";
+import { DeckType } from "scripts/types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
-import { Errors } from "scripts/errors";
+import { Errors } from "scripts/errors/errors";
 import decksActions from "store/slices/deck/actions";
 
 //#region Styling

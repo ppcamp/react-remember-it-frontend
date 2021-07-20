@@ -11,8 +11,8 @@ import { Page404 } from "pages/404";
 // import routes
 import { loginRoutes } from "./services/login";
 import { cardRoutes } from "./services/card";
-import { useAuth } from "app/static-contexts/auth-context";
 import { deckRoutes } from "./services/deck";
+import { useAuth } from "hooks/useAuth";
 
 //#region defining routes
 const publicRoutes = [

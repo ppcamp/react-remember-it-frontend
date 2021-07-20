@@ -15,9 +15,9 @@ import {
   REGEX_HAS_DIGITS,
   REGEX_HAS_LETTERS,
   REGEX_HAS_SPECIAL_CHARS,
-} from "scripts/regex";
-import { insert_at } from "scripts/string";
-import { RouteParams } from "scripts/shared-types";
+} from "scripts/regex/regex";
+import { insert_at } from "scripts/functions/string";
+import { RouteParams } from "scripts/types/shared-types";
 
 const styling = makeStyles((theme) => ({
   paper: {

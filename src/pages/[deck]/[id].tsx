@@ -3,7 +3,7 @@ import { Box, Fab, Grid, Typography, IconButton } from "@material-ui/core";
 import { Add, DeleteForever, Settings } from "@material-ui/icons";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { MenuAppBar } from "components/MenuAppBar";
-import { RouteParams } from "scripts/shared-types";
+import { RouteParams } from "scripts/types/shared-types";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
@@ -11,7 +11,7 @@ import { useHistory } from "react-router-dom";
 import { CardsView } from "components/cards/CardsView";
 import { DeckSettings } from "components/decks/DeckSettings";
 import decksActions from "store/slices/deck/actions";
-import { Errors } from "scripts/errors";
+import { Errors } from "scripts/errors/errors";
 
 //#region Styling
 const useStyles = makeStyles((theme: Theme) =>

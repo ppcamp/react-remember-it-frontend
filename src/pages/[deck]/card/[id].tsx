@@ -9,7 +9,7 @@ import { Box, Button, Container, Grid, useTheme } from "@material-ui/core";
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
 import { Link, useParams } from "react-router-dom";
 import { ImageAPI } from "api";
-import { RouteParams } from "scripts/shared-types";
+import { RouteParams } from "scripts/types/shared-types";
 import { styling } from "components/ui/styles/buttons";
 
 // API

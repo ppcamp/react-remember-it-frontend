@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CardType, DeckType } from "scripts/types";
+import { CardType, DeckType } from "scripts/types/types";
 
 const initialState: DeckType[] = [];
 

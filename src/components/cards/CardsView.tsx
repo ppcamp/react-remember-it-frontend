@@ -16,14 +16,14 @@ import {
   Theme,
   IconButton,
 } from "@material-ui/core";
-import { usePalette } from "app/static-contexts/theme-context";
-import { CardType } from "scripts/types";
+import { CardType } from "scripts/types/types";
 import { DeleteForever } from "@material-ui/icons";
 import { MarkdownViewer } from "./MarkdownViewer";
 import { ImageAPI } from "api";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import decksActions from "store/slices/deck/actions";
+import { usePalette } from "hooks/usePalette";
 
 //#region styles
 const useStyles = makeStyles((theme: Theme) =>

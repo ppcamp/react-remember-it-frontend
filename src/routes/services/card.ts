@@ -1,7 +1,7 @@
 import { CardCreatePage } from "pages/[deck]/card";
 import { CardEditPage } from "pages/[deck]/card/[id]";
 import { GamingPage } from "pages/remember-it";
-import { RouteObject } from "scripts/shared-types";
+import { RouteObject } from "scripts/types/shared-types";
 
 const routes: RouteObject[] = [
   {

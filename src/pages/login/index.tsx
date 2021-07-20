@@ -22,12 +22,15 @@ import {
   REGEX_HAS_DIGITS,
   REGEX_HAS_LETTERS,
   REGEX_HAS_SPECIAL_CHARS,
-} from "scripts/regex";
-import { insert_at } from "scripts/string";
-import { useAuth } from "app/static-contexts/auth-context";
+} from "scripts/regex/regex";
+import { insert_at } from "scripts/functions/string";
 import { RootState } from "store";
-
-import jwt from "jsonwebtoken";
+import { Endpoints } from "api/endpoints";
+import { ApiHeaders, ApiOperation } from "api/base";
+import {StatusCodes} from 'http-status-codes';
+import { LoginResponse } from "scripts/types/login-response";
+import { useAuth } from "hooks/useAuth";
+import { TransitionAlerts } from "components/ui/TransitionAlerts";
 
 const styling = makeStyles((theme) => ({
   paper: {
@@ -53,7 +56,7 @@ export const SignIn = () => {
   // Context
   const auth = useAuth();
 
-  // States
+  //#region States
   const [remember, setRemember] = useState(false);
   const [password, setPassword] = useState({
     value: "",
@@ -61,15 +64,17 @@ export const SignIn = () => {
     errorMessage: "",
   });
   const [emailIsValid, setEmailIsValid] = useState(true);
+  const [uiErr, setUiErr] = useState(false);
 
   // Redux states
   const dispatch = useDispatch();
   const email = useSelector((state: RootState) => state.email.email);
+  //#endregion
 
   // History
   const history = useHistory();
 
-  // Actions
+  //#region Actions
   const onToggleRemember = () => {
     setRemember(!remember);
   };
@@ -81,8 +86,9 @@ export const SignIn = () => {
   };
   const onForgetPassword = () => history.push("/login/recover-password");
   const onNewUser = () => history.push("/login/signup");
+  //#endregion
 
-  // Handlers
+  //#region Handlers
   /**
    * Check if email is valid
    */
@@ -129,25 +135,44 @@ export const SignIn = () => {
     }
   }, [password.value]);
 
+  const redirectToDashboard = () => {
+    history.push('/dashboard');
+  }
+
   /**
-   * TODO: Update this function to get the authtoken from server
    * Login into system, stores the data into local/session storage
    */
   const submit = () => {
-    // Token will be got it from api
+    const url = Endpoints.login.toString();
+    const data = {
+      email,
+      password: password.value
+    };
+    // reset error
+    setUiErr(false);
 
-    // mocking with invalid token
-    let token = process.env.REACT_APP_TEST || "";
-
-    // mocking with valid token
-    token = jwt.sign({ data: "foobar" }, "secret", { expiresIn: "365d" });
-
-    // Update token
-    auth.onLogin(token, remember);
-    history.push("/dashboard");
+    fetch(url,{
+      method: ApiOperation.POST,
+      headers: ApiHeaders.JSON,
+      body: JSON.stringify(data)
+    }).then(r => {
+      // check if everything ok with request
+      if (r.status === StatusCodes.OK) {
+        return r.json();
+      } else {
+        throw r.statusText;
+      }
+    }).then(data=>{
+      const r:LoginResponse = {access_token:""};
+      Object.assign(r,data);
+      auth.onLogin(r.access_token,remember);
+      redirectToDashboard()
+    }).catch(()=>setUiErr(true));
   };
 
-  // watchers
+  //#endregion
+
+  //#region watchers
   useEffect(() => {
     const debounce = setTimeout(() => checkEmail(), 500);
 
@@ -158,11 +183,19 @@ export const SignIn = () => {
 
     return () => clearTimeout(timer);
   }, [checkRequirements, password.value]);
+  //#endregion
 
   // Style
   const classes = styling();
 
   return (
+    <>
+    {uiErr && <TransitionAlerts
+      severity="error"
+      title="Houve um problema com o login!"
+      message="Cheque se o seu email/senha está correto(a). Caso tenha criado a conta recentemente, será necessário ativá-la através do link enviado ao seu email"
+    />}
+
     <Container maxWidth="xs">
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -239,5 +272,6 @@ export const SignIn = () => {
         <Copyright />
       </Box>
     </Container>
+    </>
   );
 };

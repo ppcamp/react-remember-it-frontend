@@ -17,9 +17,10 @@ import {
   Brightness4Outlined,
   ExitToApp,
 } from "@material-ui/icons";
-import { usePalette, useThemeCtx } from "app/static-contexts/theme-context";
-import { useAuth } from "app/static-contexts/auth-context";
 import { useHistory } from "react-router-dom";
+import { useAuth } from "hooks/useAuth";
+import { usePalette } from "hooks/usePalette";
+import { useThemeCtx } from "hooks/useTheme";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

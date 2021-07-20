@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CardType } from "scripts/types";
+import { CardType } from "scripts/types/types";
 
 type Cardtype = {
   cards: CardType[];

@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 import { Add, PlayArrow } from "@material-ui/icons";
 import { DecksView } from "components/decks/DecksView";
-import { CardType, DeckType } from "scripts/types";
+import { CardType, DeckType } from "scripts/types/types";
 import { MenuAppBar } from "components/MenuAppBar";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +23,7 @@ import decksActions from "store/slices/deck/actions";
 import cardReviewActions from "store/slices/review/actions";
 import { TransitionAlerts } from "components/ui/TransitionAlerts";
 // import { DeckSettings } from "components/decks/deckconfig";
-import { ErrorType } from "scripts/shared-types";
+import { ErrorType } from "scripts/types/shared-types";
 import { Mocks } from "assets/mocks/samples";
 import { RootState } from "store";
 

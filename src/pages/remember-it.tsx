@@ -11,12 +11,12 @@ import {
 import { MenuAppBar } from "components/MenuAppBar";
 import { MarkdownViewer } from "components/cards/MarkdownViewer";
 import { ImageAPI } from "api";
-import { SM2, UserGrade } from "scripts/super-memo-2";
+import { SM2, UserGrade } from "scripts/functions/super-memo-2";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { useHistory } from "react-router-dom";
 import cardReviewActions from "store/slices/review/actions";
-import { usePalette } from "app/static-contexts/theme-context";
+import { usePalette } from "hooks/usePalette";
 
 const IMAGE_PATH = ImageAPI.toString();
 
