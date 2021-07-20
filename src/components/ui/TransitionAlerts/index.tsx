@@ -6,7 +6,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Snackbar } from "@material-ui/core";
 import { AlertTitle } from "@material-ui/lab";
 
-type TransitionAlertsProps = {
+export type TransitionAlertsProps = {
   message: string;
   title?: string;
   severity: Color;

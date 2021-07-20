@@ -1,4 +1,4 @@
-import { TransitionAlerts } from "components/ui/TransitionAlerts";
+import { useAlerts } from "hooks/useAlerts";
 import React, { createContext, useState } from "react";
 import { jwt_to_date } from "scripts/functions/datetime";
 
@@ -44,6 +44,19 @@ export const AuthContextProvider: React.FC<{}> = ({ children }) => {
     }
   }
 
+  // ui
+  const alerts = useAlerts();
+  if (expired) {
+    /* Only shows this notification if the user already logged into system and its credentials are outdated */
+    alerts.addAlert({
+      severity: "warning",
+      title: "Sua sessão expirou!",
+      message:
+        "Faça login novamente no sistema para poder utilizar todos os seus recursos.",
+      timeout: 6000,
+    });
+  }
+
   // State
   const [authState, setAuthState] = useState({
     token,
@@ -68,18 +81,9 @@ export const AuthContextProvider: React.FC<{}> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ ...authState, onLogin, onLogout }}>
-      {/* Only shows this notification if the user already logged into system and its credentials are outdated */}
-      {expired && (
-        <TransitionAlerts
-          severity="warning"
-          title="Sua sessão expirou!"
-          message="Faça login novamente no sistema para poder utilizar todos os seus recursos."
-        />
-      )}
       {children}
     </AuthContext.Provider>
   );
 };
-
 
 export default AuthContext;

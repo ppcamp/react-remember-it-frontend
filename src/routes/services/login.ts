@@ -1,5 +1,5 @@
 import { SignIn } from "pages/login";
-import { SignUp } from "pages/login/signup";
+import { SignUp } from "pages/login/SignUp";
 import { PasswordReset } from "pages/login/recover-password/[id]";
 import { PasswordRequestReset } from "pages/login/recover-password";
 import { RouteObject } from "scripts/types/shared-types";

@@ -1,5 +1,6 @@
 import React from "react";
 import { Routing } from "routes";
+import { AlertContextProvider } from "./static-contexts/alert-context";
 import { AuthContextProvider } from "./static-contexts/auth-context";
 import { ThemeContextProvider } from "./static-contexts/theme-context";
 
@@ -11,9 +12,11 @@ export const App = () => {
 
   return (
     <ThemeContextProvider>
-      <AuthContextProvider>
-        <Routing />
-      </AuthContextProvider>
+      <AlertContextProvider>
+        <AuthContextProvider>
+          <Routing />
+        </AuthContextProvider>
+      </AlertContextProvider>
     </ThemeContextProvider>
   );
 };

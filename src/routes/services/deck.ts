@@ -1,4 +1,4 @@
-import { Dashboard } from "pages/dashboard";
+import { Dashboard } from "pages/Dashboard";
 import { DeckPage } from "pages/[deck]/[id]";
 import { RouteObject } from "scripts/types/shared-types";
 
