@@ -71,7 +71,7 @@ export const SignUp = () => {
   const classes = useStyles();
 
   //#region States
-  const [uiOut, setUiOut] = useState({ show: true, alert: UI_ALERTS.error });
+  const [uiOut, setUiOut] = useState({ show: false, alert: UI_ALERTS.created });
 
   const [nick, setNick] = useState("");
 
@@ -172,8 +172,8 @@ export const SignUp = () => {
       password: password.value,
       username: nick,
     };
-    console.log(data);
-    console.log("Submiting");
+    // console.log(data);
+    // console.log("Submiting");
 
     // reset error
     setUiOut((state) => ({ ...state, show: false }));
@@ -182,22 +182,18 @@ export const SignUp = () => {
       headers: ApiHeaders.JSON,
       body: JSON.stringify(data),
     })
+      .then((r) => r.json())
       .then((r) => {
         // check if everything ok with request
         if (r.status === StatusCodes.CREATED) {
-          return r.json();
+          setUiOut({ show: true, alert: UI_ALERTS.created });
+          redirectToDashboard();
         } else {
-          throw r.json();
+          console.log(r);
+          const d = { ...UI_ALERTS.error };
+          d.message = r.message;
+          setUiOut({ show: true, alert: d });
         }
-      })
-      .then((data) => {
-        setUiOut({ show: true, alert: UI_ALERTS.created });
-        redirectToDashboard();
-      })
-      .catch((err) => {
-        const d = { ...UI_ALERTS.error };
-        d.message = err.message;
-        setUiOut({ show: true, alert: d });
       });
   };
 
@@ -215,7 +211,9 @@ export const SignUp = () => {
     return () => clearTimeout(timer);
   }, [checkRequirements, password.value]);
   useEffect(() => {
-    alerts.addAlert(uiOut.alert);
+    if (uiOut.show) {
+      alerts.addAlert(uiOut.alert);
+    }
   }, [uiOut.show]);
   //#endregion
 
