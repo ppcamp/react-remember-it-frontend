@@ -35,8 +35,9 @@ export const AlertContextProvider: React.FC<{}> = ({ children }) => {
     setAlerts([]);
   };
 
-  const all_alerts = alerts.map((v) => (
+  const all_alerts = alerts.map((v, i) => (
     <TransitionAlerts
+      key={`alert-${i}`}
       severity={v.severity}
       title={v.title}
       message={v.message}

@@ -23,7 +23,7 @@ import decksActions from "store/slices/deck/actions";
 import cardReviewActions from "store/slices/review/actions";
 import { TransitionAlerts } from "components/ui/TransitionAlerts";
 // import { DeckSettings } from "components/decks/deckconfig";
-import { ErrorType } from "scripts/types/shared-types";
+import { ErrorType } from "scripts/types/error";
 import { Mocks } from "__mocks__/samples";
 import { RootState } from "store";
 

@@ -13,3 +13,8 @@ export class LoginResponse {
    */
   public access_token: string = "";
 }
+
+export type LoginRequestPayload = {
+  email: string;
+  password: string;
+};

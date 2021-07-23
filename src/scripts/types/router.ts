@@ -10,9 +10,3 @@ export type RouteObject = {
   path: string;
   component: (props: any) => JSX.Element;
 };
-
-export type ErrorType = {
-  show: boolean;
-  type: Color;
-  message: string;
-};

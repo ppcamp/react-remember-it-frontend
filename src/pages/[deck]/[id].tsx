@@ -3,7 +3,7 @@ import { Box, Fab, Grid, Typography, IconButton } from "@material-ui/core";
 import { Add, DeleteForever, Settings } from "@material-ui/icons";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { MenuAppBar } from "components/MenuAppBar";
-import { RouteParams } from "scripts/types/shared-types";
+import { RouteParams } from "scripts/types/router";
 import { useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";

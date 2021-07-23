@@ -18,7 +18,7 @@ import {
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { ImageAPI } from "api";
-import { RouteParams } from "scripts/types/shared-types";
+import { RouteParams } from "scripts/types/router";
 import { useDispatch } from "react-redux";
 import decksActions from "store/slices/deck/actions";
 import { CardSendType, CardType } from "scripts/types/types";

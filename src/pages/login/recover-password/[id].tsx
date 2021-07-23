@@ -17,7 +17,7 @@ import {
   REGEX_HAS_SPECIAL_CHARS,
 } from "scripts/regex/regex";
 import { insert_at } from "scripts/functions/string";
-import { RouteParams } from "scripts/types/shared-types";
+import { RouteParams } from "scripts/types/router";
 
 const styling = makeStyles((theme) => ({
   paper: {

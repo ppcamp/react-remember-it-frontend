@@ -27,8 +27,11 @@ import { insert_at } from "scripts/functions/string";
 import { RootState } from "store";
 import { Endpoints } from "api/endpoints";
 import { ApiHeaders, ApiOperation } from "api/base";
-import {StatusCodes} from 'http-status-codes';
-import { LoginResponse } from "scripts/types/login-response";
+import { StatusCodes } from "http-status-codes";
+import {
+  LoginRequestPayload,
+  LoginResponse,
+} from "scripts/types/auth-login.endpoint";
 import { useAuth } from "hooks/useAuth";
 import { TransitionAlerts } from "components/ui/TransitionAlerts";
 
@@ -136,38 +139,41 @@ export const SignIn = () => {
   }, [password.value]);
 
   const redirectToDashboard = () => {
-    history.push('/dashboard');
-  }
+    history.push("/dashboard");
+  };
 
   /**
    * Login into system, stores the data into local/session storage
    */
   const submit = () => {
     const url = Endpoints.login.toString();
-    const data = {
+    const data: LoginRequestPayload = {
       email,
-      password: password.value
+      password: password.value,
     };
     // reset error
     setUiErr(false);
 
-    fetch(url,{
+    fetch(url, {
       method: ApiOperation.POST,
       headers: ApiHeaders.JSON,
-      body: JSON.stringify(data)
-    }).then(r => {
-      // check if everything ok with request
-      if (r.status === StatusCodes.OK) {
-        return r.json();
-      } else {
-        throw r.statusText;
-      }
-    }).then(data=>{
-      const r:LoginResponse = {access_token:""};
-      Object.assign(r,data);
-      auth.onLogin(r.access_token,remember);
-      redirectToDashboard()
-    }).catch(()=>setUiErr(true));
+      body: JSON.stringify(data),
+    })
+      .then((r) => {
+        // check if everything ok with request
+        if (r.status === StatusCodes.OK) {
+          return r.json();
+        } else {
+          throw r.statusText;
+        }
+      })
+      .then((data) => {
+        const r: LoginResponse = { access_token: "" };
+        Object.assign(r, data);
+        auth.onLogin(r.access_token, remember);
+        redirectToDashboard();
+      })
+      .catch(() => setUiErr(true));
   };
 
   //#endregion
@@ -190,88 +196,90 @@ export const SignIn = () => {
 
   return (
     <>
-    {uiErr && <TransitionAlerts
-      severity="error"
-      title="Houve um problema com o login!"
-      message="Cheque se o seu email/senha está correto(a). Caso tenha criado a conta recentemente, será necessário ativá-la através do link enviado ao seu email"
-    />}
+      {uiErr && (
+        <TransitionAlerts
+          severity="error"
+          title="Houve um problema com o login!"
+          message="Cheque se o seu email/senha está correto(a). Caso tenha criado a conta recentemente, será necessário ativá-la através do link enviado ao seu email"
+        />
+      )}
 
-    <Container maxWidth="xs">
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlined />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Login
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={onEmailChange}
-            value={email}
-            helperText={!emailIsValid && "Email inválido"}
-            error={!emailIsValid}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Senha"
-            type="password"
-            autoComplete="current-password"
-            onChange={onPasswordChange}
-            value={password.value}
-            error={!password.isValid}
-            helperText={!password.isValid && password.errorMessage}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Manter logado"
-            onClick={onToggleRemember}
-            value={remember}
-          />
-          <Button
-            type="button"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={submit}
-          >
+      <Container maxWidth="xs">
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlined />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             Login
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link
-                href='/login/recover-password'
-                variant="body2"
-                onClick={onForgetPassword}
-              >
-                Esqueceu a senha?
-              </Link>
+          </Typography>
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
+              autoFocus
+              onChange={onEmailChange}
+              value={email}
+              helperText={!emailIsValid && "Email inválido"}
+              error={!emailIsValid}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Senha"
+              type="password"
+              autoComplete="current-password"
+              onChange={onPasswordChange}
+              value={password.value}
+              error={!password.isValid}
+              helperText={!password.isValid && password.errorMessage}
+            />
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Manter logado"
+              onClick={onToggleRemember}
+              value={remember}
+            />
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={submit}
+            >
+              Login
+            </Button>
+            <Grid container>
+              <Grid item xs>
+                <Link
+                  href="/login/recover-password"
+                  variant="body2"
+                  onClick={onForgetPassword}
+                >
+                  Esqueceu a senha?
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="" onClick={onNewUser} variant="body2">
+                  {"Não tem uma conta? Crie uma!"}
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Link href="" onClick={onNewUser} variant="body2">
-                {"Não tem uma conta? Crie uma!"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+          </form>
+        </div>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
     </>
   );
 };
