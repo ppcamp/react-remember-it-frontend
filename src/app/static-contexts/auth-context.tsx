@@ -28,7 +28,8 @@ const AuthContext = createContext(initialState);
 
 export const AuthContextProvider: React.FC<{}> = ({ children }) => {
   // Reading local/session storage
-  const storageName = process.env.REACT_APP_JWT_TOKEN || "JwtToken";
+  const storageName =
+    process.env.REACT_APP_JWT_TOKEN_STORAGE_NAME || "JwtToken";
   const local = localStorage.getItem(storageName) || "";
   const session = sessionStorage.getItem(storageName) || "";
   let token: string = local || session;
