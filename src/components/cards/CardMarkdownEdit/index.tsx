@@ -19,8 +19,8 @@ import Menu from "./menu";
 
 // japanese formatting
 import style from "./index.module.css";
-import { TextArea } from "components/textarea";
 import { MarkdownViewer } from "../MarkdownViewer";
+import { TextArea } from "components/TextArea";
 
 type MarkdownEditProps = {
   name: string;
