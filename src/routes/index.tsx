@@ -13,6 +13,7 @@ import { loginRoutes } from "./services/login";
 import { cardRoutes } from "./services/card";
 import { deckRoutes } from "./services/deck";
 import { useAuth } from "hooks/useAuth";
+import { PageUserActive } from "pages/user/active";
 
 //#region defining routes
 const publicRoutes = [
@@ -20,6 +21,10 @@ const publicRoutes = [
   {
     path: "/",
     component: DefaultPage,
+  },
+  {
+    path: "/user/active",
+    component: PageUserActive,
   },
   {
     path: "*",

@@ -1,6 +1,7 @@
+import { Grow } from "@material-ui/core";
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import { Routing } from "routes";
-import { AlertContextProvider } from "./static-contexts/alert-context";
 import { AuthContextProvider } from "./static-contexts/auth-context";
 import { ThemeContextProvider } from "./static-contexts/theme-context";
 
@@ -12,11 +13,19 @@ export const App = () => {
 
   return (
     <ThemeContextProvider>
-      <AlertContextProvider>
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        preventDuplicate
+        // @ts-ignore: Unreachable code error
+        TransitionComponent={Grow}
+      >
         <AuthContextProvider>
           <Routing />
         </AuthContextProvider>
-      </AlertContextProvider>
+      </SnackbarProvider>
     </ThemeContextProvider>
   );
 };

@@ -1,4 +1,4 @@
-import { useAlerts } from "hooks/useAlerts";
+import { useSnackbar } from "notistack";
 import React, { createContext, useState } from "react";
 import { jwt_to_date } from "scripts/functions/datetime";
 
@@ -46,16 +46,15 @@ export const AuthContextProvider: React.FC<{}> = ({ children }) => {
   }
 
   // ui
-  const alerts = useAlerts();
+  const { enqueueSnackbar } = useSnackbar();
   if (expired) {
     /* Only shows this notification if the user already logged into system and its credentials are outdated */
-    alerts.addAlert({
-      severity: "warning",
-      title: "Sua sessão expirou!",
-      message:
-        "Faça login novamente no sistema para poder utilizar todos os seus recursos.",
-      timeout: 6000,
-    });
+    enqueueSnackbar(
+      "Faça login novamente no sistema para poder utilizar todos os seus recursos.",
+      {
+        variant: "warning",
+      }
+    );
   }
 
   // State

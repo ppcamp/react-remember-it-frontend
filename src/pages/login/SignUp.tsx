@@ -3,8 +3,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -25,11 +23,9 @@ import {
 import { insert_at } from "scripts/functions/string";
 import { USER_NICK_MAXSIZE } from "scripts/constants/user";
 import { Endpoints } from "api/endpoints";
-import { ApiHeaders, ApiOperation } from "api/base";
-import { StatusCodes } from "http-status-codes";
 import { UserPayloadCreate } from "scripts/types/user.endpoint";
-import { useAlerts } from "hooks/useAlerts";
-import { TransitionAlertsProps } from "components/ui/TransitionAlerts";
+import { useSnackbar } from "notistack";
+import axios from "axios";
 
 //#region styling
 const useStyles = makeStyles((theme) => ({
@@ -53,25 +49,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 //#endregion
 
-namespace UI_ALERTS {
-  export const created: TransitionAlertsProps = {
-    message:
-      "Foi enviado um link para a ativação da sua conta! Por gentileza, cheque seu email.",
-    title: "Usuário criado com sucesso!",
-    severity: "success",
-  };
-  export const error: TransitionAlertsProps = {
-    message: "Motivo do problema",
-    title: "Houve um erro ao criar o usuário",
-    severity: "error",
-  };
-}
-
 export const SignUp = () => {
   const classes = useStyles();
 
   //#region States
-  const [uiOut, setUiOut] = useState({ show: false, alert: UI_ALERTS.created });
 
   const [nick, setNick] = useState("");
 
@@ -108,7 +89,7 @@ export const SignUp = () => {
   //#endregion
 
   //#region UI
-  const alerts = useAlerts();
+  const { enqueueSnackbar } = useSnackbar();
   //#endregion
 
   //#region Handlers
@@ -158,8 +139,8 @@ export const SignUp = () => {
     }
   }, [password.value]);
 
-  const redirectToDashboard = () => {
-    history.push("/dashboard");
+  const redirectToLogin = () => {
+    history.push("/login");
   };
 
   /**
@@ -176,25 +157,19 @@ export const SignUp = () => {
     // console.log("Submiting");
 
     // reset error
-    setUiOut((state) => ({ ...state, show: false }));
-    fetch(url, {
-      method: ApiOperation.POST,
-      headers: ApiHeaders.JSON,
-      body: JSON.stringify(data),
-    })
-      .then((r) => r.json())
-      .then((r) => {
+    axios.post(url, data).then(
+      (r) => {
         // check if everything ok with request
-        if (r.status === StatusCodes.CREATED) {
-          setUiOut({ show: true, alert: UI_ALERTS.created });
-          redirectToDashboard();
-        } else {
-          console.log(r);
-          const d = { ...UI_ALERTS.error };
-          d.message = r.message;
-          setUiOut({ show: true, alert: d });
-        }
-      });
+        enqueueSnackbar("Usuário criado com sucesso! Verifique o seu email.", {
+          variant: "success",
+        });
+        redirectToLogin();
+      },
+      ({ response }) => {
+        console.log(response.data);
+        enqueueSnackbar(response.data.message, { variant: "error" });
+      }
+    );
   };
 
   //#endregion
@@ -210,11 +185,11 @@ export const SignUp = () => {
 
     return () => clearTimeout(timer);
   }, [checkRequirements, password.value]);
-  useEffect(() => {
-    if (uiOut.show) {
-      alerts.addAlert(uiOut.alert);
-    }
-  }, [uiOut.show]);
+  // useEffect(() => {
+  //   if (uiOut.show) {
+  //     alerts.addAlert(uiOut.alert);
+  //   }
+  // }, [uiOut.show]);
   //#endregion
 
   return (
