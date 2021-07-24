@@ -18,6 +18,7 @@ export const App = () => {
           vertical: "bottom",
           horizontal: "center",
         }}
+        maxSnack={1}
         preventDuplicate
         // @ts-ignore: Unreachable code error
         TransitionComponent={Grow}

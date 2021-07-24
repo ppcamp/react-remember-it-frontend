@@ -9,10 +9,10 @@ export const PageUserActive = () => {
   const palette = usePalette();
 
   setTimeout(() => {
-    goToMain();
+    goToLogin();
   }, 3e3);
 
-  const goToMain = () => history.push("/dashboard");
+  const goToLogin = () => history.push("/login");
   return (
     <div>
       <Grid
