@@ -166,8 +166,7 @@ export const SignUp = () => {
         redirectToLogin();
       },
       ({ response }) => {
-        console.log(response.data);
-        enqueueSnackbar(response.data.message, { variant: "error" });
+        enqueueSnackbar(response.data.message.join("; "), { variant: "error" });
       }
     );
   };
@@ -264,6 +263,7 @@ export const SignUp = () => {
             color="primary"
             className={classes.submit}
             onClick={submit}
+            // disabled={!password.isValid || !email.isValid}
           >
             Criar conta
           </Button>

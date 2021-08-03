@@ -1,6 +1,6 @@
 import React, { createContext, useState } from "react";
 import {
-  createMuiTheme,
+  createTheme,
   CssBaseline,
   makeStyles,
   ThemeProvider,
@@ -229,7 +229,7 @@ export const ThemeContextProvider: React.FC<{}> = (props) => {
   // States
   const [theme, setTheme] = useState(themePreference);
   const muitheme = React.useMemo(() => {
-    const t = createMuiTheme({
+    const t = createTheme({
       palette: theme ? ThemePalette.Ligth : ThemePalette.Dark,
     });
     return t;
@@ -252,4 +252,3 @@ export const ThemeContextProvider: React.FC<{}> = (props) => {
 };
 
 export default ThemeContext;
-

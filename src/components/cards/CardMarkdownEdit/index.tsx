@@ -20,7 +20,7 @@ import Menu from "./menu";
 // japanese formatting
 import style from "./index.module.css";
 import { MarkdownViewer } from "../MarkdownViewer";
-import { TextArea } from "components/TextArea";
+import { TextArea } from "components/Textarea";
 
 type MarkdownEditProps = {
   name: string;

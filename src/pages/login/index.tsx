@@ -166,8 +166,7 @@ export const SignIn = () => {
         redirectToDashboard();
       })
       .catch(({ response }) => {
-        console.log(response.data);
-        enqueueSnackbar(response.data.message, { variant: "error" });
+        enqueueSnackbar(response.data.message.join("; "), { variant: "error" });
       });
   };
 
@@ -241,6 +240,7 @@ export const SignIn = () => {
             color="primary"
             className={classes.submit}
             onClick={submit}
+            disabled={!password.isValid || !emailIsValid}
           >
             Login
           </Button>

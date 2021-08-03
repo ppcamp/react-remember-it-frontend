@@ -1,3 +1,5 @@
+// TODO: not implemented yet
+
 import React, { useCallback, useEffect, useState } from "react";
 import {
   Container,
@@ -45,6 +47,7 @@ export const PasswordRequestReset = () => {
 
   // Actions
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("atualizando email");
     dispatch(emailActions.updateEmail(e.target.value));
   };
 
@@ -53,6 +56,7 @@ export const PasswordRequestReset = () => {
     const valid = REGEX_EMAIL.test(email);
     setIsValid(!email.length || valid);
   }, [email]);
+
   const submit = () => {
     console.log(email);
   };
