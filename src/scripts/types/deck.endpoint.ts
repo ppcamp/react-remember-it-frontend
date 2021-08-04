@@ -1,3 +1,6 @@
 import { DeckType } from "./types";
 
-export type DeckResponse = [DeckType[], number];
+export type DeckPostPayload = {
+  title: string;
+  description: string;
+};

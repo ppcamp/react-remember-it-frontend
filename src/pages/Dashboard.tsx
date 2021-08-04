@@ -22,13 +22,14 @@ import { useDispatch, useSelector } from "react-redux";
 import decksActions from "store/slices/deck/actions";
 import cardReviewActions from "store/slices/review/actions";
 import { TransitionAlerts } from "components/ui/TransitionAlerts";
-// import { DeckSettings } from "components/decks/deckconfig";
 import { ErrorType } from "scripts/types/error";
 import { RootState } from "store";
 import axios from "axios";
 import { Endpoints } from "api/endpoints";
 import { PaginationQuery } from "scripts/types/query.endpoints";
 import { useAuth } from "hooks/useAuth";
+import { JwtHeader } from "api/axios";
+import { DeckInit } from "components/decks/DeckInit";
 
 //#region styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -94,7 +95,7 @@ export const Dashboard = ({
   const fetchData = useCallback(async () => {
     // a fake async api call like which sends
     // 20 more records in 1.5 secs
-    const url = new URL(Endpoints.deck.toString());
+    const url = Endpoints.deck();
     url.searchParams.append("skip", `${dataFetchControl.skip}`);
     url.searchParams.append("take", `${dataFetchControl.take}`);
 
@@ -102,12 +103,12 @@ export const Dashboard = ({
 
     const [deck, ndecks] = await axios
       .get(url.toString(), {
-        headers: { Authorization: "Bearer " + auth.token },
+        headers: { ...JwtHeader(auth.token) },
       })
       .then((r) => [r.data[0], r.data[1]]);
 
     console.log(">>> [DEBUG] deck: ", deck);
-    const hasMoreData = deck.length < DEFAULT_TAKE_OBJECTS && ndecks > 0;
+    const hasMoreData = deck.length === DEFAULT_TAKE_OBJECTS && ndecks > 0;
 
     dispatch(decksActions.append(deck));
 
@@ -204,16 +205,7 @@ export const Dashboard = ({
   return (
     <div>
       {/* Creating a new deck */}
-      {/* <DeckSettings
-        title={newDeck.title as string}
-        description={newDeck.description as string}
-        updateTitle={onUpdateTitle}
-        updateDescription={onUpdateDescription}
-        show={modal}
-        onClose={onCloseDeckModal}
-        deck={newDeck}
-        afterSave={afterSave}
-      /> */}
+      <DeckInit show={modal} onClose={onCloseDeckModal} />
 
       {/* Navbar */}
       <MenuAppBar />

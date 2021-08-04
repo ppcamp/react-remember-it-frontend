@@ -147,7 +147,7 @@ export const SignUp = () => {
    * Create an user
    */
   const submit = () => {
-    const url = Endpoints.users.toString();
+    const url = Endpoints.users().toString();
     const data: UserPayloadCreate = {
       email: email.value,
       password: password.value,

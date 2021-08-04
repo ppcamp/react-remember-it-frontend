@@ -52,7 +52,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
               alignItems="center"
               spacing={0}
             >
-              {decks.map((val, index) => (
+              {decks?.map((val, index) => (
                 <Grow in={true} key={index}>
                   <Grid item xs={4}>
                     <Box m={4}>
@@ -63,9 +63,9 @@ export const DecksView: React.FC<DecksViewProps> = ({
                             subheader={
                               <Typography align="center">
                                 <span style={{ color: palette.warning.main }}>
-                                  {(val.review as CardType[]).length}
+                                  {(val.review as CardType[])?.length || 0}
                                 </span>
-                                /{(val.cards as CardType[]).length}
+                                /{(val.cards as CardType[])?.length || 0}
                               </Typography>
                             }
                           />

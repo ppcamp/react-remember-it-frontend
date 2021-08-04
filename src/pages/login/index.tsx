@@ -146,7 +146,7 @@ export const SignIn = () => {
    * Login into system, stores the data into local/session storage
    */
   const submit = () => {
-    const url = Endpoints.login.toString();
+    const url = Endpoints.login().toString();
     const data: LoginRequestPayload = {
       email,
       password: password.value,
