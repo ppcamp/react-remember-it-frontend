@@ -24,8 +24,11 @@ import cardReviewActions from "store/slices/review/actions";
 import { TransitionAlerts } from "components/ui/TransitionAlerts";
 // import { DeckSettings } from "components/decks/deckconfig";
 import { ErrorType } from "scripts/types/error";
-import { Mocks } from "__mocks__/samples";
 import { RootState } from "store";
+import axios from "axios";
+import { Endpoints } from "api/endpoints";
+import { PaginationQuery } from "scripts/types/query.endpoints";
+import { useAuth } from "hooks/useAuth";
 
 //#region styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,7 +42,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 //#endregion
 
-const MAX_DECKS_LOAD = 10;
+const DEFAULT_TAKE_OBJECTS = 10;
+const initialConfigSet: PaginationQuery = {
+  skip: 0,
+  take: DEFAULT_TAKE_OBJECTS,
+};
 
 export const Dashboard = ({
   initialErrors,
@@ -62,10 +69,16 @@ export const Dashboard = ({
   // redux store
   const decks = useSelector((state: RootState) => state.decks);
   const dispatch = useDispatch();
+
+  // auth
+  const auth = useAuth();
+
   // if has more decks to fetch
   const [hasMoreData, setHasMoreData] = useState(false);
   // error messages
   const [error, setError] = useState(initialErrors);
+  // control search method
+  const [dataFetchControl, setDataFetchControl] = useState(initialConfigSet);
 
   const [modal, setModal] = useState(false);
   const [newDeck, setNewDeck] = useState({
@@ -78,19 +91,35 @@ export const Dashboard = ({
   //#endregion
 
   //#region Handlers
-  const fetchData = useCallback(() => {
+  const fetchData = useCallback(async () => {
     // a fake async api call like which sends
     // 20 more records in 1.5 secs
+    const url = new URL(Endpoints.deck.toString());
+    url.searchParams.append("skip", `${dataFetchControl.skip}`);
+    url.searchParams.append("take", `${dataFetchControl.take}`);
 
-    // TODO: Remove this mocking
-    setTimeout(() => {
-      const deck = Mocks.Decks(MAX_DECKS_LOAD, 4, 1);
-      dispatch(decksActions.append(deck));
-    }, 2e3);
+    console.log(">>> URL: ", url.toString());
 
-    // TODO: if the returned data is <= than the MAX_DECKS_LOAD
-    setHasMoreData(true);
-  }, [dispatch]);
+    const [deck, ndecks] = await axios
+      .get(url.toString(), {
+        headers: { Authorization: "Bearer " + auth.token },
+      })
+      .then((r) => [r.data[0], r.data[1]]);
+
+    console.log(">>> [DEBUG] deck: ", deck);
+    const hasMoreData = deck.length < DEFAULT_TAKE_OBJECTS && ndecks > 0;
+
+    dispatch(decksActions.append(deck));
+
+    if (hasMoreData) {
+      setDataFetchControl((state) => ({
+        ...state,
+        skip: state.skip + DEFAULT_TAKE_OBJECTS,
+      }));
+    }
+
+    setHasMoreData(hasMoreData);
+  }, [dispatch, dataFetchControl, auth.token]);
 
   // Will fetch the data in the first rendering cycle
   useEffect(() => {
