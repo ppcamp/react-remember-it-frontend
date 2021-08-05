@@ -21,12 +21,14 @@ import { ImageAPI } from "api";
 import { RouteParams } from "scripts/types/router";
 import { useDispatch } from "react-redux";
 import { useSnackbar } from "notistack";
-import { CardCreatePayload } from "scripts/types/card.endpoint";
+import {
+  CardCreatePayload,
+  CardResponsePayload,
+} from "scripts/types/card.endpoint";
 import { Endpoints } from "api/endpoints";
 import axios from "axios";
 import { JwtHeader } from "api/axios";
 import { useAuth } from "hooks/useAuth";
-import { CardType } from "scripts/types/types";
 import decksActions from "store/slices/deck/actions";
 import { MissingDeckId } from "scripts/errors/missing-deck-id";
 
@@ -105,7 +107,7 @@ export const CardCreatePage = () => {
       const url = Endpoints.card();
       console.debug("MY url: ", url.toString());
       axios
-        .patch(url.toString(), data, {
+        .post(url.toString(), data, {
           headers: {
             ...JwtHeader(auth.token),
           },
@@ -113,9 +115,20 @@ export const CardCreatePage = () => {
         .then(
           (r) => {
             console.debug("Accepted r=", r.data);
+
+            const resp: CardResponsePayload = {
+              id: r.data.id,
+              EF: r.data.EF,
+              I: r.data.I,
+              back: r.data.back,
+              front: r.data.front,
+              n: r.data.n,
+            };
             // update deck into store
-            // dispatch(decksActions.add(editDeck));
-            // close the modal
+            dispatch(
+              decksActions.addCardIntoDeck({ deckId: deck, card: resp })
+            );
+            // close the moda
             enqueueSnackbar("Cartão adicionado ao baralho com sucesso!", {
               variant: "success",
             });
