@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import decksActions from "store/slices/deck/actions";
 import { usePalette } from "hooks/usePalette";
+import { useHistory } from "react-router-dom";
 
 //#region styles
 const useStyles = makeStyles((theme: Theme) =>
@@ -134,6 +135,15 @@ export const CardsView: React.FC<CardViewProps> = ({ deck }) => {
   const dispatch = useDispatch();
   const cards = decks.find((it) => it.id === deck)?.cards;
   //#endregion
+
+  // if no deck was found with this id, redirect to dashboard
+  // example: if you reload the deck page, it'll lose all decks under
+  // redux ctx, doing so, the proper deck itself will be lost,
+  // the naive approach is force the user to reload the content all over again.
+  const history = useHistory();
+  if (!decks || !decks.length) {
+    history.push("/dashboard");
+  }
 
   //#region Styling
   const palette = usePalette();

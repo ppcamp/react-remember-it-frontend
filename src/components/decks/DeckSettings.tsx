@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
 import { Errors } from "scripts/errors/errors";
 import decksActions from "store/slices/deck/actions";
+import { useHistory } from "react-router-dom";
 
 //#region Styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -77,13 +78,21 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
   const decks = useSelector((state: RootState) => state.decks);
   const [deckTitle, setDeckTitle] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
+  const history = useHistory();
 
   useEffect(() => {
+    // if no deck was found with this id, redirect to dashboard
+    // example: if you reload the deck page, it'll lose all decks under
+    // redux ctx, doing so, the proper deck itself will be lost,
+    // the naive approach is force the user to reload the content all over again.
     const d = decks.find((it) => it.id === deck);
-    if (!d) throw new Error(Errors.MISSING_ID);
-    setDeckTitle(d.title);
-    setDeckDescription(d.description);
-  }, [decks, deck]);
+    if (!d) {
+      history.push("/dashboard");
+    } else {
+      setDeckTitle(d.title);
+      setDeckDescription(d.description);
+    }
+  }, [decks, deck, history]);
   //#endregion
 
   //#region Styling
