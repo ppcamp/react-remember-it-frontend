@@ -7,3 +7,6 @@ export type CardCreatePayload = {
 };
 
 export type CardResponsePayload = CardType;
+export type CardEditPayload = {
+  deck: string;
+} & CardType;

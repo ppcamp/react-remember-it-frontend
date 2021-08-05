@@ -2,21 +2,28 @@
  * Card edit
  *
  * TODO: Fix a problem with the buttons group (They are changing its position)
+ * TODO: Change submit function
  */
 import React, { useState } from "react";
 import { CardMarkdownEdit } from "components/cards/CardMarkdownEdit";
 import { Box, Button, Container, Grid, useTheme } from "@material-ui/core";
 import { NavigateNext, NavigateBefore, Save, Clear } from "@material-ui/icons";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import { ImageAPI } from "api";
 import { RouteParams } from "scripts/types/router";
 import { styling } from "components/ui/styles/buttons";
+import { useAuth } from "hooks/useAuth";
+import { useSnackbar } from "notistack";
 
 // API
 const IMAGE_PATH = ImageAPI.toString();
 
 export const CardEditPage = () => {
-  const { id } = useParams<RouteParams>();
+  const history = useHistory();
+  // eslint-disable-next-line
+  const { deck } = useParams<RouteParams>();
+  // eslint-disable-next-line
+  const auth = useAuth();
 
   // States
   const [page, setPage] = useState(true);
@@ -40,12 +47,73 @@ export const CardEditPage = () => {
   // Theming
   const theme = useTheme();
   const style = styling(theme);
+  // eslint-disable-next-line
+  const { enqueueSnackbar } = useSnackbar();
 
   // Actions
+  /**
+   * Submit the modified card into deck endpoint
+   * TODO: must get the deck infos from the redux store before
+   */
   const onSubmit = () => {
-    console.debug(id);
+    // if (!deck) {
+    //   throw new MissingDeckId();
+    // } else {
+    //   const data: CardEditPayload = {
+    //     back: editor.back,
+    //     front: editor.front,
+    //     deck,
+    //     EF: 1,
+    //     I: 1,
+    //     id: "",
+    //     n: 1
+    //   };
+    //   // update into api
+    //   const url = Endpoints.card();
+    //   console.debug("MY url: ", url.toString());
+    //   axios
+    //     .post(url.toString(), data, {
+    //       headers: {
+    //         ...JwtHeader(auth.token),
+    //       },
+    //     })
+    //     .then(
+    //       (r) => {
+    //         console.debug("Accepted r=", r.data);
+    //         const resp: CardResponsePayload = {
+    //           id: r.data.id,
+    //           EF: r.data.EF,
+    //           I: r.data.I,
+    //           back: r.data.back,
+    //           front: r.data.front,
+    //           n: r.data.n,
+    //         };
+    //         // update deck into store
+    //         dispatch(
+    //           decksActions.addCardIntoDeck({ deckId: deck, card: resp })
+    //         );
+    //         // close the moda
+    //         enqueueSnackbar("Cartão adicionado ao baralho com sucesso!", {
+    //           variant: "success",
+    //         });
+    //         // return to the previous screen
+    //         history.goBack();
+    //       },
+    //       (e) => {
+    //         enqueueSnackbar(e.response.data.message.join("; "), {
+    //           variant: "error",
+    //         });
+    //       }
+    //     );
+    // }
   };
-  const onCancel = () => {};
+
+  /**
+   * Goes back to the previous screen
+   */
+  const onCancel = () => {
+    history.goBack();
+  };
 
   return (
     <Container>
