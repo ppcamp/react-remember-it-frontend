@@ -21,6 +21,7 @@
 The folders inside `src` directory are:
 
 <pre>
+├.
 ├── package.json
 ├── package-lock.json
 ├── public
@@ -161,6 +162,8 @@ The folders inside `src` directory are:
 │       └── Default.test.js
 ├── tsconfig.json
 └── yarn.lock
+
+42 directories, 98 files
 </pre>
 
 ## Some project conventions
