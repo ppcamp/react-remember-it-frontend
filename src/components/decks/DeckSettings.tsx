@@ -22,7 +22,7 @@ import { Errors } from "scripts/errors/errors";
 import decksActions from "store/slices/deck/actions";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import { DeckPostPayload } from "scripts/types/deck.endpoint";
+import { DeckCreatePayload } from "scripts/types/deck.endpoint";
 import { Endpoints } from "api/endpoints";
 import axios from "axios";
 import { JwtHeader } from "api/axios";
@@ -136,7 +136,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
   const onSave = () => {
     // get deck
     const d = decks.find((it) => it.id === deck);
-    if (!d) throw new Error(Errors.MISSING_ID);
+    if (!d) throw Errors.MissingDeckId;
 
     const editDeck: DeckType = {
       ...d,
@@ -145,7 +145,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
     };
 
     // generate the payload
-    const decked: DeckPostPayload = {
+    const decked: DeckCreatePayload = {
       description: deckDescription,
       title: deckTitle,
     };

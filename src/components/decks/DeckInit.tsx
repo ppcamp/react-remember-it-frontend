@@ -17,7 +17,7 @@ import { Clear, Save } from "@material-ui/icons";
 import { styling } from "components/ui/styles/buttons";
 import { useDispatch } from "react-redux";
 import decksActions from "store/slices/deck/actions";
-import { DeckPostPayload } from "scripts/types/deck.endpoint";
+import { DeckCreatePayload } from "scripts/types/deck.endpoint";
 import axios from "axios";
 import { Endpoints } from "api/endpoints";
 import { JwtHeader } from "api/axios";
@@ -109,7 +109,7 @@ export const DeckInit: React.FC<DeckInitProps> = ({ show, onClose }) => {
    */
   const onSave = () => {
     // get deck
-    const deck: DeckPostPayload = {
+    const deck: DeckCreatePayload = {
       description,
       title,
     };

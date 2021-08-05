@@ -1,6 +1,8 @@
 import { DeckType } from "./types";
 
-export type DeckPostPayload = {
+export type DeckCreatePayload = {
   title: string;
   description: string;
 };
+
+export type DeckEditPayload = DeckCreatePayload;
