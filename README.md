@@ -6,9 +6,14 @@
 
 ## ToDo:
 
-- [ ] Enable the button for new deck
-- [ ] Fix user signup
-- [ ] Connect with api
+- [ ] Check `card edit`
+- [ ] Update values from review on `database`
+- [ ] Implement **all** actions for **delete**
+- [ ] Implement refresh token routine
+- [ ] Change main page endpoint
+- [x] Enable the button for new deck
+- [x] Fix user signup
+- [x] Connect with api (partially working)
 - [ ] Check mobile view
 
 ## Project overview
