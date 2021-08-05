@@ -21,23 +21,146 @@
 The folders inside `src` directory are:
 
 <pre>
-src
-├── api/: it has the objects to handle with requests
-├── app/: it has the _Routing_ and _StaticContexts_
-│   └──   staticContexts/: folder where are stored the staticContexts
-│
-├── assets/: it has some static elements requested in another parts of application
-│   └──   images/: folder where are stored the images files
-│   └──   mocks/: folder where has some mocking examples
-│
-├── components/: contains all components that can be "splitted" and used in another element
-├── pages/: will have all the components that has some url/link associated with it
-├── store/: contains the main, and yet, dynamic, redux store
-├── store/slices/: contains each store slice, giving more readability/maintability to the project
-│   └──   */: folder with slice and its actions
-│
-├── __tests__/: tests all pages. Other tests should be in each component and should have the suffix '.test.js'
-
+├── package.json
+├── package-lock.json
+├── public
+│   ├── css
+│   │   ├── fonts
+│   │   └── katex.min.css
+│   ├── img
+│   │   ├── favicon.ico
+│   │   ├── logo192.png
+│   │   └── logo512.png
+│   ├── index.html
+│   ├── manifest.json
+│   └── robots.txt
+├── README-create-react-app.md
+├── README.DEV.md
+├── README.md
+├── remember-it-front.code-workspace
+├── sketchup.drawio
+├── src
+│   ├── api
+│   │   ├── axios.ts
+│   │   ├── base.ts
+│   │   ├── endpoints.ts
+│   │   └── index.ts
+│   ├── app
+│   │   ├── index.tsx
+│   │   └── static-contexts
+│   │       ├── auth-context.tsx
+│   │       └── theme-context.tsx
+│   ├── assets
+│   │   └── images
+│   │       ├── logo.png
+│   │       ├── logo.xcf
+│   │       ├── sample-card.png
+│   │       ├── sample-dashboard.png
+│   │       ├── sample-deck.png
+│   │       └── sample-review.png
+│   ├── components
+│   │   ├── cards
+│   │   │   ├── CardMarkdownEdit
+│   │   │   │   ├── index.module.css
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── menu.tsx
+│   │   │   ├── CardsView.tsx
+│   │   │   ├── MarkdownViewer.module.css
+│   │   │   └── MarkdownViewer.tsx
+│   │   ├── decks
+│   │   │   ├── DeckInit.tsx
+│   │   │   ├── DeckSettings.tsx
+│   │   │   └── DecksView.tsx
+│   │   ├── MenuAppBar
+│   │   │   └── index.tsx
+│   │   ├── StickyFooter
+│   │   │   ├── basic.tsx
+│   │   │   └── index.tsx
+│   │   ├── Textarea
+│   │   │   ├── index.module.css
+│   │   │   └── index.tsx
+│   │   └── ui
+│   │       ├── styles
+│   │       │   ├── buttons.ts
+│   │       │   └── icons.tsx
+│   │       └── TransitionAlerts
+│   │           └── index.tsx
+│   ├── hooks
+│   │   ├── useAuth.ts
+│   │   ├── usePalette.ts
+│   │   └── useTheme.ts
+│   ├── index.css
+│   ├── index.tsx
+│   ├── __mocks__
+│   │   └── samples.ts
+│   ├── pages
+│   │   ├── 404.tsx
+│   │   ├── Dashboard.tsx
+│   │   ├── [deck]
+│   │   │   ├── card
+│   │   │   │   ├── [id].tsx
+│   │   │   │   └── index.tsx
+│   │   │   └── [id].tsx
+│   │   ├── index.tsx
+│   │   ├── login
+│   │   │   ├── index.tsx
+│   │   │   ├── recover-password
+│   │   │   │   ├── [id].tsx
+│   │   │   │   └── index.tsx
+│   │   │   └── SignUp.tsx
+│   │   ├── remember-it.tsx
+│   │   └── user
+│   │       └── active.tsx
+│   ├── react-app-env.d.ts
+│   ├── reportWebVitals.js
+│   ├── routes
+│   │   ├── index.tsx
+│   │   └── services
+│   │       ├── card.ts
+│   │       ├── deck.ts
+│   │       └── login.ts
+│   ├── scripts
+│   │   ├── constants
+│   │   │   ├── super-memo-2.ts
+│   │   │   └── user.ts
+│   │   ├── errors
+│   │   │   ├── api-not-found.ts
+│   │   │   ├── endpoint-not-defined.ts
+│   │   │   ├── implementation-error.ts
+│   │   │   ├── missing-deck-id.ts
+│   │   │   └── not-implemented.ts
+│   │   ├── functions
+│   │   │   ├── datetime.ts
+│   │   │   ├── string.ts
+│   │   │   └── super-memo-2.ts
+│   │   ├── regex
+│   │   │   └── regex.ts
+│   │   └── types
+│   │       ├── auth-login.endpoint.ts
+│   │       ├── card.endpoint.ts
+│   │       ├── deck.endpoint.ts
+│   │       ├── error.ts
+│   │       ├── query.endpoints.ts
+│   │       ├── router.ts
+│   │       ├── types.ts
+│   │       └── user.endpoint.ts
+│   ├── setupTests.js
+│   ├── store
+│   │   ├── index.ts
+│   │   └── slices
+│   │       ├── deck
+│   │       │   ├── actions.ts
+│   │       │   └── index.ts
+│   │       ├── email
+│   │       │   ├── actions.ts
+│   │       │   └── index.ts
+│   │       └── review
+│   │           ├── actions.ts
+│   │           └── index.ts
+│   └── __tests__
+│       └── Default.test.js
+├── tsconfig.json
+└── yarn.lock
 </pre>
 
 ## Some project conventions
