@@ -15,7 +15,7 @@ import { useHistory } from "react-router-dom";
 import { CardsView } from "components/cards/CardsView";
 import { DeckSettings } from "components/decks/DeckSettings";
 import decksActions from "store/slices/deck/actions";
-import { Errors } from "scripts/errors/errors";
+import { MissingDeckId } from "scripts/errors/missing-deck-id";
 
 //#region Styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -100,7 +100,7 @@ export const DeckPage = () => {
    */
   const onClickNewCard = () => {
     if (!id.length) {
-      throw new Error(Errors.MISSING_ID);
+      throw new MissingDeckId();
     } else {
       const newCard: string = `/${id}/card`;
       history.push(newCard);

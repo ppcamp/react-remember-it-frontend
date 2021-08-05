@@ -1,10 +1,11 @@
 // TODO: remove most of this code
 
+import { EndpointNotDefined } from "scripts/errors/endpoint-not-defined";
+import { NotImplementedYetException } from "scripts/errors/not-implemented";
+
 // It implement the basic object that every service must 'extends it'
 // Using this approach, it's easier to test the routes and test the retrieving
 // information
-
-const NotImplementedYetException = Error("Not implemented yet. Missing API");
 
 /**
  * Base class that contains the api host
@@ -13,8 +14,7 @@ class BaseApi {
   protected address: URL;
 
   constructor(endpoint: string | null = null) {
-    if (!process.env.REACT_APP_API)
-      throw Error("You must define the endpoint for this API");
+    if (!process.env.REACT_APP_API) throw new EndpointNotDefined();
     const _address = new URL(process.env.REACT_APP_API);
     this.address = _address;
 
@@ -59,7 +59,7 @@ export class ApiFile extends BaseApi {
    * @returns
    */
   async send(data: {}, suburl: string = "") {
-    throw NotImplementedYetException;
+    throw new NotImplementedYetException();
   }
 
   /**
@@ -97,7 +97,7 @@ export class ApiFile extends BaseApi {
    * @returns A blob variable
    */
   async retrieve(id: string, suburl: string = "") {
-    throw NotImplementedYetException;
+    throw new NotImplementedYetException();
   }
 
   /**

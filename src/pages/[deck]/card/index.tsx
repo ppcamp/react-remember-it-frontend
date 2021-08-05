@@ -20,14 +20,15 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { ImageAPI } from "api";
 import { RouteParams } from "scripts/types/router";
 import { useDispatch } from "react-redux";
+import { useSnackbar } from "notistack";
+import { CardCreatePayload } from "scripts/types/card.endpoint";
+import { Endpoints } from "api/endpoints";
+import axios from "axios";
+import { JwtHeader } from "api/axios";
+import { useAuth } from "hooks/useAuth";
+import { CardType } from "scripts/types/types";
 import decksActions from "store/slices/deck/actions";
-import { CardSendType, CardType } from "scripts/types/types";
-import {
-  EasienessFactorDefault,
-  IntervalDefault,
-  RepetetionsDefault,
-} from "scripts/functions/super-memo-2";
-import { Errors } from "scripts/errors/errors";
+import { MissingDeckId } from "scripts/errors/missing-deck-id";
 
 const styling = makeStyles((theme: Theme) => ({
   save: {
@@ -58,6 +59,7 @@ const IMAGE_PATH = ImageAPI.toString();
 export const CardCreatePage = () => {
   const history = useHistory();
   const { deck } = useParams<RouteParams>();
+  const auth = useAuth();
 
   //#region States
   const [page, setPage] = useState(true);
@@ -83,6 +85,7 @@ export const CardCreatePage = () => {
   // Theming
   const theme = useTheme();
   const style = styling(theme);
+  const { enqueueSnackbar } = useSnackbar();
 
   // Actions
   /**
@@ -90,25 +93,41 @@ export const CardCreatePage = () => {
    */
   const onSubmit = () => {
     if (!deck) {
-      throw new Error(Errors.MISSING_ID);
+      throw new MissingDeckId();
     } else {
-      const input: CardSendType = {
+      const data: CardCreatePayload = {
         back: editor.back,
         front: editor.front,
-        EF: EasienessFactorDefault,
-        n: RepetetionsDefault,
-        I: IntervalDefault,
+        deck,
       };
 
-      // TODO: submit into api
-      // get the id
-      const card: CardType = { ...input, id: "some_id_asdasdasd" };
-
-      // update into store
-      dispatch(decksActions.addCardIntoDeck({ deckId: deck, card }));
-
-      // return to the previous screen
-      history.goBack();
+      // update into api
+      const url = Endpoints.card();
+      console.debug("MY url: ", url.toString());
+      axios
+        .patch(url.toString(), data, {
+          headers: {
+            ...JwtHeader(auth.token),
+          },
+        })
+        .then(
+          (r) => {
+            console.debug("Accepted r=", r.data);
+            // update deck into store
+            // dispatch(decksActions.add(editDeck));
+            // close the modal
+            enqueueSnackbar("Cartão adicionado ao baralho com sucesso!", {
+              variant: "success",
+            });
+            // return to the previous screen
+            history.goBack();
+          },
+          (e) => {
+            enqueueSnackbar(e.response.data.message.join("; "), {
+              variant: "error",
+            });
+          }
+        );
     }
   };
   /**

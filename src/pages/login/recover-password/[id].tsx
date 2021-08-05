@@ -24,6 +24,7 @@ import {
 } from "scripts/regex/regex";
 import { insert_at } from "scripts/functions/string";
 import { RouteParams } from "scripts/types/router";
+import { ImplementationError } from "scripts/errors/implementation-error";
 
 const styling = makeStyles((theme) => ({
   paper: {
@@ -81,11 +82,15 @@ const fieldsReducer = (
   switch (type) {
     case ActionKind.HANDLE_INPUT_CHANGE:
       if (!field || !payload)
-        throw Error("You must pass 'isValid' and 'errorMessage'");
+        throw new ImplementationError(
+          "You must pass 'isValid' and 'errorMessage'"
+        );
       return { ...state, [field]: payload };
     case ActionKind.HANDLE_VALIDITY:
       if (!isValid || !errorMessage)
-        throw Error("You must pass 'isValid' and 'errorMessage'");
+        throw new ImplementationError(
+          "You must pass 'isValid' and 'errorMessage'"
+        );
       return { ...state, isValid, errorMessage };
     default:
       return initialFields;

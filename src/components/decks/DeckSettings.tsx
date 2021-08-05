@@ -18,7 +18,6 @@ import { styling } from "components/ui/styles/buttons";
 import { DeckType } from "scripts/types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "store";
-import { Errors } from "scripts/errors/errors";
 import decksActions from "store/slices/deck/actions";
 import { useHistory } from "react-router-dom";
 import { useSnackbar } from "notistack";
@@ -27,6 +26,7 @@ import { Endpoints } from "api/endpoints";
 import axios from "axios";
 import { JwtHeader } from "api/axios";
 import { useAuth } from "hooks/useAuth";
+import { MissingDeckId } from "scripts/errors/missing-deck-id";
 
 //#region Styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -136,7 +136,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
   const onSave = () => {
     // get deck
     const d = decks.find((it) => it.id === deck);
-    if (!d) throw Errors.MissingDeckId;
+    if (!d) throw new MissingDeckId();
 
     const editDeck: DeckType = {
       ...d,
