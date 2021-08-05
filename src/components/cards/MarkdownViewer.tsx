@@ -45,7 +45,9 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
             noWrap
             paragraph
             component={"span"}
-          />
+          >
+            {props.children}
+          </Typography>
         ),
         img: ({ node, ...props }) => (
           <span>
@@ -63,22 +65,34 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
           </span>
         ),
         h1: ({ ...props }) => (
-          <Typography paragraph align="center" variant="h4" />
+          <Typography paragraph align="center" variant="h4">
+            {props.children}
+          </Typography>
         ),
         h2: ({ node, ...props }) => (
-          <Typography paragraph align="center" variant="h5" />
+          <Typography paragraph align="center" variant="h5">
+            {props.children}
+          </Typography>
         ),
         h3: ({ node, ...props }) => (
-          <Typography paragraph align="center" variant="h6" />
+          <Typography paragraph align="center" variant="h6">
+            {props.children}
+          </Typography>
         ),
         h4: ({ node, ...props }) => (
-          <Typography paragraph variant="subtitle2" />
+          <Typography paragraph variant="subtitle2">
+            {props.children}
+          </Typography>
         ),
         h5: ({ node, ...props }) => (
-          <Typography paragraph variant="subtitle2" />
+          <Typography paragraph variant="subtitle2">
+            {props.children}
+          </Typography>
         ),
         h6: ({ node, ...props }) => (
-          <Typography paragraph variant="subtitle2" />
+          <Typography paragraph variant="subtitle2">
+            {props.children}
+          </Typography>
         ),
         hr: ({ node, ...props }) => <hr className={style["markdown-hr"]} />,
       }}
