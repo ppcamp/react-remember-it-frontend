@@ -16,7 +16,7 @@ export const Page404 = () => {
         spacing={0}
         direction="column"
         alignItems="center"
-        justify="center"
+        justifyContent="center"
         style={{
           minHeight: "100vh",
           // backgroundColor: theme.palette.warning.dark,

@@ -267,7 +267,7 @@ export const SignUp = () => {
           >
             Criar conta
           </Button>
-          <Grid container justify="flex-end">
+          <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="" onClick={onUserExists} variant="body2">
                 Já possui uma conta? Faça login.

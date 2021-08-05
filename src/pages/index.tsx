@@ -46,7 +46,12 @@ export const DefaultPage = () => {
 
   return (
     <>
-      <Grid container direction="row" justify="center" alignItems="center">
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+      >
         {/* Logo and motivation */}
         <Box p={7} textAlign="center">
           <img src={imgLogo} alt="Logo" width={300} />
@@ -198,7 +203,7 @@ export const DefaultPage = () => {
 
       {/* Login into system */}
       <Box p={7} textAlign="center" /*  className={classes.login} */>
-        <Button href="/login" variant="contained" color='primary'>
+        <Button href="/login" variant="contained" color="primary">
           <Typography variant="h6" color="textPrimary">
             {" "}
             Entre no sistema!

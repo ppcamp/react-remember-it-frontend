@@ -48,7 +48,7 @@ export const DecksView: React.FC<DecksViewProps> = ({
             <Grid
               container
               direction="row"
-              justify="space-around"
+              justifyContent="space-around"
               alignItems="center"
               spacing={0}
             >

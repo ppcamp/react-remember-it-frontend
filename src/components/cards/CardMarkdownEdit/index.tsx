@@ -126,7 +126,7 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
             container
             spacing={GRID_SPACING}
             direction="row"
-            justify="space-between"
+            justifyContent="space-between"
             alignItems="center"
           >
             <Grid item xs={6} className={style.noPadding}>
@@ -159,7 +159,7 @@ No menu superior existem alguns outros atalhos que você pode utilizar.
             container
             spacing={GRID_SPACING}
             direction="row"
-            justify="space-between"
+            justifyContent="space-between"
             alignItems="center"
           >
             {/* Textarea */}

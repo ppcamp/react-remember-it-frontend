@@ -139,14 +139,15 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
       aria-describedby="transition-modal-description"
       className={classes.modal}
       open={show}
-      onClose={onClose}
+      onClose={(event, reason) => {
+        if (reason !== "backdropClick") onClose();
+      }}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: 500,
       }}
       disableEscapeKeyDown
-      disableBackdropClick
     >
       <Fade in={show}>
         <Box className={classes.settings}>
@@ -156,7 +157,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
               container
               spacing={2}
               direction="row"
-              justify="space-between"
+              justifyContent="space-between"
               alignItems="center"
             >
               <Grid item xs={4}>

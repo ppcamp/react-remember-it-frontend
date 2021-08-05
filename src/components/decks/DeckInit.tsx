@@ -22,6 +22,8 @@ import axios from "axios";
 import { Endpoints } from "api/endpoints";
 import { JwtHeader } from "api/axios";
 import { useAuth } from "hooks/useAuth";
+import { useSnackbar } from "notistack";
+import { DeckType } from "scripts/types/types";
 
 //#region Styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -79,6 +81,10 @@ export const DeckInit: React.FC<DeckInitProps> = ({ show, onClose }) => {
   const style = styling(theme);
   //#endregion
 
+  //#region UI
+  const { enqueueSnackbar } = useSnackbar();
+  //#endregion
+
   //#region Actions
   const auth = useAuth();
 
@@ -115,14 +121,32 @@ export const DeckInit: React.FC<DeckInitProps> = ({ show, onClose }) => {
           ...JwtHeader(auth.token),
         },
       })
-      .then((r) => {
-        console.log("Accepted r=", r.data);
-        // update deck into store
-        dispatch(decksActions.append(r.data));
-        // close the modal
-        onClose();
-      })
-      .catch((r) => console.log("REJECTED r=", r));
+      .then(
+        (r) => {
+          console.log("Accepted r=", r.data);
+          const newdeck: DeckType[] = [
+            {
+              id: r?.data?.id,
+              title: r?.data?.title,
+              description: r?.data?.description,
+              review: r?.data?.review,
+              cards: r?.data?.cards,
+            },
+          ];
+          // update deck into store
+          dispatch(decksActions.append(newdeck));
+          // close the modal
+          enqueueSnackbar("Novo baralho criado com sucesso!", {
+            variant: "success",
+          });
+          onClose();
+        },
+        (e) => {
+          enqueueSnackbar(e.response.data.message.join("; "), {
+            variant: "error",
+          });
+        }
+      );
   };
   //#endregion
 
@@ -132,14 +156,15 @@ export const DeckInit: React.FC<DeckInitProps> = ({ show, onClose }) => {
       aria-describedby="transition-modal-description"
       className={classes.modal}
       open={show}
-      onClose={onClose}
+      onClose={(event, reason) => {
+        if (reason !== "backdropClick") onClose();
+      }}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: 500,
       }}
       disableEscapeKeyDown
-      disableBackdropClick
     >
       <Fade in={show}>
         <Box className={classes.settings}>
@@ -149,7 +174,7 @@ export const DeckInit: React.FC<DeckInitProps> = ({ show, onClose }) => {
               container
               spacing={2}
               direction="row"
-              justify="space-between"
+              justifyContent="space-between"
               alignItems="center"
             >
               <Grid item xs={4}>

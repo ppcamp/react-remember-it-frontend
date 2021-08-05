@@ -158,7 +158,7 @@ export const CardsView: React.FC<CardViewProps> = ({ deck }) => {
           <Grid
             container
             direction="row"
-            justify="space-around"
+            justifyContent="space-around"
             alignItems="center"
             spacing={0}
           >

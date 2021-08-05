@@ -212,7 +212,7 @@ export const Dashboard = ({
 
       {/* Decks with lazy loading and infinite scroll */}
       <Box p={4}>
-        <Grid container justify="space-between" alignItems="flex-start">
+        <Grid container justifyContent="space-between" alignItems="flex-start">
           {/* Title */}
           <Grid item xs={9}>
             <Typography variant="h6">Baralhos</Typography>
