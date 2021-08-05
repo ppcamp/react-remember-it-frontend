@@ -126,8 +126,17 @@ export const Dashboard = ({
 
   // Will fetch the data in the first rendering cycle
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    if (!decks.length) {
+      // if don't have any decks in the redux, fetch them
+      fetchData();
+    } else {
+      // otherwise, update the current control variable (lost when changing this component)
+      setDataFetchControl((state) => ({
+        ...state,
+        skip: state.skip + decks.length,
+      }));
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
   //#endregion
 
   //#region Actions
