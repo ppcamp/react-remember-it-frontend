@@ -84,7 +84,3 @@ export const SM2 = ({ q, n, EF, I }: SM2Args): [number, number, number] => {
 
   return [output.n, output.EF, output.I];
 };
-
-export const EasienessFactorDefault = 2.5;
-export const IntervalDefault = 1;
-export const RepetetionsDefault = 0;
