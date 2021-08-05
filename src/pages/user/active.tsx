@@ -1,3 +1,8 @@
+/**
+ * Simple static page that will be showed to the user,
+ * when the api redirect it from the link sended to the user email.
+ */
+
 import React from "react";
 import { Grid, Typography } from "@material-ui/core";
 import { Favorite } from "@material-ui/icons";

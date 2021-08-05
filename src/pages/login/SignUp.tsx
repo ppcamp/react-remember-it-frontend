@@ -1,3 +1,7 @@
+/**
+ * SignUp page
+ */
+
 import React, { useCallback, useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";

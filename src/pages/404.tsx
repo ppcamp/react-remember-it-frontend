@@ -1,3 +1,7 @@
+/**
+ * NotFound page
+ */
+
 import React from "react";
 import { Grid, Link, Typography } from "@material-ui/core";
 import { Warning } from "@material-ui/icons";

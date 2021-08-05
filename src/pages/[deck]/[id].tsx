@@ -1,3 +1,7 @@
+/**
+ * View for a specific deck
+ */
+
 import React from "react";
 import { Box, Fab, Grid, Typography, IconButton } from "@material-ui/core";
 import { Add, DeleteForever, Settings } from "@material-ui/icons";

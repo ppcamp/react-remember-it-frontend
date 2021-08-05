@@ -1,3 +1,7 @@
+/**
+ * Page to remember all cards to review in the dashboard page. (ONlY THE LOADED ONES)
+ */
+
 import React, { useState } from "react";
 import {
   Box,

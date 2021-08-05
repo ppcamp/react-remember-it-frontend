@@ -1,5 +1,7 @@
 /**
- * Terá todos os decks
+ * Dashboard, showing all decks and its cards (and review cards)
+ *
+ * MAIN app pge
  */
 
 import React, { useCallback, useEffect, useState } from "react";

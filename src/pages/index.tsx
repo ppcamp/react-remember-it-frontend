@@ -1,9 +1,15 @@
 /**
+ * MAIN PAGE showed before the user login into application.
+ *
  * Page that will have some images and animations of this site working
  * STATIC PAGE
  *
- * Será colocado imagens do site com exemplos e algumas animações,
- * quantidade de usuários do sistema, link para api, etc
+ * It'll have site imgs and examples with some:
+ * -> animations
+ * -> info about how many users are using the site
+ * -> link to api
+ * -> link to contact the devs and became one of them
+ * -> and other configs/infos like so.
  */
 
 import React from "react";

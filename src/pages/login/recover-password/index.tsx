@@ -1,3 +1,7 @@
+/**
+ * Page where the user will request the password reset
+ */
+
 // TODO: not implemented yet
 
 import React, { useCallback, useEffect, useState } from "react";

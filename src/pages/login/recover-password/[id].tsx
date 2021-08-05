@@ -1,3 +1,8 @@
+/**
+ * Page that will be sent to the user email when the user request the password reset.
+ * This page will load the reset code from the url path
+ */
+
 // TODO: not implemented yet
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import {

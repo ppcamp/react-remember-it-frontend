@@ -1,5 +1,5 @@
 /**
- * Card creation
+ * Card edit
  *
  * TODO: Fix a problem with the buttons group (They are changing its position)
  */
