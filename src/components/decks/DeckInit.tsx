@@ -123,7 +123,7 @@ export const DeckInit: React.FC<DeckInitProps> = ({ show, onClose }) => {
       })
       .then(
         (r) => {
-          console.log("Accepted r=", r.data);
+          console.debug("Accepted r=", r.data);
           const newdeck: DeckType[] = [
             {
               id: r?.data?.id,

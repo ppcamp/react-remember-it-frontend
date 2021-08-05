@@ -54,7 +54,7 @@ export const GamingPage = () => {
    */
   const handleUpdates = () => {
     //
-    console.log(cards[cardPos]);
+    console.debug(cards[cardPos]);
   };
 
   /**
@@ -89,7 +89,7 @@ export const GamingPage = () => {
       I: 3,
     });
     // TODO: store into database the modifications of the current card
-    console.log(btnValue, n, EF, I);
+    console.debug(btnValue, n, EF, I);
     handleUpdates();
 
     // update the current element in the store

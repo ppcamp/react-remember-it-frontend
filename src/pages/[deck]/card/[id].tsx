@@ -43,7 +43,7 @@ export const CardEditPage = () => {
 
   // Actions
   const onSubmit = () => {
-    console.log(id);
+    console.debug(id);
   };
   const onCancel = () => {};
 

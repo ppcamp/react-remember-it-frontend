@@ -153,8 +153,8 @@ export const SignUp = () => {
       password: password.value,
       username: nick,
     };
-    // console.log(data);
-    // console.log("Submiting");
+    // console.debug(data);
+    // console.debug("Submiting");
 
     // reset error
     axios.post(url, data).then(

@@ -144,7 +144,7 @@ export const PasswordReset = () => {
     const data = {
       password: form.password,
     };
-    console.log(`Submit on #${id}: ${JSON.stringify(data)}`);
+    console.debug(`Submit on #${id}: ${JSON.stringify(data)}`);
   };
 
   // Watchers (With debounce)

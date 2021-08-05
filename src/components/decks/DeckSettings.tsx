@@ -21,6 +21,12 @@ import { RootState } from "store";
 import { Errors } from "scripts/errors/errors";
 import decksActions from "store/slices/deck/actions";
 import { useHistory } from "react-router-dom";
+import { useSnackbar } from "notistack";
+import { DeckPostPayload } from "scripts/types/deck.endpoint";
+import { Endpoints } from "api/endpoints";
+import axios from "axios";
+import { JwtHeader } from "api/axios";
+import { useAuth } from "hooks/useAuth";
 
 //#region Styling
 const useStyles = makeStyles((theme: Theme) =>
@@ -79,6 +85,7 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
   const [deckTitle, setDeckTitle] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
   const history = useHistory();
+  const auth = useAuth();
 
   useEffect(() => {
     // if no deck was found with this id, redirect to dashboard
@@ -101,6 +108,10 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
   const style = styling(theme);
   //#endregion
 
+  //#region UI
+  const { enqueueSnackbar } = useSnackbar();
+  //#endregion
+
   //#region Actions
 
   /**
@@ -120,7 +131,6 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
   };
 
   /**
-   * TODO: changes the data into api
    * Update the element in the store
    */
   const onSave = () => {
@@ -134,11 +144,39 @@ export const DeckSettings: React.FC<DeckSettingsProps> = ({
       title: deckTitle,
     };
 
-    // update deck into store
-    dispatch(decksActions.splice(editDeck));
+    // generate the payload
+    const decked: DeckPostPayload = {
+      description: deckDescription,
+      title: deckTitle,
+    };
 
-    // close the modal
-    onClose();
+    // update into api
+    const url = Endpoints.deck();
+    url.pathname += "/" + deck;
+    console.debug("MY url: ", url.toString());
+    axios
+      .patch(url.toString(), decked, {
+        headers: {
+          ...JwtHeader(auth.token),
+        },
+      })
+      .then(
+        (r) => {
+          console.debug("Accepted r=", r.data);
+          // update deck into store
+          dispatch(decksActions.splice(editDeck));
+          // close the modal
+          enqueueSnackbar("Baralho editado com sucesso!", {
+            variant: "success",
+          });
+          onClose();
+        },
+        (e) => {
+          enqueueSnackbar(e.response.data.message.join("; "), {
+            variant: "error",
+          });
+        }
+      );
   };
   //#endregion
 

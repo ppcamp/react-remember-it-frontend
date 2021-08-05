@@ -47,7 +47,7 @@ export const PasswordRequestReset = () => {
 
   // Actions
   const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("atualizando email");
+    console.debug("atualizando email");
     dispatch(emailActions.updateEmail(e.target.value));
   };
 
@@ -58,7 +58,7 @@ export const PasswordRequestReset = () => {
   }, [email]);
 
   const submit = () => {
-    console.log(email);
+    console.debug(email);
   };
 
   // Watchers

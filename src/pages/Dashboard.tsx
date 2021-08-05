@@ -99,7 +99,7 @@ export const Dashboard = ({
     url.searchParams.append("skip", `${dataFetchControl.skip}`);
     url.searchParams.append("take", `${dataFetchControl.take}`);
 
-    console.log(">>> URL: ", url.toString());
+    console.debug(">>> URL: ", url.toString());
 
     const [deck, ndecks] = await axios
       .get(url.toString(), {
@@ -107,7 +107,7 @@ export const Dashboard = ({
       })
       .then((r) => [r.data[0], r.data[1]]);
 
-    console.log(">>> [DEBUG] deck: ", deck);
+    console.debug(">>> [DEBUG] deck: ", deck);
     const hasMoreData = deck.length === DEFAULT_TAKE_OBJECTS && ndecks > 0;
 
     dispatch(decksActions.append(deck));
